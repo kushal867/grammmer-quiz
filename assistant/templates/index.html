@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Grammar & Writing Assistant</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 50px;
+        background-color: #f9f9f9;
+      }
+      .container {
+        max-width: 700px;
+        margin: auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px #ccc;
+      }
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        resize: vertical;
+      }
+      select,
+      button {
+        padding: 10px;
+        font-size: 16px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+      button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .output {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #eef;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>AI Grammar & Writing Assistant</h2>
+      <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+      <br />
+      <select id="taskSelect">
+        <option value="grammar">Grammar Correction</option>
+        <option value="rewrite">Rewrite</option>
+        <option value="formal">Formal</option>
+        <option value="casual">Casual</option>
+        <option value="summary">Summary</option>
+      </select>
+      <button onclick="submitText()">Submit</button>
+
+      <div class="output" id="output"></div>
+    </div>
+
+    <script>
+      function submitText() {
+        const text = document.getElementById("textInput").value;
+        const task = document.getElementById("taskSelect").value;
+        const outputDiv = document.getElementById("output");
+
+        outputDiv.textContent = "Processing...";
+
+        fetch("/api/improve/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: JSON.stringify({ text: text, task: task }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.result) {
+              outputDiv.textContent = data.result;
+            } else if (data.error) {
+              outputDiv.textContent = "Error: " + data.error;
+            }
+          })
+          .catch((err) => {
+            outputDiv.textContent = "Error: " + err;
+          });
+      }
+
+      // CSRF helper for Django
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    </script>
+  </body>
+</html>
