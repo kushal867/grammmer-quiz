@@ -1,81 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <title>AI Grammar & Writing Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kushal Writer – Your Personal AI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
     <style>
+      :root {
+        --bg: #0d0b1e;
+        --card: #15132b;
+        --border: #2a2650;
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --primary: #8b5cf6;
+        --primary-hover: #a78bfa;
+        --success: #10b981;
+        --glow: 0 0 30px rgba(139, 92, 246, 0.4);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       body {
-        font-family: Arial, sans-serif;
-        margin: 50px;
-        background-color: #f9f9f9;
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f0d1e 0%,
+          #1a162e 50%,
+          #2d1b69 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        padding: 20px;
+        background-attachment: fixed;
       }
       .container {
-        max-width: 700px;
-        margin: auto;
-        padding: 30px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px #ccc;
+        max-width: 1100px;
+        margin: 40px auto;
+        background: var(--card);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), var(--glow);
+        border: 1px solid var(--border);
+      }
+      .header {
+        background: linear-gradient(135deg, var(--primary), #c084fc);
+        padding: 70px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 30% 70%,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 60%
+        );
+      }
+      .header h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 16px;
+        text-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        position: relative;
+        background: linear-gradient(90deg, #fff, #fde68a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .header p {
+        font-size: 1.5rem;
+        opacity: 0.95;
+        position: relative;
+      }
+      .brand {
+        margin-top: 30px;
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+      .brand span {
+        color: #fbbf24;
+        text-shadow: 0 0 20px #fbbf24;
+      }
+      .main {
+        padding: 60px;
       }
       textarea {
         width: 100%;
-        height: 150px;
-        padding: 10px;
-        font-size: 16px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
+        height: 240px;
+        padding: 24px;
+        background: rgba(20, 18, 40, 0.6);
+        border: 2px solid var(--border);
+        border-radius: 20px;
+        color: white;
+        font-size: 18px;
         resize: vertical;
+        backdrop-filter: blur(10px);
+        transition: all 0.4s;
       }
-      select,
-      button {
-        padding: 10px;
-        font-size: 16px;
-        margin-right: 10px;
-        border-radius: 5px;
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: var(--glow);
+      }
+      .controls {
+        display: flex;
+        gap: 20px;
+        margin: 40px 0;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      select {
+        padding: 18px 24px;
+        background: rgba(30, 27, 75, 0.8);
+        border: 2px solid var(--border);
+        border-radius: 16px;
+        color: white;
+        font-size: 17px;
+        min-width: 260px;
+        backdrop-filter: blur(8px);
       }
       button {
-        cursor: pointer;
-        background-color: #007bff;
+        padding: 18px 48px;
+        background: linear-gradient(
+          90deg,
+          var(--primary),
+          var(--primary-hover)
+        );
         color: white;
         border: none;
+        border-radius: 16px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: var(--glow);
+        transition: all 0.4s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
       }
       button:hover {
-        background-color: #0056b3;
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.6);
       }
-      .output {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 5px;
-        background-color: #eef;
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .output-box {
+        background: rgba(20, 18, 40, 0.6);
+        border: 2px solid var(--border);
+        border-radius: 20px;
+        padding: 32px;
+        min-height: 180px;
+        font-size: 19px;
+        line-height: 1.8;
+        position: relative;
+        backdrop-filter: blur(10px);
         white-space: pre-wrap;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(139, 92, 246, 0.3);
+        color: white;
+        border: 1px solid var(--primary);
+        padding: 12px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+      .copy-btn:hover {
+        background: var(--primary);
+      }
+      footer {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 16px;
+      }
+      .kushal {
+        color: #c084fc;
+        font-weight: bold;
+      }
+      .placeholder {
+        color: var(--text-muted);
+        font-style: italic;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>AI Grammar & Writing Assistant</h2>
-      <textarea id="textInput" placeholder="Enter your text here..."></textarea>
-      <br />
-      <select id="taskSelect">
-        <option value="grammar">Grammar Correction</option>
-        <option value="rewrite">Rewrite</option>
-        <option value="formal">Formal</option>
-        <option value="casual">Casual</option>
-        <option value="summary">Summary</option>
-      </select>
-      <button onclick="submitText()">Submit</button>
+      <div class="header">
+        <h1>Kushal Writer</h1>
+        <p>Your personal AI that makes everything better</p>
+        <div class="brand">
+          Created & Powered by <span>Kushal Sapkota</span>
+        </div>
+      </div>
 
-      <div class="output" id="output"></div>
+      <div class="main">
+        <textarea
+          id="textInput"
+          placeholder="Type or paste anything... I'll transform it instantly"
+        ></textarea>
+
+        <div class="controls">
+          <select id="taskSelect">
+            <option value="grammar">Fix Grammar & Spelling</option>
+            <option value="rewrite">Rewrite Beautifully</option>
+            <option value="formal">Make Professional</option>
+            <option value="casual">Make Friendly</option>
+            <option value="summary">Summarize</option>
+          </select>
+          <button onclick="submitText()" id="btn">Transform Text</button>
+        </div>
+
+        <div class="output-box" id="output">
+          <span class="placeholder"
+            >Your result will appear here instantly...</span
+          >
+        </div>
+      </div>
+
+      <footer>
+        © 2025 <span class="kushal">Kushal Sapkota</span> — 100% Private • Runs
+        Locally • No Internet Needed
+      </footer>
     </div>
 
     <script>
       function submitText() {
-        const text = document.getElementById("textInput").value;
+        const text = document.getElementById("textInput").value.trim();
         const task = document.getElementById("taskSelect").value;
-        const outputDiv = document.getElementById("output");
+        const output = document.getElementById("output");
+        const btn = document.getElementById("btn");
 
-        outputDiv.textContent = "Processing...";
+        if (!text) {
+          output.innerHTML = `<em style="color:#fb923c">Please enter some text first</em>`;
+          return;
+        }
+
+        output.innerHTML = `<span style="color:var(--primary)">Kushal is thinking...</span>`;
+        btn.disabled = true;
+        btn.innerHTML = `Working...`;
 
         fetch("/api/improve/", {
           method: "POST",
@@ -83,38 +264,47 @@
             "Content-Type": "application/json",
             "X-CSRFToken": getCookie("csrftoken"),
           },
-          body: JSON.stringify({ text: text, task: task }),
+          body: JSON.stringify({ text, task }),
         })
-          .then((response) => response.json())
+          .then((r) => r.json())
           .then((data) => {
             if (data.result) {
-              outputDiv.textContent = data.result;
-            } else if (data.error) {
-              outputDiv.textContent = "Error: " + data.error;
+              output.innerHTML = `
+            <div style="position:relative;padding-right:100px">
+              ${data.result.replace(/\n/g, "<br>")}
+              <button class="copy-btn" onclick="copy(this)">Copy</button>
+            </div>`;
+            } else {
+              output.textContent = "Error: " + (data.error || "Try again");
             }
           })
-          .catch((err) => {
-            outputDiv.textContent = "Error: " + err;
+          .catch(() => (output.textContent = "Network error"))
+          .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = `Transform Text`;
           });
       }
 
-      // CSRF helper for Django
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-          const cookies = document.cookie.split(";");
-          for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-              cookieValue = decodeURIComponent(
-                cookie.substring(name.length + 1)
-              );
-              break;
-            }
-          }
-        }
-        return cookieValue;
+      function copy(btn) {
+        const text = btn.parentNode.innerText.replace("Copy", "").trim();
+        navigator.clipboard.writeText(text);
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 2000);
       }
+
+      function getCookie(n) {
+        let v = null;
+        document.cookie.split(";").forEach((c) => {
+          if (c.trim().startsWith(n + "="))
+            v = decodeURIComponent(c.split("=")[1]);
+        });
+        return v;
+      }
+
+      // Ctrl+Enter shortcut
+      document.getElementById("textInput").addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submitText();
+      });
     </script>
   </body>
 </html>
