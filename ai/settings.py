@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',  # Django REST Framework
-    'assistant',       
+    'assistant',
+    'quiz',       
 ]
 
 MIDDLEWARE = [
