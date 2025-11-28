@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ne">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>लोकसेवा क्विज मास्टर - कुशल सापकोटा</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;600;700;800&family=Hind+Siliguri:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --red: #dc143c;
+        --darkred: #8b0000;
+        --gold: #ffd700;
+        --white: #ffffff;
+        --light: #fff5f5;
+        --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Mukta", "Hind Siliguri", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #8b0000 0%,
+          #dc143c 50%,
+          #b22222 100%
+        );
+        min-height: 100vh;
+        color: white;
+        padding: 20px;
+        background-attachment: fixed;
+      }
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        background: rgba(255, 255, 255, 0.97);
+        color: var(--darkred);
+        border-radius: 35px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 6px solid var(--gold);
+      }
+      .header {
+        background: linear-gradient(135deg, var(--darkred), var(--red));
+        padding: 50px 30px;
+        text-align: center;
+        position: relative;
+      }
+      .header::before {
+        content: "नेपाल";
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 4rem;
+        opacity: 0.1;
+        font-weight: 900;
+      }
+      h1 {
+        font-size: 4.2rem;
+        font-weight: 900;
+        color: var(--gold);
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        margin-bottom: 10px;
+      }
+      .by {
+        font-size: 2.2rem;
+        color: white;
+        font-weight: 700;
+        margin: 15px 0;
+      }
+      .tagline {
+        font-size: 1.5rem;
+        color: #ffefef;
+        margin: 10px 0;
+      }
+      .main {
+        padding: 50px;
+        text-align: center;
+      }
+      #question {
+        font-size: 2.1rem;
+        line-height: 1.7;
+        margin: 40px 0;
+        padding: 25px;
+        background: #fff0f0;
+        border-radius: 20px;
+        border-left: 8px solid var(--red);
+        font-weight: 700;
+        min-height: 120px;
+        color: #5a0000;
+      }
+      .options {
+        display: grid;
+        gap: 20px;
+        margin: 40px 0;
+      }
+      .opt {
+        padding: 28px;
+        background: white;
+        border: 4px solid #dc143c;
+        border-radius: 22px;
+        font-size: 1.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 20px rgba(220, 20, 60, 0.2);
+      }
+      .opt:hover {
+        background: #ffebee;
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(220, 20, 60, 0.3);
+      }
+      .opt.correct {
+        background: #22c55e !important;
+        color: white;
+        border-color: #16a34a;
+        transform: scale(1.05);
+      }
+      .opt.wrong {
+        background: #ef4444;
+        color: white;
+        border-color: #dc2626;
+      }
+      #result {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin: 40px 0;
+        min-height: 80px;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+      .score {
+        font-size: 4rem;
+        color: var(--gold);
+        font-weight: 900;
+        margin: 30px 0;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+      button {
+        margin-top: 30px;
+        padding: 20px 70px;
+        background: var(--darkred);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
+        transition: 0.4s;
+      }
+      button:hover {
+        background: #b22222;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(139, 0, 0, 0.6);
+      }
+      footer {
+        text-align: center;
+        padding: 301rem;
+        background: var(--darkred);
+        color: white;
+        font-size: 1.3rem;
+      }
+      .kushal {
+        color: var(--gold);
+        font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 3rem;
+        }
+        #question {
+          font-size: 1.7rem;
+        }
+        .opt {
+          font-size: 1.6rem;
+          padding: 22px;
+        }
+        .score {
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>लोकसेवा क्विज मास्टर</h1>
+        <div class="by">कुशल सापकोटा द्वारा निर्मित</div>
+        <div class="tagline">
+          नेपालको नं. १ लोकसेवा तयारी एप • १००% AI द्वारा संचालित
+        </div>
+      </div>
+
+      <div class="main">
+        <div id="question">नयाँ प्रश्न लोड हुँदैछ...</div>
+
+        <div class="options" id="options"></div>
+
+        <div id="result"></div>
+
+        <div class="score">स्कोर: <span id="score">0</span></div>
+
+        <button onclick="newQuestion()">अर्को प्रश्न</button>
+      </div>
+
+      <footer>
+        © 2025 <span class="kushal">कुशल सापकोटा</span> • नेपालको गर्व • लोकसेवा
+        जित्ने बाटो यहीँबाट सुरु हुन्छ
+      </footer>
+    </div>
+
+    <script>
+      let score = 0;
+      const letters = ["क", "ख", "ग", "घ"];
+
+      function newQuestion() {
+        document.getElementById("result").innerHTML = "";
+        document.getElementById("options").innerHTML =
+          '<div style="padding:50px; font-size:2rem;">प्रश्न तयार हुँदैछ...</div>';
+
+        fetch("/quiz/api/new/")
+          .then((r) => r.json())
+          .then((data) => {
+            document.getElementById("question").textContent = data.question;
+            const container = document.getElementById("options");
+            container.innerHTML = "";
+
+            letters.forEach((letter) => {
+              const div = document.createElement("div");
+              div.className = "opt";
+              div.textContent = `${letter}) ${
+                data.options[letter] || "लोड हुँदैछ..."
+              }`;
+              div.onclick = () => checkAnswer(letter, div);
+              container.appendChild(div);
+            });
+          })
+          .catch(() => {
+            document.getElementById("question").textContent =
+              "Ollama चलिरहेको छैन। Terminal मा `ollama serve` चलाउनुहोस्।";
+          });
+      }
+
+      function checkAnswer(choice, element) {
+        document
+          .querySelectorAll(".opt")
+          .forEach((el) => (el.style.pointerEvents = "none"));
+
+        fetch("/quiz/api/check/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ choice: choice }),
+        })
+          .then((r) => r.json())
+          .then((res) => {
+            if (res.correct) {
+              element.classList.add("correct");
+              document.getElementById("result").innerHTML =
+                '<div style="color:#22c55e">सही जवाफ!</div>';
+              score++;
+              document.getElementById("score").textContent = score;
+            } else {
+              element.classList.add("wrong");
+              document.getElementById(
+                "result"
+              ).innerHTML = `<div style="color:#ef4444">गलत!</div>
+             <div style="color:#fbbf24; margin-top:15px; font-size:2.5rem">
+               सही जवाफ: <b>${res.correct_answer}</b>
+             </div>`;
+
+              const correctBtn =
+                document.querySelectorAll(".opt")[
+                  letters.indexOf(res.correct_answer)
+                ];
+              if (correctBtn) correctBtn.classList.add > "correct";
+            }
+          });
+      }
+
+      // Start automatically
+      newQuestion();
+    </script>
+  </body>
+</html>
