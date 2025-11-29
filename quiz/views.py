@@ -13,7 +13,7 @@ MODEL = "llama3"
 def home(request):
     if 'used_questions' not in request.session:
         request.session['used_questions'] = []
-    return render(request, 'quiz/home.html')
+    return render(request, 'home.html')
 
 @csrf_exempt
 def api_new_question(request):
@@ -73,7 +73,7 @@ def api_new_question(request):
             return JsonResponse({
                 "question": question,
                 "options": options,
-                "correct_letter": correct  # remove later if you want secret
+                "correct_letter": correct
             })
 
     # Emergency fallback (if Ollama fails)
