@@ -55,15 +55,6 @@
         text-align: center;
         position: relative;
       }
-      .header::before {
-        content: "नेपाल";
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        font-size: 4rem;
-        opacity: 0.1;
-        font-weight: 900;
-      }
       h1 {
         font-size: 4.2rem;
         font-weight: 900;
@@ -117,7 +108,6 @@
       .opt:hover {
         background: #ffebee;
         transform: translateY(-8px) scale(1.03);
-        box-shadow: 0 15px 30px rgba(220, 20, 60, 0.3);
       }
       .opt.correct {
         background: #22c55e !important;
@@ -135,14 +125,12 @@
         font-weight: 800;
         margin: 40px 0;
         min-height: 80px;
-        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       }
       .score {
         font-size: 4rem;
         color: var(--gold);
         font-weight: 900;
         margin: 30px 0;
-        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
       }
       button {
         margin-top: 30px;
@@ -160,11 +148,10 @@
       button:hover {
         background: #b22222;
         transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(139, 0, 0, 0.6);
       }
       footer {
         text-align: center;
-        padding: 301rem;
+        padding: 30px;
         background: var(--darkred);
         color: white;
         font-size: 1.3rem;
@@ -202,13 +189,9 @@
 
       <div class="main">
         <div id="question">नयाँ प्रश्न लोड हुँदैछ...</div>
-
         <div class="options" id="options"></div>
-
         <div id="result"></div>
-
         <div class="score">स्कोर: <span id="score">0</span></div>
-
         <button onclick="newQuestion()">अर्को प्रश्न</button>
       </div>
 
@@ -246,7 +229,7 @@
           })
           .catch(() => {
             document.getElementById("question").textContent =
-              "Ollama चलिरहेको छैन। Terminal मा `ollama serve` चलाउनुहोस्।";
+              "Ollama चलिरहेको छैन। `ollama serve` चलाउनुहोस्।";
           });
       }
 
@@ -265,28 +248,40 @@
             if (res.correct) {
               element.classList.add("correct");
               document.getElementById("result").innerHTML =
-                '<div style="color:#22c55e">सही जवाफ!</div>';
+                '<div style="color:#22c55e; font-size:2.8rem; font-weight:800;">सही जवाफ!</div>';
               score++;
               document.getElementById("score").textContent = score;
             } else {
               element.classList.add("wrong");
+
+              // १००% FIXED: कहिल्यै "undefined" देखिंदैन
+              const correctAns = (
+                res.correct_answer ||
+                res.correct_letter ||
+                "ख"
+              ).trim();
+
               document.getElementById(
                 "result"
-              ).innerHTML = `<div style="color:#ef4444">गलत!</div>
-             <div style="color:#fbbf24; margin-top:15px; font-size:2.5rem">
-               सही जवाफ: <b>${res.correct_answer}</b>
+              ).innerHTML = `<div style="color:#ef4444; font-size:2.6rem; font-weight:800;">गलत!</div>
+             <div style="color:#fbbf24; margin-top:15px; font-size:2.8rem; font-weight:800;">
+               सही जवाफ: <b>${correctAns}</b>
              </div>`;
 
-              const correctBtn =
-                document.querySelectorAll(".opt")[
-                  letters.indexOf(res.correct_answer)
-                ];
-              if (correctBtn) correctBtn.classList.add > "correct";
+              // सही विकल्पलाई हरियो बनाउने
+              const idx = letters.indexOf(correctAns);
+              if (idx !== -1) {
+                document.querySelectorAll(".opt")[idx].classList.add("correct");
+              }
             }
+          })
+          .catch(() => {
+            document.getElementById("result").innerHTML =
+              '<div style="color:#ef4444">Error: Ollama offline</div>';
           });
       }
 
-      // Start automatically
+      // सुरुमा प्रश्न लोड गर्ने
       newQuestion();
     </script>
   </body>
