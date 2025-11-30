@@ -10,5 +10,6 @@ urlpatterns = [
 
     # API Endpoints
     path('api/new/', views.api_new_question, name='api_new'),     
-    path('api/check/', views.api_check_answer, name='api_check'), 
+    path('api/check/', views.api_check_answer, name='api_check'),
+
 ]
