@@ -31,7 +31,8 @@ INSTALLED_APPS = [
 
     'rest_framework',  # Django REST Framework
     'assistant',
-    'quiz',       
+    'quiz',
+    'user',       
 ]
 
 MIDDLEWARE = [
