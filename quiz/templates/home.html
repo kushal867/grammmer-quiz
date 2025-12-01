@@ -22,6 +22,7 @@
         --white: #ffffff;
         --light: #fff5f5;
         --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       }
       * {
         margin: 0;
@@ -67,6 +68,17 @@
         padding: 40px 30px;
         text-align: center;
         position: relative;
+        overflow: hidden;
+      }
+      .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.1;
       }
       h1 {
         font-size: 3.8rem;
@@ -74,17 +86,23 @@
         color: var(--gold);
         text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
       }
       .by {
         font-size: 2rem;
         color: white;
         font-weight: 700;
         margin: 15px 0;
+        position: relative;
+        z-index: 1;
       }
       .tagline {
         font-size: 1.4rem;
         color: #ffefef;
         margin: 10px 0;
+        position: relative;
+        z-index: 1;
       }
       .stats-bar {
         background: rgba(255, 255, 255, 0.1);
@@ -94,9 +112,16 @@
         border-radius: 20px;
         margin-top: 20px;
         backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 1;
       }
       .stat {
         text-align: center;
+        transition: var(--transition);
+      }
+      .stat:hover {
+        transform: translateY(-5px);
       }
       .stat-value {
         font-size: 2rem;
@@ -122,6 +147,7 @@
         padding: 5px 15px;
         border-radius: 20px;
         font-weight: 700;
+        transition: var(--transition);
       }
       .difficulty.easy {
         background: #dcfce7;
@@ -147,6 +173,18 @@
         min-height: 120px;
         color: #5a0000;
         animation: slideIn 0.5s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+      #question::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--darkred), var(--red));
       }
       @keyframes slideIn {
         from {
@@ -171,11 +209,27 @@
         font-size: 1.7rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         text-align: left;
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .opt::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          rgba(59, 130, 246, 0.1),
+          transparent
+        );
+        transition: width 0.3s ease;
       }
       .opt:hover {
         background: #f8fafc;
@@ -183,21 +237,68 @@
         border-color: var(--blue);
         box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
       }
+      .opt:hover::before {
+        width: 100%;
+      }
       .opt.correct {
         background: var(--green) !important;
         color: white;
         border-color: #16a34a;
         transform: scale(1.02);
+        animation: pulse 0.5s ease;
       }
       .opt.wrong {
         background: #ef4444;
         color: white;
         border-color: #dc2626;
+        animation: shake 0.5s ease;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1.02);
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20%,
+        60% {
+          transform: translateX(-5px);
+        }
+        40%,
+        80% {
+          transform: translateX(5px);
+        }
       }
       .opt-letter {
         font-weight: 800;
         margin-right: 15px;
         font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        border-radius: 50%;
+        transition: var(--transition);
+      }
+      .opt:hover .opt-letter {
+        background: var(--blue);
+        color: white;
+      }
+      .opt.correct .opt-letter,
+      .opt.wrong .opt-letter {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
       }
       #result {
         font-size: 2.5rem;
@@ -205,6 +306,10 @@
         margin: 30px 0;
         min-height: 80px;
         animation: popIn 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
       }
       @keyframes popIn {
         0% {
@@ -223,17 +328,33 @@
         border-radius: 20px;
         margin: 30px 0;
         box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+      .score-display::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.1;
       }
       .score-value {
         font-size: 4rem;
         font-weight: 900;
         color: var(--gold);
         text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
       }
       .streak {
         font-size: 1.4rem;
         margin-top: 10px;
         opacity: 0.9;
+        position: relative;
+        z-index: 1;
       }
       .buttons {
         display: flex;
@@ -248,10 +369,30 @@
         font-size: 1.7rem;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         display: flex;
         align-items: center;
         gap: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+      button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+      button:hover::before {
+        left: 100%;
       }
       .btn-primary {
         background: var(--darkred);
@@ -281,6 +422,17 @@
         font-size: 1.4rem;
         color: #0369a1;
         animation: slideUp 0.5s ease;
+        position: relative;
+      }
+      .explanation::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: #0ea5e9;
+        border-radius: 5px 0 0 5px;
       }
       @keyframes slideUp {
         from {
@@ -315,10 +467,39 @@
         background: var(--darkred);
         color: white;
         font-size: 1.2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.1;
       }
       .kushal {
         color: var(--gold);
         font-weight: bold;
+        position: relative;
+        z-index: 1;
+      }
+      .progress-container {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 10px;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(to right, var(--green), var(--blue));
+        border-radius: 10px;
+        transition: width 0.5s ease;
+        width: 0%;
       }
       @media (max-width: 768px) {
         h1 {
@@ -400,6 +581,10 @@
           <div class="streak">
             वर्तमान स्ट्रिक: <span id="streakDisplay">0</span>
           </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
         </div>
 
         <div class="buttons">
@@ -560,6 +745,9 @@
             ? Math.round((correctAnswers / totalQuestions) * 100)
             : 0;
         document.getElementById("accuracy").textContent = accuracy + "%";
+
+        // Update progress bar
+        document.getElementById("progressBar").style.width = accuracy + "%";
       }
 
       function resetQuiz() {
