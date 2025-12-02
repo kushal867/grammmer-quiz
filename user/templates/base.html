@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Kushal Apps{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;600;700;800&family=Hind+Siliguri:wght@600;700&display=swap" rel="stylesheet"/>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+    <style>
+      :root {
+        --bg: #0a0818;
+        --surface: #141228;
+        --surface-2: #1c1938;
+        --border: #2d264f;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --primary: #a78bfa;
+        --primary-hover: #c4b5fd;
+        --accent: #fadcb6;
+        --red: #dc143c;
+        --darkred: #8b0000;
+        --green: #22c55e;
+        --blue: #3b82f6;
+        --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      * {margin:0;padding:0;box-sizing:border-box;}
+
+      body {
+        font-family:"Inter",sans-serif;
+        background:linear-gradient(135deg,#0a0818,#1a162e,#2d1b69);
+        color:var(--text);
+        min-height:100vh;
+        background-attachment:fixed;
+      }
+
+      .navbar {
+        background:rgba(20,18,40,0.95);
+        backdrop-filter:blur(20px);
+        border-bottom:1px solid var(--border);
+        padding:1rem 2rem;
+        position:sticky;
+        top:0;
+        z-index:1000;
+      }
+
+      .nav-container {
+        max-width:1200px;
+        margin:auto;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      }
+
+      .nav-logo {
+        font-size:1.8rem;font-weight:900;
+        background:linear-gradient(90deg,#a78bfa,#fadcb6);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        text-decoration:none;
+        display:flex;align-items:center;gap:0.5rem;
+      }
+
+      .nav-links {display:flex;gap:2rem;align-items:center;}
+      .nav-link {text-decoration:none;color:white;font-weight:500;padding:0.5rem 1rem;border-radius:8px;}
+      .nav-link:hover {background:var(--surface-2);color:var(--primary);}
+      .nav-link.active {background:var(--primary);color:var(--bg);}
+
+      .btn-logout {
+        background:var(--red);color:white;border:none;padding:0.5rem 1.2rem;border-radius:8px;cursor:pointer;
+      }
+      .btn-logout:hover {background:var(--darkred);transform:translateY(-2px);}
+      .user-info {display:flex;gap:1rem;align-items:center;}
+      .messages {margin:1rem auto;max-width:1200px;padding:0 1rem;}
+      .alert {padding:1rem;border-radius:8px;margin-bottom:1rem;animation:slideIn 0.3s ease;}
+      @keyframes slideIn {from{opacity:0;transform:translateX(-50%)} to{opacity:1;transform:translateX(0)}}
+      .alert-success {background:rgba(34,197,94,0.1);border:1px solid var(--green);color:var(--green);}
+      .alert-error {background:rgba(220,20,60,0.1);border:1px solid var(--red);color:var(--red);}
+      .alert-info {background:rgba(59,130,246,0.1);border:1px solid var(--blue);color:var(--blue);}
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+
+        <!-- ✅ FIXED LOGO LINK -->
+        <a href="{% url 'user:login' %}" class="nav-logo">
+          <i class="fas fa-brain"></i> Kushal Apps
+        </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+
+        <div class="nav-links" id="navLinks">
+
+          <!-- ✅ FIXED HOME BUTTON -->
+          <a href="{% url 'user:login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+            <i class="fas fa-home"></i> Home
+          </a>
+
+          <a href="{% url 'kushal_writer' %}" class="nav-link {% if request.resolver_match.url_name == 'kushal_writer' %}active{% endif %}">
+            <i class="fas fa-wand-magic-sparkles"></i> Kushal Writer
+          </a>
+
+          <!-- ✅ FIXED QUIZ LINK -->
+          <a href="{% url 'quiz:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <i class="fas fa-graduation-cap"></i> लोकसेवा क्विज
+          </a>
+
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <span><i class="fas fa-user"></i> {{ user.username }}</span>
+            <form action="{% url 'user:logout' %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </form>
+          </div>
+          {% else %}
+          <a href="{% url 'user:login' %}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+          {% endif %}
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Messages -->
+    <div class="messages">
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'info' %}fa-info-circle{% endif %}"></i>
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>© 2025 <span class="kushal-brand">Kushal Sapkota</span> — Nepal's Pride in Technology</p>
+        <p style="margin-top:0.5rem;color:var(--text-muted);font-size:0.9rem;">Built with ❤️ for Nepal</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("active");
+      });
+
+      setTimeout(() => {
+        document.querySelectorAll(".alert").forEach(alert => {
+          alert.style.opacity = "0";
+          alert.style.transform = "translateX(50%)";
+          setTimeout(() => alert.remove(), 300);
+        });
+      }, 5000);
+    </script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

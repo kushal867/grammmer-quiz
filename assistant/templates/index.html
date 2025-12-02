@@ -1,435 +1,409 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kushal Writer – Your Personal AI</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --bg: #0a0818;
-        --surface: #141228;
-        --surface-2: #1c1938;
-        --border: #2d264f;
-        --text: #f1f5f9;
-        --text-muted: #94a3b8;
-        --primary: #a78bfa;
-        --primary-hover: #c4b5fd;
-        --accent: #fadcb6;
-        --glow-primary: 0 0 40px rgba(167, 139, 250, 0.4);
-        --glow-accent: 0 0 30px rgba(250, 220, 182, 0.3);
-      }
+{% extends 'base.html' %}
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(
-          135deg,
-          #0a0818 0%,
-          #1a162e 40%,
-          #2d1b69 100%
-        );
-        color: var(--text);
-        min-height: 100vh;
-        padding: 20px;
-        background-attachment: fixed;
-        line-height: 1.6;
-      }
+{% block title %}Kushal Writer – Your Personal AI{% endblock %}
 
-      .container {
-        max-width: 1200px;
-        margin: 40px auto;
-        background: var(--surface);
-        border-radius: 32px;
-        overflow: hidden;
-        box-shadow: 0 32px 100px rgba(0, 0, 0, 0.8),
-          0 0 80px rgba(139, 92, 246, 0.15),
-          inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-        backdrop-filter: blur(20px);
-      }
+{% block extra_css %}
+<style>
+  /* Custom styles for Kushal Writer */
+  /* Note: Some root variables are already defined in base.html, overriding or adding specific ones here */
+  :root {
+    /* Ensure these variables are available if not in base or if we want to override */
+    --glow-primary: 0 0 40px rgba(167, 139, 250, 0.4);
+    --glow-accent: 0 0 30px rgba(250, 220, 182, 0.3);
+  }
 
-      /* Header */
-      .header {
-        background: linear-gradient(
-          135deg,
-          #6b46c1 0%,
-          #a78bfa 50%,
-          #c4b5fd 100%
-        );
-        padding: 90px 40px 70px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
+  /* We can remove body styles as they are handled by base.html, 
+     but we might need to adjust some specific overrides if necessary.
+     For now, we'll trust base.html's body styles. */
 
-      .header::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><pattern id=%22grid%22 width=%22100%22 height=%22100%22 patternUnits=%22userSpaceOnUse%22><path d=%22M 100 0 L 0 0 0 100%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.03)%22 stroke-width=%221%22/></pattern></defs><rect width=%22100%22 height=%22100%22 fill=%22url(%23grid)%22/></svg>");
-      }
+  .writer-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: var(--surface);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 32px 100px rgba(0, 0, 0, 0.8),
+      0 0 80px rgba(139, 92, 246, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+  }
 
-      .header::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(
-          circle at 20% 80%,
-          rgba(199, 159, 255, 0.3),
-          transparent 50%
-        );
-      }
+  /* Header */
+  .writer-header {
+    background: linear-gradient(
+      135deg,
+      #6b46c1 0%,
+      #a78bfa 50%,
+      #c4b5fd 100%
+    );
+    padding: 90px 40px 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-      .header h1 {
-        font-size: 5.5rem;
-        font-weight: 900;
-        letter-spacing: -2px;
-        margin-bottom: 16px;
-        background: linear-gradient(90deg, #ffffff, #fde68a, #fef3c7);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        position: relative;
-      }
+  .writer-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><pattern id=%22grid%22 width=%22100%22 height=%22100%22 patternUnits=%22userSpaceOnUse%22><path d=%22M 100 0 L 0 0 0 100%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.03)%22 stroke-width=%221%22/></pattern></defs><rect width=%22100%22 height=%22100%22 fill=%22url(%23grid)%22/></svg>");
+  }
 
-      .header p {
-        font-size: 1.6rem;
-        opacity: 0.95;
-        font-weight: 500;
-        margin-bottom: 20px;
-      }
+  .writer-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 20% 80%,
+      rgba(199, 159, 255, 0.3),
+      transparent 50%
+    );
+  }
 
-      .brand {
-        margin-top: 32px;
-        font-size: 1.9rem;
-        font-weight: 700;
-        color: #e2e8f0;
-      }
+  .writer-header h1 {
+    font-size: 5.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #ffffff, #fde68a, #fef3c7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+    line-height: 1.1;
+  }
 
-      .brand span {
-        background: linear-gradient(90deg, #fbbf24, #fde68a);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
-      }
+  .writer-header p {
+    font-size: 1.6rem;
+    opacity: 0.95;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: white; /* Ensure text is white on the colorful header */
+  }
 
-      /* Main Content */
-      .main {
-        padding: 70px 80px;
-      }
+  .brand {
+    margin-top: 32px;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    position: relative;
+  }
 
-      textarea {
-        width: 100%;
-        height: 280px;
-        padding: 28px;
-        background: var(--surface-2);
-        border: 1.5px solid var(--border);
-        border-radius: 24px;
-        color: white;
-        font-size: 18px;
-        font-family: inherit;
-        resize: none;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        backdrop-filter: blur(12px);
-        box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
-      }
+  .brand span {
+    background: linear-gradient(90deg, #fbbf24, #fde68a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+  }
 
-      textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: var(--glow-primary), inset 0 4px 10px rgba(0, 0, 0, 0.3);
-        transform: translateY(-2px);
-      }
+  /* Main Content */
+  .writer-main {
+    padding: 70px 80px;
+  }
 
-      .controls {
-        display: flex;
-        gap: 24px;
-        margin: 48px 0 56px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
+  textarea {
+    width: 100%;
+    height: 280px;
+    padding: 28px;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    color: white;
+    font-size: 18px;
+    font-family: inherit;
+    resize: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
 
-      select {
-        padding: 18px 28px;
-        background: var(--surface-2);
-        border: 1.5px solid var(--border);
-        border-radius: 18px;
-        color: white;
-        font-size: 17px;
-        font-weight: 500;
-        min-width: 300px;
-        cursor: pointer;
-        transition: all 0.3s;
-        backdrop-filter: blur(10px);
-      }
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--glow-primary), inset 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
 
-      select:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: var(--glow-primary);
-      }
+  .controls {
+    display: flex;
+    gap: 24px;
+    margin: 48px 0 56px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-      button#main-btn {
-        padding: 18px 56px;
-        background: linear-gradient(90deg, #8b5cf6, #a78bfa);
-        color: white;
-        border: none;
-        border-radius: 18px;
-        font-size: 18px;
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: var(--glow-primary);
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        position: relative;
-        overflow: hidden;
-      }
+  select {
+    padding: 18px 28px;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+    min-width: 300px;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+  }
 
-      button#main-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-      }
+  select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--glow-primary);
+  }
 
-      button#main-btn:hover::before {
-        transform: translateX(100%);
-      }
+  button#main-btn {
+    padding: 18px 56px;
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--glow-primary);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
 
-      button#main-btn:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5);
-      }
+  button#main-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
 
-      button#main-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-      }
+  button#main-btn:hover::before {
+    transform: translateX(100%);
+  }
 
-      /* Output */
-      .output-box {
-        background: var(--surface-2);
-        border: 1.5px solid var(--border);
-        border-radius: 24px;
-        padding: 40px;
-        min-height: 220px;
-        font-size: 19px;
-        line-height: 1.9;
-        position: relative;
-        backdrop-filter: blur(12px);
-        box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: all 0.4s;
-      }
+  button#main-btn:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5);
+  }
 
-      .copy-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(139, 92, 246, 0.25);
-        color: white;
-        border: 1.5px solid var(--primary);
-        padding: 12px 24px;
-        border-radius: 14px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 15px;
-        transition: all 0.3s;
-        backdrop-filter: blur(8px);
-      }
+  button#main-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
 
-      .copy-btn:hover {
-        background: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
-      }
+  /* Output */
+  .output-box {
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    min-height: 220px;
+    font-size: 19px;
+    line-height: 1.9;
+    position: relative;
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s;
+  }
 
-      .placeholder {
-        color: var(--text-muted);
-        font-style: italic;
-        opacity: 0.7;
-      }
+  .copy-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(139, 92, 246, 0.25);
+    color: white;
+    border: 1.5px solid var(--primary);
+    padding: 12px 24px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+    backdrop-filter: blur(8px);
+  }
 
-      footer {
-        text-align: center;
-        padding: 50px 20px 30px;
-        color: var(--text-muted);
-        font-size: 15px;
-        font-weight: 500;
-      }
+  .copy-btn:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+  }
 
-      .kushal {
-        background: linear-gradient(90deg, #c084fc, #e9d5ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-      }
+  .placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+    opacity: 0.7;
+  }
 
-      /* Responsive */
-      @media (max-width: 768px) {
-        .header h1 {
-          font-size: 3.8rem;
-        }
-        .main {
-          padding: 50px 30px;
-        }
-        .controls {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        select,
-        button#main-btn {
-          width: 100%;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h1>Kushal Writer</h1>
-        <p>Craft perfect words with your personal AI</p>
-        <div class="brand">
-          Created & Powered by <span>Kushal Sapkota</span>
-        </div>
-      </div>
+  .writer-footer {
+    text-align: center;
+    padding: 50px 20px 30px;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 500;
+  }
 
-      <div class="main">
-        <textarea
-          id="textInput"
-          placeholder="Type or paste anything... I'll transform it instantly"
-        ></textarea>
+  .kushal {
+    background: linear-gradient(90deg, #c084fc, #e9d5ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
 
-        <div class="controls">
-          <select id="taskSelect">
-            <option value="grammar">Fix Grammar & Spelling</option>
-            <option value="rewrite">Rewrite Beautifully</option>
-            <option value="formal">Make Professional & Formal</option>
-            <option value="casual">Make Friendly & Casual</option>
-            <option value="summary">Summarize Concisely</option>
-          </select>
-          <button id="main-btn" onclick="submitText()">
-            <i class="fas fa-wand-magic-sparkles"></i>
-            <span>Transform Text</span>
-          </button>
-        </div>
+  /* Responsive */
+  @media (max-width: 768px) {
+    .writer-header h1 {
+      font-size: 3.8rem;
+    }
+    .writer-main {
+      padding: 50px 30px;
+    }
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    select,
+    button#main-btn {
+      width: 100%;
+    }
+  }
+</style>
+{% endblock %}
 
-        <div class="output-box" id="output">
-          <span class="placeholder"
-            >Your transformed text will appear here instantly...</span
-          >
-        </div>
-      </div>
+{% block content %}
+<div class="writer-container">
+  <div class="writer-header">
+    <h1>Kushal Writer</h1>
+    <p>Craft perfect words with your personal AI</p>
+    <div class="brand">
+      Created & Powered by <span>Kushal Sapkota</span>
+    </div>
+  </div>
 
-      <footer>
-        © 2025 <span class="kushal">Kushal Sapkota</span> — 100% Private • Runs
-        Locally • No Internet Needed
-      </footer>
+  <div class="writer-main">
+    <textarea
+      id="textInput"
+      placeholder="Type or paste anything... I'll transform it instantly"
+    ></textarea>
+
+    <div class="controls">
+      <select id="taskSelect">
+        <option value="grammar">Fix Grammar & Spelling</option>
+        <option value="rewrite">Rewrite Beautifully</option>
+        <option value="formal">Make Professional & Formal</option>
+        <option value="casual">Make Friendly & Casual</option>
+        <option value="summary">Summarize Concisely</option>
+      </select>
+      <button id="main-btn" onclick="submitText()">
+        <i class="fas fa-wand-magic-sparkles"></i>
+        <span>Transform Text</span>
+      </button>
     </div>
 
-    <script>
-      function submitText() {
-        const text = document.getElementById("textInput").value.trim();
-        const task = document.getElementById("taskSelect").value;
-        const output = document.getElementById("output");
-        const btn = document.getElementById("main-btn");
+    <div class="output-box" id="output">
+      <span class="placeholder"
+        >Your transformed text will appear here instantly...</span
+      >
+    </div>
+  </div>
 
-        if (!text) {
-          output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
-          return;
+  <div class="writer-footer">
+    © 2025 <span class="kushal">Kushal Sapkota</span> — 100% Private • Runs
+    Locally • No Internet Needed
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function submitText() {
+    const text = document.getElementById("textInput").value.trim();
+    const task = document.getElementById("taskSelect").value;
+    const output = document.getElementById("output");
+    const btn = document.getElementById("main-btn");
+
+    if (!text) {
+      output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
+      return;
+    }
+
+    output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
+    <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
+  </span>`;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
+
+    fetch("{% url 'improve_api' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({ text, task }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.result) {
+          output.innerHTML = `
+          <div style="position:relative;">
+            ${data.result.replace(/\n/g, "<br>")}
+            <button class="copy-btn" onclick="copy(this)">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>`;
+        } else {
+          output.textContent =
+            "Error: " + (data.error || "Please try again");
         }
-
-        output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
-        <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
-      </span>`;
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
-
-        fetch("/api/improve/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken"),
-          },
-          body: JSON.stringify({ text, task }),
-        })
-          .then((r) => r.json())
-          .then((data) => {
-            if (data.result) {
-              output.innerHTML = `
-              <div style="position:relative;">
-                ${data.result.replace(/\n/g, "<br>")}
-                <button class="copy-btn" onclick="copy(this)">
-                  <i class="fas fa-copy"></i> Copy
-                </button>
-              </div>`;
-            } else {
-              output.textContent =
-                "Error: " + (data.error || "Please try again");
-            }
-          })
-          .catch(() => (output.textContent = "Network error"))
-          .finally(() => {
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
-          });
-      }
-
-      function copy(btn) {
-        const text =
-          btn.parentNode.firstChild.textContent ||
-          btn.parentNode.innerText.replace("Copy", "").trim();
-        navigator.clipboard.writeText(text);
-        const icon = btn.innerHTML;
-        btn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
-        setTimeout(() => (btn.innerHTML = icon), 2000);
-      }
-
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-          const cookies = document.cookie.split(";");
-          for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-              cookieValue = decodeURIComponent(
-                cookie.substring(name.length + 1)
-              );
-              break;
-            }
-          }
-        }
-        return cookieValue;
-      }
-
-      document.getElementById("textInput").addEventListener("keydown", (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submitText();
+      })
+      .catch(() => (output.textContent = "Network error"))
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
       });
-    </script>
-  </body>
-</html>
+  }
+
+  function copy(btn) {
+    const text =
+      btn.parentNode.firstChild.textContent ||
+      btn.parentNode.innerText.replace("Copy", "").trim();
+    navigator.clipboard.writeText(text);
+    const icon = btn.innerHTML;
+    btn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
+    setTimeout(() => (btn.innerHTML = icon), 2000);
+  }
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(
+            cookie.substring(name.length + 1)
+          );
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  document.getElementById("textInput").addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submitText();
+  });
+</script>
+{% endblock %}

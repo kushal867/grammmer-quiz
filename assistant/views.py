@@ -23,3 +23,4 @@ class ImproveAPIView(APIView):
 
 def improve_page(request):
     return render(request, "index.html")
+

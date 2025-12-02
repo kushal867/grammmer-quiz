@@ -1,786 +1,835 @@
-<!DOCTYPE html>
-<html lang="ne">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>लोकसेवा क्विज मास्टर - कुशल सापकोटा</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mukta:wght@500;600;700;800&family=Hind+Siliguri:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --red: #dc143c;
-        --darkred: #8b0000;
-        --gold: #ffd700;
-        --green: #22c55e;
-        --blue: #3b82f6;
-        --white: #ffffff;
-        --light: #fff5f5;
-        --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
-        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Mukta", "Hind Siliguri", sans-serif;
-        background: linear-gradient(
-          135deg,
-          #8b0000 0%,
-          #dc143c 50%,
-          #b22222 100%
-        );
-        min-height: 100vh;
-        color: white;
-        padding: 20px;
-        background-attachment: fixed;
-      }
-      .container {
-        max-width: 900px;
-        margin: 30px auto;
-        background: rgba(255, 255, 255, 0.98);
-        color: var(--darkred);
-        border-radius: 35px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        border: 6px solid var(--gold);
-        animation: fadeIn 0.8s ease;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .header {
-        background: linear-gradient(135deg, var(--darkred), var(--red));
-        padding: 40px 30px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-        opacity: 0.1;
-      }
-      h1 {
-        font-size: 3.8rem;
-        font-weight: 900;
-        color: var(--gold);
-        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        margin-bottom: 10px;
-        position: relative;
-        z-index: 1;
-      }
-      .by {
-        font-size: 2rem;
-        color: white;
-        font-weight: 700;
-        margin: 15px 0;
-        position: relative;
-        z-index: 1;
-      }
-      .tagline {
-        font-size: 1.4rem;
-        color: #ffefef;
-        margin: 10px 0;
-        position: relative;
-        z-index: 1;
-      }
-      .stats-bar {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 15px;
-        display: flex;
-        justify-content: space-around;
-        border-radius: 20px;
-        margin-top: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        position: relative;
-        z-index: 1;
-      }
-      .stat {
-        text-align: center;
-        transition: var(--transition);
-      }
-      .stat:hover {
-        transform: translateY(-5px);
-      }
-      .stat-value {
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--gold);
-      }
-      .stat-label {
-        font-size: 0.9rem;
-        opacity: 0.9;
-      }
-      .main {
-        padding: 40px;
-        text-align: center;
-      }
-      .question-meta {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        font-size: 1.1rem;
-        color: #666;
-      }
-      .difficulty {
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: 700;
-        transition: var(--transition);
-      }
-      .difficulty.easy {
-        background: #dcfce7;
-        color: #166534;
-      }
-      .difficulty.medium {
-        background: #fef3c7;
-        color: #92400e;
-      }
-      .difficulty.hard {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-      #question {
-        font-size: 2rem;
-        line-height: 1.6;
-        margin: 30px 0;
-        padding: 25px;
-        background: #fff0f0;
-        border-radius: 20px;
-        border-left: 8px solid var(--red);
-        font-weight: 700;
-        min-height: 120px;
-        color: #5a0000;
-        animation: slideIn 0.5s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
-      }
-      #question::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5px;
-        height: 100%;
-        background: linear-gradient(to bottom, var(--darkred), var(--red));
-      }
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-      .options {
-        display: grid;
-        gap: 15px;
-        margin: 30px 0;
-      }
-      .opt {
-        padding: 25px;
-        background: white;
-        border: 3px solid #e5e7eb;
-        border-radius: 20px;
-        font-size: 1.7rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        text-align: left;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-      }
-      .opt::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background: linear-gradient(
-          to right,
-          rgba(59, 130, 246, 0.1),
-          transparent
-        );
-        transition: width 0.3s ease;
-      }
-      .opt:hover {
-        background: #f8fafc;
-        transform: translateY(-3px);
-        border-color: var(--blue);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-      }
-      .opt:hover::before {
-        width: 100%;
-      }
-      .opt.correct {
-        background: var(--green) !important;
-        color: white;
-        border-color: #16a34a;
+{% extends 'base.html' %}
+
+{% block title %}लोकसेवा क्विज मास्टर - कुशल सापकोटा{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+    --quiz-red: #dc143c;
+    --quiz-darkred: #8b0000;
+    --quiz-gold: #ffd700;
+    --quiz-green: #22c55e;
+    --quiz-blue: #3b82f6;
+    --quiz-white: #ffffff;
+    --quiz-light: #fff5f5;
+    --quiz-shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+    --quiz-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Override body background for Quiz page */
+    body {
+    background: linear-gradient(
+        135deg,
+        #8b0000 0%,
+        #dc143c 50%,
+        #b22222 100%
+    ) !important;
+    font-family: "Mukta", "Hind Siliguri", sans-serif;
+    color: white;
+    background-attachment: fixed;
+    }
+
+    .quiz-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.98);
+    color: var(--quiz-darkred);
+    border-radius: 35px;
+    overflow: hidden;
+    box-shadow: var(--quiz-shadow);
+    border: 6px solid var(--quiz-gold);
+    animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+
+    .quiz-header {
+    background: linear-gradient(135deg, var(--quiz-darkred), var(--quiz-red));
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .quiz-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    }
+
+    .quiz-header h1 {
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: var(--quiz-gold);
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    }
+
+    .by {
+    font-size: 2rem;
+    color: white;
+    font-weight: 700;
+    margin: 15px 0;
+    position: relative;
+    z-index: 1;
+    }
+
+    .tagline {
+    font-size: 1.4rem;
+    color: #ffefef;
+    margin: 10px 0;
+    position: relative;
+    z-index: 1;
+    }
+
+    .stats-bar {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    }
+
+    .stat {
+    text-align: center;
+    transition: var(--quiz-transition);
+    }
+
+    .stat:hover {
+    transform: translateY(-5px);
+    }
+
+    .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--quiz-gold);
+    }
+
+    .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    color: white;
+    }
+
+    .quiz-main {
+    padding: 40px;
+    text-align: center;
+    }
+
+    .question-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #666;
+    }
+
+    .difficulty {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    transition: var(--quiz-transition);
+    }
+
+    .difficulty.easy {
+    background: #dcfce7;
+    color: #166534;
+    }
+
+    .difficulty.medium {
+    background: #fef3c7;
+    color: #92400e;
+    }
+
+    .difficulty.hard {
+    background: #fee2e2;
+    color: #991b1b;
+    }
+
+    #question {
+    font-size: 2rem;
+    line-height: 1.6;
+    margin: 30px 0;
+    padding: 25px;
+    background: #fff0f0;
+    border-radius: 20px;
+    border-left: 8px solid var(--quiz-red);
+    font-weight: 700;
+    min-height: 120px;
+    color: #5a0000;
+    animation: slideIn 0.5s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    }
+
+    #question::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--quiz-darkred), var(--quiz-red));
+    }
+
+    @keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    }
+
+    .options {
+    display: grid;
+    gap: 15px;
+    margin: 30px 0;
+    }
+
+    .opt {
+    padding: 25px;
+    background: white;
+    border: 3px solid #e5e7eb;
+    border-radius: 20px;
+    font-size: 1.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--quiz-transition);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: #333;
+    }
+
+    .opt::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(59, 130, 246, 0.1),
+        transparent
+    );
+    transition: width 0.3s ease;
+    }
+
+    .opt:hover {
+    background: #f8fafc;
+    transform: translateY(-3px);
+    border-color: var(--quiz-blue);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .opt:hover::before {
+    width: 100%;
+    }
+
+    .opt.correct {
+    background: var(--quiz-green) !important;
+    color: white;
+    border-color: #16a34a;
+    transform: scale(1.02);
+    animation: pulse 0.5s ease;
+    }
+
+    .opt.wrong {
+    background: #ef4444;
+    color: white;
+    border-color: #dc2626;
+    animation: shake 0.5s ease;
+    }
+
+    @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
         transform: scale(1.02);
-        animation: pulse 0.5s ease;
-      }
-      .opt.wrong {
-        background: #ef4444;
-        color: white;
-        border-color: #dc2626;
-        animation: shake 0.5s ease;
-      }
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-        100% {
-          transform: scale(1.02);
-        }
-      }
-      @keyframes shake {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        20%,
-        60% {
-          transform: translateX(-5px);
-        }
-        40%,
-        80% {
-          transform: translateX(5px);
-        }
-      }
-      .opt-letter {
-        font-weight: 800;
-        margin-right: 15px;
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f1f5f9;
-        border-radius: 50%;
-        transition: var(--transition);
-      }
-      .opt:hover .opt-letter {
-        background: var(--blue);
-        color: white;
-      }
-      .opt.correct .opt-letter,
-      .opt.wrong .opt-letter {
-        background: rgba(255, 255, 255, 0.3);
-        color: white;
-      }
-      #result {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin: 30px 0;
-        min-height: 80px;
-        animation: popIn 0.5s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-      }
-      @keyframes popIn {
-        0% {
-          transform: scale(0.8);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-      .score-display {
-        background: linear-gradient(135deg, var(--blue), #1d4ed8);
-        color: white;
-        padding: 25px;
-        border-radius: 20px;
-        margin: 30px 0;
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-        position: relative;
-        overflow: hidden;
-      }
-      .score-display::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-        opacity: 0.1;
-      }
-      .score-value {
-        font-size: 4rem;
-        font-weight: 900;
-        color: var(--gold);
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        position: relative;
-        z-index: 1;
-      }
-      .streak {
-        font-size: 1.4rem;
-        margin-top: 10px;
-        opacity: 0.9;
-        position: relative;
-        z-index: 1;
-      }
-      .buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 30px;
-      }
-      button {
-        padding: 18px 40px;
-        border: none;
-        border-radius: 50px;
-        font-size: 1.7rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        position: relative;
-        overflow: hidden;
-      }
-      button::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-      button:hover::before {
-        left: 100%;
-      }
-      .btn-primary {
-        background: var(--darkred);
-        color: white;
-        box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
-      }
-      .btn-primary:hover {
-        background: #b22222;
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(139, 0, 0, 0.6);
-      }
-      .btn-secondary {
-        background: #6b7280;
-        color: white;
-      }
-      .btn-secondary:hover {
-        background: #4b5563;
-        transform: translateY(-3px);
-      }
-      .explanation {
-        background: #f0f9ff;
-        border: 2px solid #0ea5e9;
-        border-radius: 15px;
+    }
+    }
+
+    @keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    20%,
+    60% {
+        transform: translateX(-5px);
+    }
+    40%,
+    80% {
+        transform: translateX(5px);
+    }
+    }
+
+    .opt-letter {
+    font-weight: 800;
+    margin-right: 15px;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 50%;
+    transition: var(--quiz-transition);
+    color: #333;
+    }
+
+    .opt:hover .opt-letter {
+    background: var(--quiz-blue);
+    color: white;
+    }
+
+    .opt.correct .opt-letter,
+    .opt.wrong .opt-letter {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    }
+
+    #result {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 30px 0;
+    min-height: 80px;
+    animation: popIn 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    }
+
+    @keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    }
+
+    .score-display {
+    background: linear-gradient(135deg, var(--quiz-blue), #1d4ed8);
+    color: white;
+    padding: 25px;
+    border-radius: 20px;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    position: relative;
+    overflow: hidden;
+    }
+
+    .score-display::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    }
+
+    .score-value {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--quiz-gold);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    }
+
+    .streak {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+    }
+
+    .buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    }
+
+    .quiz-btn {
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--quiz-transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .quiz-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.5s ease;
+    }
+
+    .quiz-btn:hover::before {
+    left: 100%;
+    }
+
+    .btn-primary {
+    background: var(--quiz-darkred);
+    color: white;
+    box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
+    }
+
+    .btn-primary:hover {
+    background: #b22222;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(139, 0, 0, 0.6);
+    }
+
+    .btn-secondary {
+    background: #6b7280;
+    color: white;
+    }
+
+    .btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-3px);
+    }
+
+    .explanation {
+    background: #f0f9ff;
+    border: 2px solid #0ea5e9;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+    font-size: 1.4rem;
+    color: #0369a1;
+    animation: slideUp 0.5s ease;
+    position: relative;
+    }
+
+    .explanation::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: #0ea5e9;
+    border-radius: 5px 0 0 5px;
+    }
+
+    @keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+
+    .loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--quiz-red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+
+    .quiz-footer {
+    text-align: center;
+    padding: 25px;
+    background: var(--quiz-darkred);
+    color: white;
+    font-size: 1.2rem;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .quiz-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    }
+
+    .kushal {
+    color: var(--quiz-gold);
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    }
+
+    .progress-container {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+    }
+
+    .progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--quiz-green), var(--quiz-blue));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+    }
+
+    @media (max-width: 768px) {
+    .quiz-header h1 {
+        font-size: 2.8rem;
+    }
+    .by {
+        font-size: 1.6rem;
+    }
+    #question {
+        font-size: 1.6rem;
         padding: 20px;
-        margin: 20px 0;
-        text-align: left;
+    }
+    .opt {
         font-size: 1.4rem;
-        color: #0369a1;
-        animation: slideUp 0.5s ease;
-        position: relative;
-      }
-      .explanation::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 5px;
-        height: 100%;
-        background: #0ea5e9;
-        border-radius: 5px 0 0 5px;
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .loading {
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid var(--red);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      footer {
-        text-align: center;
-        padding: 25px;
-        background: var(--darkred);
-        color: white;
-        font-size: 1.2rem;
-        position: relative;
-        overflow: hidden;
-      }
-      footer::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-        opacity: 0.1;
-      }
-      .kushal {
-        color: var(--gold);
-        font-weight: bold;
-        position: relative;
-        z-index: 1;
-      }
-      .progress-container {
-        width: 100%;
-        height: 8px;
-        background: #e5e7eb;
-        border-radius: 10px;
-        margin: 20px 0;
-        overflow: hidden;
-      }
-      .progress-bar {
-        height: 100%;
-        background: linear-gradient(to right, var(--green), var(--blue));
-        border-radius: 10px;
-        transition: width 0.5s ease;
-        width: 0%;
-      }
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 2.8rem;
-        }
-        .by {
-          font-size: 1.6rem;
-        }
-        #question {
-          font-size: 1.6rem;
-          padding: 20px;
-        }
-        .opt {
-          font-size: 1.4rem;
-          padding: 20px;
-        }
-        .score-value {
-          font-size: 3rem;
-        }
-        button {
-          font-size: 1.4rem;
-          padding: 15px 30px;
-        }
-        .stats-bar {
-          flex-direction: column;
-          gap: 10px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h1>लोकसेवा क्विज मास्टर</h1>
-        <div class="by">कुशल सापकोटा द्वारा निर्मित</div>
-        <div class="tagline">
-          नेपालको नं. १ लोकसेवा तयारी एप • १००% AI द्वारा संचालित
-        </div>
+        padding: 20px;
+    }
+    .score-value {
+        font-size: 3rem;
+    }
+    .quiz-btn {
+        font-size: 1.4rem;
+        padding: 15px 30px;
+    }
+    .stats-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    }
+</style>
+{% endblock %}
 
-        <div class="stats-bar">
-          <div class="stat">
-            <div class="stat-value" id="totalQuestions">0</div>
-            <div class="stat-label">प्रश्नहरू</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="accuracy">0%</div>
-            <div class="stat-label">सटिकता</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="currentStreak">0</div>
-            <div class="stat-label">स्ट्रिक</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="maxStreak">0</div>
-            <div class="stat-label">अधिकतम</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="main">
-        <div class="question-meta">
-          <div class="domain" id="domain">विषय: लोड हुँदैछ...</div>
-          <div class="difficulty" id="difficulty">सजिलो</div>
-        </div>
-
-        <div id="question">
-          <div class="loading"></div>
-          प्रश्न तयार हुँदैछ...
-        </div>
-
-        <div class="options" id="options"></div>
-
-        <div id="result"></div>
-        <div id="explanation"></div>
-
-        <div class="score-display">
-          <div>स्कोर</div>
-          <div class="score-value" id="score">0</div>
-          <div class="streak">
-            वर्तमान स्ट्रिक: <span id="streakDisplay">0</span>
-          </div>
-        </div>
-
-        <div class="progress-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <div class="buttons">
-          <button class="btn-primary" onclick="newQuestion()">
-            <i class="fas fa-forward"></i> अर्को प्रश्न
-          </button>
-          <button class="btn-secondary" onclick="resetQuiz()">
-            <i class="fas fa-redo"></i> रिसेट
-          </button>
-        </div>
-      </div>
-
-      <footer>
-        © 2025 <span class="kushal">कुशल सापकोटा</span> • नेपालको गर्व • लोकसेवा
-        जित्ने बाटो यहीँबाट सुरु हुन्छ
-      </footer>
+{% block content %}
+<div class="quiz-container">
+    <div class="quiz-header">
+    <h1>लोकसेवा क्विज मास्टर</h1>
+    <div class="by">कुशल सापकोटा द्वारा निर्मित</div>
+    <div class="tagline">
+        नेपालको नं. १ लोकसेवा तयारी एप • १००% AI द्वारा संचालित
     </div>
 
-    <script>
-      let score = 0;
-      let currentStreak = 0;
-      let maxStreak = 0;
-      let totalQuestions = 0;
-      let correctAnswers = 0;
-      const letters = ["क", "ख", "ग", "घ"];
+    <div class="stats-bar">
+        <div class="stat">
+        <div class="stat-value" id="totalQuestions">0</div>
+        <div class="stat-label">प्रश्नहरू</div>
+        </div>
+        <div class="stat">
+        <div class="stat-value" id="accuracy">0%</div>
+        <div class="stat-label">सटिकता</div>
+        </div>
+        <div class="stat">
+        <div class="stat-value" id="currentStreak">0</div>
+        <div class="stat-label">स्ट्रिक</div>
+        </div>
+        <div class="stat">
+        <div class="stat-value" id="maxStreak">0</div>
+        <div class="stat-label">अधिकतम</div>
+        </div>
+    </div>
+    </div>
 
-      // Initialize stats
-      updateStats();
+    <div class="quiz-main">
+    <div class="question-meta">
+        <div class="domain" id="domain">विषय: लोड हुँदैछ...</div>
+        <div class="difficulty" id="difficulty">सजिलो</div>
+    </div>
 
-      function newQuestion() {
-        document.getElementById("result").innerHTML = "";
-        document.getElementById("explanation").innerHTML = "";
-        document.getElementById("question").innerHTML =
-          '<div class="loading"></div> प्रश्न तयार हुँदैछ...';
-        document.getElementById("options").innerHTML = "";
-        document.getElementById("domain").textContent = "विषय: लोड हुँदैछ...";
-        document.getElementById("difficulty").textContent = "सजिलो";
-        document.getElementById("difficulty").className = "difficulty easy";
+    <div id="question">
+        <div class="loading"></div>
+        प्रश्न तयार हुँदैछ...
+    </div>
 
-        fetch("/quiz/api/new/")
-          .then((r) => r.json())
-          .then((data) => {
-            if (data.success) {
-              displayQuestion(data);
-              updateStats();
-            } else {
-              showError("प्रश्न लोड गर्न असफल");
-            }
-          })
-          .catch((err) => {
-            showError("सर्भरमा समस्या छ। कृपया पछि प्रयास गर्नुहोस्।");
-          });
-      }
+    <div class="options" id="options"></div>
 
-      function displayQuestion(data) {
-        document.getElementById("question").textContent = data.question;
-        document.getElementById(
-          "domain"
-        ).textContent = `विषय: ${data.domain} - ${data.topic}`;
+    <div id="result"></div>
+    <div id="explanation"></div>
 
-        // Set difficulty styling
-        const difficultyElem = document.getElementById("difficulty");
-        difficultyElem.textContent = data.difficulty;
-        difficultyElem.className = `difficulty ${
-          data.difficulty === "सजिलो"
-            ? "easy"
-            : data.difficulty === "मध्यम"
-            ? "medium"
-            : "hard"
-        }`;
+    <div class="score-display">
+        <div>स्कोर</div>
+        <div class="score-value" id="score">0</div>
+        <div class="streak">
+        वर्तमान स्ट्रिक: <span id="streakDisplay">0</span>
+        </div>
+    </div>
 
-        const container = document.getElementById("options");
-        container.innerHTML = "";
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
-        letters.forEach((letter) => {
-          if (data.options[letter]) {
-            const div = document.createElement("div");
-            div.className = "opt";
-            div.innerHTML = `
-                        <span class="opt-letter">${letter}</span>
-                        <span>${data.options[letter]}</span>
-                    `;
-            div.onclick = () => checkAnswer(letter, div);
-            container.appendChild(div);
-          }
-        });
-      }
+    <div class="buttons">
+        <button class="quiz-btn btn-primary" onclick="newQuestion()">
+        <i class="fas fa-forward"></i> अर्को प्रश्न
+        </button>
+        <button class="quiz-btn btn-secondary" onclick="resetQuiz()">
+        <i class="fas fa-redo"></i> रिसेट
+        </button>
+    </div>
+    </div>
 
-      function checkAnswer(choice, element) {
-        document.querySelectorAll(".opt").forEach((el) => {
-          el.style.pointerEvents = "none";
-        });
+    <div class="quiz-footer">
+    © 2025 <span class="kushal">कुशल सापकोटा</span> • नेपालको गर्व • लोकसेवा
+    जित्ने बाटो यहीँबाट सुरु हुन्छ
+    </div>
+</div>
+{% endblock %}
 
-        fetch("/quiz/api/check/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ choice: choice }),
-        })
-          .then((r) => r.json())
-          .then((res) => {
-            totalQuestions++;
+{% block extra_js %}
+<script>
+    let score = 0;
+    let currentStreak = 0;
+    let maxStreak = 0;
+    let totalQuestions = 0;
+    let correctAnswers = 0;
+    const letters = ["क", "ख", "ग", "घ"];
 
-            if (res.correct) {
-              element.classList.add("correct");
-              document.getElementById("result").innerHTML =
-                '<div style="color:#22c55e;"><i class="fas fa-check-circle"></i> सही जवाफ!</div>';
-              score++;
-              currentStreak++;
-              correctAnswers++;
-              maxStreak = Math.max(maxStreak, currentStreak);
+    // Initialize stats
+    updateStats();
 
-              if (res.explanation) {
-                document.getElementById(
-                  "explanation"
-                ).innerHTML = `<div class="explanation"><strong>व्याख्या:</strong> ${res.explanation}</div>`;
-              }
-            } else {
-              element.classList.add("wrong");
-              currentStreak = 0;
+    function newQuestion() {
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("explanation").innerHTML = "";
+    document.getElementById("question").innerHTML =
+        '<div class="loading"></div> प्रश्न तयार हुँदैछ...';
+    document.getElementById("options").innerHTML = "";
+    document.getElementById("domain").textContent = "विषय: लोड हुँदैछ...";
+    document.getElementById("difficulty").textContent = "सजिलो";
+    document.getElementById("difficulty").className = "difficulty easy";
 
-              const correctAns = res.correct_answer || "ख";
-              document.getElementById("result").innerHTML = `
-                        <div style="color:#ef4444;"><i class="fas fa-times-circle"></i> गलत!</div>
-                        <div style="color:#f59e0b; margin-top:10px; font-size:2rem;">
-                            सही जवाफ: <b>${correctAns}) ${
-                res.correct_text || ""
-              }</b>
-                        </div>
-                    `;
-
-              // Highlight correct answer
-              document.querySelectorAll(".opt").forEach((opt) => {
-                if (
-                  opt.querySelector(".opt-letter").textContent === correctAns
-                ) {
-                  opt.classList.add("correct");
-                }
-              });
-            }
-
+    fetch("/quiz/api/new/")
+        .then((r) => r.json())
+        .then((data) => {
+        if (data.success) {
+            displayQuestion(data);
             updateStats();
-          })
-          .catch((err) => {
+        } else {
+            showError("प्रश्न लोड गर्न असफल");
+        }
+        })
+        .catch((err) => {
+        showError("सर्भरमा समस्या छ। कृपया पछि प्रयास गर्नुहोस्।");
+        });
+    }
+
+    function displayQuestion(data) {
+    document.getElementById("question").textContent = data.question;
+    document.getElementById(
+        "domain"
+    ).textContent = `विषय: ${data.domain} - ${data.topic}`;
+
+    // Set difficulty styling
+    const difficultyElem = document.getElementById("difficulty");
+    difficultyElem.textContent = data.difficulty;
+    difficultyElem.className = `difficulty ${
+        data.difficulty === "सजिलो"
+        ? "easy"
+        : data.difficulty === "मध्यम"
+        ? "medium"
+        : "hard"
+    }`;
+
+    const container = document.getElementById("options");
+    container.innerHTML = "";
+
+    letters.forEach((letter) => {
+        if (data.options[letter]) {
+        const div = document.createElement("div");
+        div.className = "opt";
+        div.innerHTML = `
+                    <span class="opt-letter">${letter}</span>
+                    <span>${data.options[letter]}</span>
+                `;
+        div.onclick = () => checkAnswer(letter, div);
+        container.appendChild(div);
+        }
+    });
+    }
+
+    function checkAnswer(choice, element) {
+    document.querySelectorAll(".opt").forEach((el) => {
+        el.style.pointerEvents = "none";
+    });
+
+    fetch("/quiz/api/check/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ choice: choice }),
+    })
+        .then((r) => r.json())
+        .then((res) => {
+        totalQuestions++;
+
+        if (res.correct) {
+            element.classList.add("correct");
             document.getElementById("result").innerHTML =
-              '<div style="color:#ef4444;">जवाफ जाँच गर्न असफल</div>';
-          });
-      }
+            '<div style="color:#22c55e;"><i class="fas fa-check-circle"></i> सही जवाफ!</div>';
+            score++;
+            currentStreak++;
+            correctAnswers++;
+            maxStreak = Math.max(maxStreak, currentStreak);
 
-      function updateStats() {
-        document.getElementById("score").textContent = score;
-        document.getElementById("streakDisplay").textContent = currentStreak;
-        document.getElementById("totalQuestions").textContent = totalQuestions;
-        document.getElementById("currentStreak").textContent = currentStreak;
-        document.getElementById("maxStreak").textContent = maxStreak;
+            if (res.explanation) {
+            document.getElementById(
+                "explanation"
+            ).innerHTML = `<div class="explanation"><strong>व्याख्या:</strong> ${res.explanation}</div>`;
+            }
+        } else {
+            element.classList.add("wrong");
+            currentStreak = 0;
 
-        const accuracy =
-          totalQuestions > 0
-            ? Math.round((correctAnswers / totalQuestions) * 100)
-            : 0;
-        document.getElementById("accuracy").textContent = accuracy + "%";
+            const correctAns = res.correct_answer || "ख";
+            document.getElementById("result").innerHTML = `
+                    <div style="color:#ef4444;"><i class="fas fa-times-circle"></i> गलत!</div>
+                    <div style="color:#f59e0b; margin-top:10px; font-size:2rem;">
+                        सही जवाफ: <b>${correctAns}) ${
+            res.correct_text || ""
+            }</b>
+                    </div>
+                `;
 
-        // Update progress bar
-        document.getElementById("progressBar").style.width = accuracy + "%";
-      }
-
-      function resetQuiz() {
-        if (
-          confirm(
-            "के तपाईं क्विज रिसेट गर्न चाहनुहुन्छ? तपाईंको सबै डाटा हराउनेछ।"
-          )
-        ) {
-          fetch("/quiz/api/reset/", { method: "POST" })
-            .then((r) => r.json())
-            .then(() => {
-              score = 0;
-              currentStreak = 0;
-              maxStreak = 0;
-              totalQuestions = 0;
-              correctAnswers = 0;
-              updateStats();
-              newQuestion();
+            // Highlight correct answer
+            document.querySelectorAll(".opt").forEach((opt) => {
+            if (
+                opt.querySelector(".opt-letter").textContent === correctAns
+            ) {
+                opt.classList.add("correct");
+            }
             });
         }
-      }
 
-      function showError(message) {
-        document.getElementById(
-          "question"
-        ).innerHTML = `<div style="color:#ef4444; font-size:1.6rem;"><i class="fas fa-exclamation-triangle"></i> ${message}</div>`;
-      }
+        updateStats();
+        })
+        .catch((err) => {
+        document.getElementById("result").innerHTML =
+            '<div style="color:#ef4444;">जवाफ जाँच गर्न असफल</div>';
+        });
+    }
 
-      // Load first question
-      newQuestion();
+    function updateStats() {
+    document.getElementById("score").textContent = score;
+    document.getElementById("streakDisplay").textContent = currentStreak;
+    document.getElementById("totalQuestions").textContent = totalQuestions;
+    document.getElementById("currentStreak").textContent = currentStreak;
+    document.getElementById("maxStreak").textContent = maxStreak;
 
-      // Auto-refresh stats every 5 seconds
-      setInterval(updateStats, 5000);
-    </script>
-  </body>
-</html>
+    const accuracy =
+        totalQuestions > 0
+        ? Math.round((correctAnswers / totalQuestions) * 100)
+        : 0;
+    document.getElementById("accuracy").textContent = accuracy + "%";
+
+    // Update progress bar
+    document.getElementById("progressBar").style.width = accuracy + "%";
+    }
+
+    function resetQuiz() {
+    if (
+        confirm(
+        "के तपाईं क्विज रिसेट गर्न चाहनुहुन्छ? तपाईंको सबै डाटा हराउनेछ।"
+        )
+    ) {
+        fetch("/quiz/api/reset/", { method: "POST" })
+        .then((r) => r.json())
+        .then((() => {
+            score = 0;
+            currentStreak = 0;
+            maxStreak = 0;
+            totalQuestions = 0;
+            correctAnswers = 0;
+            updateStats();
+            newQuestion();
+        }));
+    }
+    }
+
+    function showError(message) {
+    document.getElementById(
+        "question"
+    ).innerHTML = `<div style="color:#ef4444; font-size:1.6rem;"><i class="fas fa-exclamation-triangle"></i> ${message}</div>`;
+    }
+
+    // Load first question
+    newQuestion();
+
+    // Auto-refresh stats every 5 seconds
+    setInterval(updateStats, 5000);
+</script>
+{% endblock %}
