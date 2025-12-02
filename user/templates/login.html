@@ -1,184 +1,143 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InBuild Login</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+{% extends 'base.html' %}
 
-      body {
-        font-family: "Arial", sans-serif;
-        background: linear-gradient(135deg, #67b26f, #4ca2cd);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #333;
-      }
+{% block title %}InBuild Login{% endblock %}
 
-      .login-container {
-        background: #ffffff;
-        padding: 2.5rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
-        width: 350px;
-        text-align: center;
-        box-sizing: border-box;
-        transform: translateY(30px);
-        animation: slideUp 0.5s ease-out forwards;
-      }
+{% block extra_css %}
+<style>
+  /* Login specific styles */
+  .login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Adjust as needed */
+  }
 
-      @keyframes slideUp {
-        0% {
-          transform: translateY(30px);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
+  .login-container {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid var(--border);
+    animation: slideUp 0.5s ease-out forwards;
+  }
 
-      .login-container h2 {
-        font-size: 1.8rem;
-        color: #4b4f54;
-        margin-bottom: 1.5rem;
-        font-weight: 700;
-      }
+  @keyframes slideUp {
+    0% {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 
-      .login-container img {
-        width: 80px;
-        margin-bottom: 20px;
-      }
+  .login-container h2 {
+    font-size: 1.8rem;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
 
-      .login-container input[type="text"],
-      .login-container input[type="password"] {
-        width: 100%;
-        padding: 0.9rem;
-        margin-bottom: 1.2rem;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
+  .login-container img {
+    width: 80px;
+    margin-bottom: 20px;
+    border-radius: 50%; /* Optional: make it round */
+  }
 
-      .login-container input[type="text"]:focus,
-      .login-container input[type="password"]:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-      }
+  .login-container input[type="text"],
+  .login-container input[type="password"] {
+    width: 100%;
+    padding: 0.9rem;
+    margin-bottom: 1.2rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
 
-      .login-container button {
-        width: 100%;
-        padding: 0.9rem;
-        background-color: #007bff;
-        border: none;
-        color: white;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-      }
+  .login-container input[type="text"]:focus,
+  .login-container input[type="password"]:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.3);
+  }
 
-      .login-container button:hover {
-        background-color: #0056b3;
-        transform: translateY(-3px);
-      }
+  .login-container button {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: var(--primary);
+    border: none;
+    color: var(--bg);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
 
-      .login-container button:active {
-        transform: translateY(1px);
-      }
+  .login-container button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
+  }
 
-      .error {
-        color: red;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-        text-align: center;
-      }
+  .login-container button:active {
+    transform: translateY(1px);
+  }
 
-      .login-container .forgot-password {
-        color: #007bff;
-        text-decoration: none;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin-top: 1rem;
-        transition: color 0.3s ease;
-      }
+  .error {
+    color: var(--red);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
 
-      .login-container .forgot-password:hover {
-        color: #0056b3;
-      }
+  .login-container .forgot-password {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-top: 1rem;
+    transition: color 0.3s ease;
+  }
 
-      .login-container a {
-        display: block;
-        margin-top: 10px;
-        font-size: 0.9rem;
-        color: #007bff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
+  .login-container .forgot-password:hover {
+    color: var(--primary-hover);
+  }
+</style>
+{% endblock %}
 
-      .login-container a:hover {
-        color: #0056b3;
-      }
+{% block content %}
+<div class="login-wrapper">
+  <div class="login-container">
+    <!-- You might want to replace this placeholder with a real logo or icon -->
+    <i class="fas fa-user-circle" style="font-size: 80px; color: var(--primary); margin-bottom: 20px;"></i>
+    <h2>Login to InBuild</h2>
 
-      /* For accessibility */
-      input:focus,
-      button:focus {
-        outline: none;
-      }
-
-      /* Responsive */
-      @media (max-width: 480px) {
-        .login-container {
-          width: 280px;
-          padding: 2rem;
-        }
-
-        .login-container h2 {
-          font-size: 1.6rem;
-        }
-
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-          padding: 0.8rem;
-        }
-
-        .login-container button {
-          padding: 0.8rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="login-container">
-      <img src="https://via.placeholder.com/80" alt="Logo" />
-      <h2>Login to InBuild</h2>
-
-      {% if form.non_field_errors %}
-      <div class="error">
-        {% for error in form.non_field_errors %} {{ error }} {% endfor %}
-      </div>
-      {% endif %}
-
-      <form action="{% url 'user:login' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Username" required />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-
-      <a href="#" class="forgot-password">Forgot your password?</a>
+    {% if form.non_field_errors %}
+    <div class="error">
+      {% for error in form.non_field_errors %} {{ error }} {% endfor %}
     </div>
-  </body>
-</html>
+    {% endif %}
+
+    <form action="{% url 'user:login' %}" method="POST">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" required />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <button type="submit">Login</button>
+    </form>
+
+    <a href="#" class="forgot-password">Forgot your password?</a>
+  </div>
+</div>
+{% endblock %}
