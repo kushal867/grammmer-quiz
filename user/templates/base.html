@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
   <head>
@@ -11,79 +12,165 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
-
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    
     <style>
-      :root {
-        --bg: #0a0818;
-        --surface: #141228;
-        --surface-2: #1c1938;
-        --border: #2d264f;
-        --text: #f1f5f9;
-        --text-muted: #94a3b8;
-        --primary: #a78bfa;
-        --primary-hover: #c4b5fd;
-        --accent: #fadcb6;
-        --red: #dc143c;
-        --darkred: #8b0000;
-        --green: #22c55e;
-        --blue: #3b82f6;
-        --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
-        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
+      /* CSS Variables are now in main.css */
 
-      * {margin:0;padding:0;box-sizing:border-box;}
-
-      body {
-        font-family:"Inter",sans-serif;
-        background:linear-gradient(135deg,#0a0818,#1a162e,#2d1b69);
-        color:var(--text);
-        min-height:100vh;
-        background-attachment:fixed;
-      }
+      /* Base styles are now in main.css */
 
       .navbar {
-        background:rgba(20,18,40,0.95);
-        backdrop-filter:blur(20px);
-        border-bottom:1px solid var(--border);
-        padding:1rem 2rem;
-        position:sticky;
-        top:0;
-        z-index:1000;
+        background: rgba(20,18,40,0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
       }
 
       .nav-container {
-        max-width:1200px;
-        margin:auto;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
       }
 
       .nav-logo {
-        font-size:1.8rem;font-weight:900;
-        background:linear-gradient(90deg,#a78bfa,#fadcb6);
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
-        text-decoration:none;
-        display:flex;align-items:center;gap:0.5rem;
+        font-size: 1.8rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+      }
+      
+      .nav-logo:hover {
+        transform: translateY(-2px);
       }
 
-      .nav-links {display:flex;gap:2rem;align-items:center;}
-      .nav-link {text-decoration:none;color:white;font-weight:500;padding:0.5rem 1rem;border-radius:8px;}
-      .nav-link:hover {background:var(--surface-2);color:var(--primary);}
-      .nav-link.active {background:var(--primary);color:var(--bg);}
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          position: fixed;
+          top: var(--header-height);
+          right: -100%;
+          flex-direction: column;
+          background: var(--surface);
+          width: 80%;
+          max-width: 300px;
+          height: calc(100vh - var(--header-height));
+          padding: 2rem 0;
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+          z-index: 1000;
+          overflow-y: auto;
+        }
+
+        .nav-links.active {
+          right: 0;
+        }
+
+        .nav-link {
+          width: 100%;
+          text-align: center;
+          padding: 1rem 0;
+        }
+      }
+      .nav-link {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-link:hover {
+        background: var(--surface-2);
+        color: var(--primary);
+        transform: translateY(-2px);
+      }
+      .nav-link.active {
+        background: var(--primary);
+        color: var(--bg);
+        font-weight: 600;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: var(--transition);
+        z-index: 1001;
+      }
+
+      .mobile-menu-btn:hover {
+        background: var(--primary);
+        color: var(--bg);
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+      }
 
       .btn-logout {
-        background:var(--red);color:white;border:none;padding:0.5rem 1.2rem;border-radius:8px;cursor:pointer;
+        background: var(--red);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.4rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
-      .btn-logout:hover {background:var(--darkred);transform:translateY(-2px);}
-      .user-info {display:flex;gap:1rem;align-items:center;}
-      .messages {margin:1rem auto;max-width:1200px;padding:0 1rem;}
-      .alert {padding:1rem;border-radius:8px;margin-bottom:1rem;animation:slideIn 0.3s ease;}
-      @keyframes slideIn {from{opacity:0;transform:translateX(-50%)} to{opacity:1;transform:translateX(0)}}
-      .alert-success {background:rgba(34,197,94,0.1);border:1px solid var(--green);color:var(--green);}
-      .alert-error {background:rgba(220,20,60,0.1);border:1px solid var(--red);color:var(--red);}
-      .alert-info {background:rgba(59,130,246,0.1);border:1px solid var(--blue);color:var(--blue);}
+      .btn-logout:hover {
+        background: var(--darkred);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+      }
+      .user-info {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      
+      .messages {
+        margin: 1rem auto;
+        max-width: 1200px;
+        padding: 0 1rem;
+      }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -99,9 +186,11 @@
           <i class="fas fa-brain"></i> Kushal Apps
         </a>
 
-        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <i class="fas fa-bars"></i>
+    </button>
 
-        <div class="nav-links" id="navLinks">
+        <div class="nav-links" id="navLinks" role="menu">
 
           <!-- ✅ FIXED HOME BUTTON -->
           <a href="{% url 'user:login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
@@ -134,7 +223,7 @@
     </nav>
 
     <!-- Messages -->
-    <div class="messages">
+    <div class="messages" aria-live="polite">
       {% if messages %} {% for message in messages %}
       <div class="alert alert-{{ message.tags }}">
         <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'info' %}fa-info-circle{% endif %}"></i>
@@ -158,17 +247,38 @@
 
     <!-- JavaScript -->
     <script>
-      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
-        document.getElementById("navLinks").classList.toggle("active");
-      });
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (mobileMenuBtn && navLinks) {
+          mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 
+              mobileMenuBtn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+            );
+          });
+        }
 
-      setTimeout(() => {
-        document.querySelectorAll(".alert").forEach(alert => {
-          alert.style.opacity = "0";
-          alert.style.transform = "translateX(50%)";
-          setTimeout(() => alert.remove(), 300);
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (window.innerWidth <= 768 && 
+              !e.target.closest('#navLinks') && 
+              !e.target.closest('#mobileMenuBtn')) {
+            navLinks.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+          }
         });
-      }, 5000);
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(() => {
+          document.querySelectorAll(".alert").forEach(alert => {
+            alert.style.opacity = "0";
+            alert.style.transform = "translateY(-20px)";
+            setTimeout(() => alert.remove(), 300);
+          });
+        }, 5000);
+      });
     </script>
 
     {% block extra_js %}{% endblock %}
