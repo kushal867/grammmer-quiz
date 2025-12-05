@@ -64,6 +64,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'ai.wsgi.application'
 
 # -------------------------------
