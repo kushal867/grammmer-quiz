@@ -530,3 +530,11 @@ INFO 2025-12-06 11:53:27,458 basehttp 2752 15548 "GET /assistant/improve HTTP/1.
 INFO 2025-12-06 11:53:42,451 basehttp 2752 8916 "GET /quiz/api/new/ HTTP/1.1" 200 1220
 INFO 2025-12-06 11:54:15,921 basehttp 2752 21680 "POST /assistant/api/improve/ HTTP/1.1" 200 18
 INFO 2025-12-06 11:54:16,942 basehttp 2752 15548 "POST /assistant/api/improve/ HTTP/1.1" 200 31
+INFO 2025-12-06 12:04:48,969 autoreload 7816 25428 Watching for file changes with StatReloader
+INFO 2025-12-06 12:04:53,312 basehttp 7816 24892 "GET / HTTP/1.1" 302 0
+INFO 2025-12-06 12:04:53,383 basehttp 7816 24892 "GET /quiz/quiz HTTP/1.1" 200 31651
+WARNING 2025-12-06 12:04:57,781 basehttp 7816 24884 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-06 12:04:59,224 basehttp 7816 24884 "GET /assistant/improve HTTP/1.1" 200 18887
+INFO 2025-12-06 12:05:03,008 basehttp 7816 24884 "GET /quiz/quiz HTTP/1.1" 200 31651
+INFO 2025-12-06 12:05:20,056 basehttp 7816 24892 "GET /quiz/api/new/ HTTP/1.1" 200 968
+INFO 2025-12-06 12:05:28,730 basehttp 7816 24892 "GET /quiz/api/new/ HTTP/1.1" 200 849
