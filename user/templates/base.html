@@ -171,6 +171,33 @@
         max-width: 1200px;
         padding: 0 1rem;
       }
+
+      /* Footer Styles */
+      .footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 2rem 1rem;
+        margin-top: 4rem;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-content p {
+        margin: 0;
+        color: var(--text-muted);
+      }
+
+      .kushal-brand {
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
     </style>
 
     {% block extra_css %}{% endblock %}

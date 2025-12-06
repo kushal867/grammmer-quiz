@@ -1,10 +1,19 @@
 from django import forms
-from .models import Login
+from django.contrib.auth.forms import AuthenticationForm
 
-
-class LoginForm(forms.ModelForm):
-
-    class Meta:
-        model = Login
-
-        fields = "__all__"
+# Using Django's built-in AuthenticationForm
+# This provides secure authentication with proper password validation
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your username',
+            'autofocus': True
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your password'
+        })
+    )

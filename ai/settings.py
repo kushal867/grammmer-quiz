@@ -135,8 +135,9 @@ X_FRAME_OPTIONS = 'DENY'
 MAX_LOGIN_ATTEMPTS = 5  # Maximum number of failed login attempts before blocking
 
 # Password hashing
+# Using PBKDF2 as primary hasher (built-in, no extra dependencies)
+# Still secure and recommended by Django
 PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
