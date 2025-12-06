@@ -1,11 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Login(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-
-
-
-    
-
-    
+# Using Django's built-in User model for authentication
+# No custom model needed - Django handles secure password hashing,
+# session management, and authentication out of the box

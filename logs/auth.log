@@ -337,3 +337,196 @@ INFO 2025-12-05 21:36:16,442 basehttp 11108 18904 "GET /quiz/quiz HTTP/1.1" 200 
 INFO 2025-12-05 21:39:11,397 autoreload 1472 22524 Watching for file changes with StatReloader
 INFO 2025-12-05 21:48:47,523 autoreload 1472 22524 D:\machione\ai\user\models.py changed, reloading.
 INFO 2025-12-05 21:48:48,741 autoreload 22860 11748 Watching for file changes with StatReloader
+INFO 2025-12-05 21:53:08,200 autoreload 8640 16052 Watching for file changes with StatReloader
+INFO 2025-12-05 21:53:12,664 basehttp 8640 5972 "GET / HTTP/1.1" 200 15336
+WARNING 2025-12-05 21:53:16,372 basehttp 8640 5972 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-05 21:53:19,951 basehttp 8640 14556 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-05 21:53:20,313 basehttp 8640 14556 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4173
+INFO 2025-12-05 21:53:23,042 basehttp 8640 14556 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4342
+ERROR 2025-12-05 21:53:29,405 log 8640 21904 Internal Server Error: /admin/login/
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\admin\sites.py", line 449, in login
+    return LoginView.as_view(**defaults)(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\generic\base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-05 21:53:29,416 basehttp 8640 21904 "POST /admin/login/?next=/admin/ HTTP/1.1" 500 228602
+INFO 2025-12-05 21:55:10,118 autoreload 5308 7716 Watching for file changes with StatReloader
+INFO 2025-12-05 21:55:18,206 basehttp 5308 8176 "GET / HTTP/1.1" 200 15336
+INFO 2025-12-05 21:55:21,565 basehttp 5308 8176 "GET /assistant/improve HTTP/1.1" 200 17912
+WARNING 2025-12-05 21:55:26,176 basehttp 5308 8176 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:27,552 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:27,722 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:27,879 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,023 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,148 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,296 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,420 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,558 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,720 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:28,899 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,046 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,198 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,353 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,493 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,624 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,756 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:29,888 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,048 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,229 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,389 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,532 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,700 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:30,864 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:31,017 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:31,186 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2025-12-05 21:55:31,350 basehttp 5308 13040 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+INFO 2025-12-05 21:56:32,190 basehttp 5308 19616 "GET /quiz/quiz HTTP/1.1" 200 30676
+INFO 2025-12-06 11:50:40,184 autoreload 21648 23964 Watching for file changes with StatReloader
+INFO 2025-12-06 11:50:46,099 basehttp 21648 8732 "GET / HTTP/1.1" 200 15970
+INFO 2025-12-06 11:50:46,268 basehttp 21648 8732 "GET /static/css/main.css HTTP/1.1" 304 0
+WARNING 2025-12-06 11:50:50,268 basehttp 21648 8732 "GET /favicon.ico HTTP/1.1" 404 3154
+ERROR 2025-12-06 11:50:55,384 log 21648 8732 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 225, in _load_library
+    module = importlib.import_module(mod_path)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'argon2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\machione\ai\user\views.py", line 13, in user_login
+    if form.is_valid():
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\backends.py", line 71, in authenticate
+    if user.check_password(password) and self.user_can_authenticate(user):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 112, in check_password
+    return check_password(raw_password, self.password, setter)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 82, in check_password
+    setter(password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 107, in setter
+    self.set_password(raw_password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\base_user.py", line 97, in set_password
+    self.password = make_password(raw_password)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 113, in make_password
+    return hasher.encode(password, salt)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 396, in encode
+    argon2 = self._load_library()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\hashers.py", line 227, in _load_library
+    raise ValueError(
+ValueError: Couldn't load 'Argon2PasswordHasher' algorithm library: No module named 'argon2'
+ERROR 2025-12-06 11:50:55,393 basehttp 21648 8732 "POST / HTTP/1.1" 500 156286
+INFO 2025-12-06 11:51:34,559 autoreload 21648 23964 D:\machione\ai\ai\settings.py changed, reloading.
+INFO 2025-12-06 11:51:36,081 autoreload 9580 22100 Watching for file changes with StatReloader
+INFO 2025-12-06 11:51:58,835 basehttp 9580 14232 "GET / HTTP/1.1" 200 15970
+INFO 2025-12-06 11:52:08,030 basehttp 9580 14232 "POST / HTTP/1.1" 302 0
+INFO 2025-12-06 11:52:08,065 basehttp 9580 14232 "GET /quiz/quiz HTTP/1.1" 200 31787
+INFO 2025-12-06 11:52:53,357 autoreload 2752 6756 Watching for file changes with StatReloader
+INFO 2025-12-06 11:52:56,084 basehttp 2752 1312 "GET / HTTP/1.1" 302 0
+INFO 2025-12-06 11:52:56,146 basehttp 2752 1312 "GET /quiz/quiz HTTP/1.1" 200 31651
+INFO 2025-12-06 11:53:00,121 basehttp 2752 21680 "GET /assistant/improve HTTP/1.1" 200 18887
+WARNING 2025-12-06 11:53:01,427 basehttp 2752 21680 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-06 11:53:24,508 basehttp 2752 8916 "GET / HTTP/1.1" 302 0
+INFO 2025-12-06 11:53:24,564 basehttp 2752 8916 "GET /quiz/quiz HTTP/1.1" 200 31651
+INFO 2025-12-06 11:53:27,458 basehttp 2752 15548 "GET /assistant/improve HTTP/1.1" 200 18887
+INFO 2025-12-06 11:53:42,451 basehttp 2752 8916 "GET /quiz/api/new/ HTTP/1.1" 200 1220
+INFO 2025-12-06 11:54:15,921 basehttp 2752 21680 "POST /assistant/api/improve/ HTTP/1.1" 200 18
+INFO 2025-12-06 11:54:16,942 basehttp 2752 15548 "POST /assistant/api/improve/ HTTP/1.1" 200 31
