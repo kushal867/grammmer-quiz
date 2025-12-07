@@ -636,12 +636,25 @@
     </div>
 
     <div class="buttons">
-        <button class="quiz-btn btn-primary" onclick="newQuestion()">
-        <i class="fas fa-forward"></i> अर्को प्रश्न
+        <button class="quiz-btn btn-primary" onclick="newQuestion()" id="nextBtn">
+        <i class="fas fa-forward"></i> अर्को प्रश्न (N)
         </button>
-        <button class="quiz-btn btn-secondary" onclick="resetQuiz()">
-        <i class="fas fa-redo"></i> रिसेट
+        <button class="quiz-btn btn-secondary" onclick="resetQuiz()" id="resetBtn">
+        <i class="fas fa-redo"></i> रिसेट (R)
         </button>
+        <button class="quiz-btn" style="background: #10b981; color: white;" onclick="exportStats()" id="exportBtn">
+        <i class="fas fa-download"></i> Export Stats
+        </button>
+    </div>
+
+    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 15px; text-align: left;">
+        <h3 style="margin-bottom: 1rem; color: var(--quiz-gold);"><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.95rem;">
+        <div><kbd style="background: rgba(255,255,255,0.1); padding: 0.3rem 0.6rem; border-radius: 4px;">1-4</kbd> Select option</div>
+        <div><kbd style="background: rgba(255,255,255,0.1); padding: 0.3rem 0.6rem; border-radius: 4px;">N</kbd> Next question</div>
+        <div><kbd style="background: rgba(255,255,255,0.1); padding: 0.3rem 0.6rem; border-radius: 4px;">R</kbd> Reset quiz</div>
+        <div><kbd style="background: rgba(255,255,255,0.1); padding: 0.3rem 0.6rem; border-radius: 4px;">E</kbd> Export stats</div>
+        </div>
     </div>
     </div>
 
@@ -659,7 +672,9 @@
     let maxStreak = 0;
     let totalQuestions = 0;
     let correctAnswers = 0;
+    let quizStartTime = Date.now();
     const letters = ["क", "ख", "ग", "घ"];
+    const letterToNumber = {"क": 1, "ख": 2, "ग": 3, "घ": 4};
 
     // Initialize stats
     updateStats();
@@ -831,5 +846,91 @@
 
     // Auto-refresh stats every 5 seconds
     setInterval(updateStats, 5000);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        const key = e.key.toLowerCase();
+        
+        // Number keys 1-4 for selecting options
+        if (['1', '2', '3', '4'].includes(key)) {
+        const optionIndex = parseInt(key) - 1;
+        const options = document.querySelectorAll('.opt');
+        if (options[optionIndex] && options[optionIndex].style.pointerEvents !== 'none') {
+            options[optionIndex].click();
+        }
+        }
+        
+        // N for next question
+        if (key === 'n') {
+        document.getElementById('nextBtn').click();
+        }
+        
+        // R for reset
+        if (key === 'r') {
+        document.getElementById('resetBtn').click();
+        }
+        
+        // E for export
+        if (key === 'e') {
+        exportStats();
+        }
+    });
+
+    // Export statistics function
+    function exportStats() {
+        const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+        const timeElapsed = Math.floor((Date.now() - quizStartTime) / 1000);
+        const minutes = Math.floor(timeElapsed / 60);
+        const seconds = timeElapsed % 60;
+        
+        const statsText = `
+═══════════════════════════════════════
+लोकसेवा क्विज मास्टर - Statistics Report
+कुशल सापकोटा द्वारा निर्मित
+═══════════════════════════════════════
+
+Quiz Session Summary
+-------------------
+Date: ${new Date().toLocaleDateString('ne-NP')}
+Time: ${new Date().toLocaleTimeString('ne-NP')}
+Duration: ${minutes}m ${seconds}s
+
+Performance Metrics
+-------------------
+Total Questions: ${totalQuestions}
+Correct Answers: ${correctAnswers}
+Wrong Answers: ${totalQuestions - correctAnswers}
+Accuracy: ${accuracy}%
+Current Score: ${score}
+
+Streak Information
+-------------------
+Current Streak: ${currentStreak}
+Maximum Streak: ${maxStreak}
+
+═══════════════════════════════════════
+Keep practicing! लोकसेवा जित्ने बाटो यहीँबाट सुरु हुन्छ
+═══════════════════════════════════════
+        `;
+        
+        // Create and download file
+        const blob = new Blob([statsText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `quiz-stats-${new Date().toISOString().split('T')[0]}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        // Show success message
+        const resultEl = document.getElementById('result');
+        const originalContent = resultEl.innerHTML;
+        resultEl.innerHTML = '<div style="color:#10b981;"><i class="fas fa-check-circle"></i> Statistics exported successfully!</div>';
+        setTimeout(() => {
+        resultEl.innerHTML = originalContent;
+        }, 3000);
+    }
 </script>
 {% endblock %}

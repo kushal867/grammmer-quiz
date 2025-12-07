@@ -279,6 +279,66 @@
       width: 100%;
     }
   }
+
+  /* Word counter */
+  .word-counter {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .word-counter span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .history-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .history-btn {
+    padding: 0.5rem 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+  }
+
+  .history-btn:hover:not(:disabled) {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .history-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .export-btn {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(90deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+  }
 </style>
 {% endblock %}
 
@@ -293,6 +353,20 @@
   </div>
 
   <div class="writer-main">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <div class="word-counter">
+        <span><i class="fas fa-font"></i> <strong id="charCount">0</strong> characters</span>
+        <span><i class="fas fa-align-left"></i> <strong id="wordCount">0</strong> words</span>
+      </div>
+      <div class="history-buttons">
+        <button class="history-btn" id="undoBtn" onclick="undo()" disabled title="Undo (Ctrl+Z)">
+          <i class="fas fa-undo"></i>
+        </button>
+        <button class="history-btn" id="redoBtn" onclick="redo()" disabled title="Redo (Ctrl+Y)">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+    </div>
     <textarea
       id="textInput"
       placeholder="Type or paste anything... I'll transform it instantly"
@@ -309,6 +383,10 @@
       <button id="main-btn" onclick="submitText()">
         <i class="fas fa-wand-magic-sparkles"></i>
         <span>Transform Text</span>
+      </button>
+      <button class="export-btn" onclick="exportText()" id="exportBtn" disabled>
+        <i class="fas fa-download"></i>
+        <span>Export</span>
       </button>
     </div>
 
@@ -405,5 +483,140 @@
   document.getElementById("textInput").addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submitText();
   });
+
+  // Text history management
+  let textHistory = [];
+  let historyIndex = -1;
+  let lastTransformedText = '';
+
+  function updateWordCount() {
+    const text = document.getElementById('textInput').value;
+    const charCount = text.length;
+    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+    
+    document.getElementById('charCount').textContent = charCount;
+    document.getElementById('wordCount').textContent = wordCount;
+  }
+
+  function addToHistory(text) {
+    // Remove any history after current index
+    textHistory = textHistory.slice(0, historyIndex + 1);
+    textHistory.push(text);
+    historyIndex = textHistory.length - 1;
+    updateHistoryButtons();
+  }
+
+  function undo() {
+    if (historyIndex > 0) {
+      historyIndex--;
+      document.getElementById('textInput').value = textHistory[historyIndex];
+      updateWordCount();
+      updateHistoryButtons();
+    }
+  }
+
+  function redo() {
+    if (historyIndex < textHistory.length - 1) {
+      historyIndex++;
+      document.getElementById('textInput').value = textHistory[historyIndex];
+      updateWordCount();
+      updateHistoryButtons();
+    }
+  }
+
+  function updateHistoryButtons() {
+    document.getElementById('undoBtn').disabled = historyIndex <= 0;
+    document.getElementById('redoBtn').disabled = historyIndex >= textHistory.length - 1;
+  }
+
+  function exportText() {
+    const text = lastTransformedText || document.getElementById('output').innerText;
+    if (!text || text.includes('Your transformed text will appear here')) {
+      alert('No text to export. Please transform some text first.');
+      return;
+    }
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `kushal-writer-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Track input changes
+  const textInput = document.getElementById('textInput');
+  textInput.addEventListener('input', () => {
+    updateWordCount();
+  });
+
+  // Add initial state to history
+  addToHistory('');
+
+  // Keyboard shortcuts for undo/redo
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      undo();
+    }
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+      e.preventDefault();
+      redo();
+    }
+  });
+
+  // Update submitText to save transformed text
+  const originalSubmitText = submitText;
+  submitText = function() {
+    const text = document.getElementById("textInput").value.trim();
+    const task = document.getElementById("taskSelect").value;
+    const output = document.getElementById("output");
+    const btn = document.getElementById("main-btn");
+
+    if (!text) {
+      output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
+      return;
+    }
+
+    output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
+    <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
+  </span>`;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
+
+    fetch("{% url 'improve_api' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({ text, task }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.result) {
+          lastTransformedText = data.result;
+          output.innerHTML = `
+          <div style="position:relative;">
+            ${data.result.replace(/\n/g, "<br>")}
+            <button class="copy-btn" onclick="copy(this)">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>`;
+          document.getElementById('exportBtn').disabled = false;
+        } else {
+          output.textContent =
+            "Error: " + (data.error || "Please try again");
+        }
+      })
+      .catch(() => (output.textContent = "Network error"))
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
+      });
+  };
 </script>
 {% endblock %}
