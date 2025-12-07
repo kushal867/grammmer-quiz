@@ -35,7 +35,8 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
+    background: var(--gradient-primary);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
   }
 
   .login-logo {
@@ -44,12 +45,19 @@
 
   .login-logo i {
     font-size: 3.5rem;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: var(--gradient-primary);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
     display: inline-block;
+    filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6));
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6)); }
+    50% { filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.8)); }
   }
 
   .login-logo h2 {
@@ -127,16 +135,16 @@
 
   .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3), var(--glow-primary);
     outline: none;
   }
 
   .btn {
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: var(--gradient-primary);
     border: none;
-    color: var(--bg);
+    color: white;
     border-radius: 10px;
     font-size: 1.1rem;
     cursor: pointer;
@@ -145,6 +153,7 @@
     position: relative;
     overflow: hidden;
     margin-top: 1rem;
+    box-shadow: var(--glow-primary);
   }
 
   .btn::before {
@@ -160,7 +169,7 @@
 
   .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(167, 139, 250, 0.3);
+    box-shadow: 0 15px 35px rgba(124, 58, 237, 0.5);
   }
 
   .btn:hover::before {
