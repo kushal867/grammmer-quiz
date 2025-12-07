@@ -27,10 +27,11 @@
       }
 
       .navbar {
-        background: rgba(20,18,40,0.95);
+        background: rgba(26,15,46,0.95);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
         padding: 0.5rem 2rem;
         position: sticky;
         top: 0;
@@ -62,10 +63,12 @@
         align-items: center;
         gap: 0.5rem;
         transition: var(--transition);
+        filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.5));
       }
       
       .nav-logo:hover {
         transform: translateY(-2px);
+        filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.7));
       }
 
       .nav-links {
@@ -103,7 +106,7 @@
       }
       .nav-link {
         text-decoration: none;
-        color: white;
+        color: var(--text-muted);
         font-weight: 500;
         padding: 0.5rem 1rem;
         border-radius: 8px;
@@ -111,16 +114,36 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        position: relative;
       }
+      
+      .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: var(--gradient-primary);
+        transition: width 0.3s ease;
+      }
+      
       .nav-link:hover {
-        background: var(--surface-2);
-        color: var(--primary);
+        background: rgba(124, 58, 237, 0.1);
+        color: var(--primary-light);
         transform: translateY(-2px);
       }
+      
+      .nav-link:hover::before {
+        width: 80%;
+      }
+      
       .nav-link.active {
-        background: var(--primary);
-        color: var(--bg);
+        background: var(--gradient-primary);
+        color: white;
         font-weight: 600;
+        box-shadow: var(--glow-primary);
       }
 
       .mobile-menu-btn {
@@ -148,7 +171,7 @@
       }
 
       .btn-logout {
-        background: var(--red);
+        background: linear-gradient(135deg, var(--red), var(--accent));
         color: white;
         border: none;
         padding: 0.6rem 1.4rem;
@@ -159,11 +182,12 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
       }
       .btn-logout:hover {
-        background: var(--darkred);
+        background: linear-gradient(135deg, var(--darkred), var(--red));
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5);
       }
       .user-info {
         display: flex;

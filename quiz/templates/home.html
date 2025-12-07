@@ -5,14 +5,16 @@
 {% block extra_css %}
 <style>
     :root {
-    --quiz-red: #dc143c;
-    --quiz-darkred: #8b0000;
-    --quiz-gold: #ffd700;
-    --quiz-green: #22c55e;
-    --quiz-blue: #3b82f6;
+    --quiz-red: #EF4444;
+    --quiz-darkred: #DC2626;
+    --quiz-gold: #F59E0B;
+    --quiz-green: #10B981;
+    --quiz-blue: #7C3AED;
+    --quiz-cyan: #06B6D4;
+    --quiz-pink: #EC4899;
     --quiz-white: #ffffff;
     --quiz-light: #fff5f5;
-    --quiz-shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+    --quiz-shadow: 0 20px 60px rgba(124, 58, 237, 0.4);
     --quiz-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
@@ -20,13 +22,28 @@
     body {
     background: linear-gradient(
         135deg,
-        #8b0000 0%,
-        #dc143c 50%,
-        #b22222 100%
+        #DC2626 0%,
+        #EF4444 50%,
+        #F87171 100%
     ) !important;
     font-family: "Mukta", "Hind Siliguri", sans-serif;
     color: white;
     background-attachment: fixed;
+    position: relative;
+    }
+
+    body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 40%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
     }
 
     .quiz-container {
@@ -58,6 +75,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4);
     }
 
     .quiz-header::before {

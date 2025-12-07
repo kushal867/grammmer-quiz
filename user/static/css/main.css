@@ -1,21 +1,67 @@
-/* Main CSS File for Kushal Apps */
+/* Main CSS File for Kushal Apps - Cyber Purple Theme */
 :root {
-  --bg: #0a0818;
-  --surface: #141228;
-  --surface-2: #1c1938;
-  --border: #2d264f;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --primary: #a78bfa;
-  --primary-hover: #c4b5fd;
-  --accent: #fadcb6;
-  --red: #dc143c;
-  --darkred: #8b0000;
-  --green: #22c55e;
-  --blue: #3b82f6;
-  --shadow: 0 20px 60px rgba(139, 19, 60, 0.4);
+  /* Background Colors - Deep Space Theme */
+  --bg: #0F0A1E;
+  --surface: #1A0F2E;
+  --surface-2: #251838;
+  --surface-3: #2D1F47;
+  
+  /* Border & Dividers */
+  --border: #3D2A5C;
+  --border-light: #4A3570;
+  
+  /* Text Colors */
+  --text: #F3F4F6;
+  --text-muted: #A5B4FC;
+  --text-dim: #818CF8;
+  
+  /* Primary Colors - Electric Purple */
+  --primary: #7C3AED;
+  --primary-hover: #8B5CF6;
+  --primary-light: #A78BFA;
+  --primary-dark: #6D28D9;
+  
+  /* Secondary Colors - Vibrant Cyan */
+  --secondary: #06B6D4;
+  --secondary-hover: #22D3EE;
+  --secondary-light: #67E8F9;
+  
+  /* Accent Colors - Neon Pink */
+  --accent: #EC4899;
+  --accent-hover: #F472B6;
+  --accent-light: #F9A8D4;
+  
+  /* Status Colors */
+  --red: #EF4444;
+  --darkred: #DC2626;
+  --green: #10B981;
+  --emerald: #059669;
+  --blue: #3B82F6;
+  --cyan: #06B6D4;
+  --amber: #F59E0B;
+  --purple: #A855F7;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+  --gradient-secondary: linear-gradient(135deg, #06B6D4 0%, #7C3AED 100%);
+  --gradient-accent: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%);
+  --gradient-bg: linear-gradient(135deg, #0F0A1E 0%, #1A0F2E 50%, #251838 100%);
+  
+  /* Shadows & Effects */
+  --shadow: 0 20px 60px rgba(124, 58, 237, 0.3);
+  --shadow-lg: 0 25px 80px rgba(124, 58, 237, 0.4);
+  --glow-primary: 0 0 20px rgba(124, 58, 237, 0.5);
+  --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.5);
+  --glow-accent: 0 0 20px rgba(236, 72, 153, 0.5);
+  
+  /* Transitions */
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.15s ease;
+  
+  /* Layout */
   --header-height: 70px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
 }
 
 /* Base Styles */
@@ -27,11 +73,34 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #0a0818, #1a162e, #2d1b69);
+  background: var(--gradient-bg);
   color: var(--text);
   min-height: 100vh;
   background-attachment: fixed;
   line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated background effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -68,13 +137,16 @@ a:hover {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: var(--bg);
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--glow-primary);
+  border: 1px solid var(--primary);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(167, 139, 250, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.5);
+  border-color: var(--primary-light);
 }
 
 .btn-primary:active {
