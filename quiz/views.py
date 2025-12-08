@@ -3,12 +3,17 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 import requests
 import re
 import random
 import json
 import logging
 from datetime import datetime
+
+# Import models and utilities for advanced features
+from .models import Question, UserAnswer, QuizAttempt, BookmarkedQuestion
+from .utils import save_question_to_db, save_user_answer, check_achievements
 
 logger = logging.getLogger(__name__)
 
@@ -402,7 +407,16 @@ def calculate_text_similarity(text1, text2):
     return intersection / union if union > 0 else 0.0
 
 def save_and_return_question(question_data, domain, topic, difficulty, request):
-    """Save question to session and return JSON response"""
+    """Save question to session and database, return JSON response"""
+    # Save question to database
+    try:
+        db_question = save_question_to_db(question_data, difficulty)
+        question_id = db_question.id
+        logger.info(f"Saved question to database with ID: {question_id}")
+    except Exception as e:
+        logger.error(f"Error saving question to database: {e}")
+        question_id = None
+    
     # Update used questions
     used_questions = request.session.get('used_questions', [])
     used_questions.append(question_data['question'])
@@ -418,6 +432,8 @@ def save_and_return_question(question_data, domain, topic, difficulty, request):
     context['total_questions'] = context.get('total_questions', 0) + 1
     context['last_domain'] = domain
     context['last_topic'] = topic
+    if 'domain_stats' not in context:
+        context['domain_stats'] = {}
     context['domain_stats'][domain] = context['domain_stats'].get(domain, 0) + 1
     
     # Track consecutive same domain
@@ -428,6 +444,7 @@ def save_and_return_question(question_data, domain, topic, difficulty, request):
     
     request.session['question_context'] = context
     request.session['current_question'] = question_data
+    request.session['current_question_id'] = question_id  # Store DB ID
     request.session.modified = True
     
     logger.info(f"Successfully generated question #{context['total_questions']} in {domain}/{topic}")
@@ -440,11 +457,13 @@ def save_and_return_question(question_data, domain, topic, difficulty, request):
         "domain": domain,
         "topic": topic,
         "difficulty": difficulty,
+        "question_id": question_id,  # Include DB ID in response
         "stats": {
             "total_questions": context['total_questions'],
             "domain_stats": context['domain_stats']
         }
     })
+
 
 def get_intelligent_fallback(domain, topic, request):
     """Domain-specific fallback questions"""
@@ -594,6 +613,7 @@ def generate_question_explanation(question_data):
     
     explanation = ollama_generate(prompt, "सजिलो")
     return explanation if explanation and "Error" not in explanation else "यो सही उत्तर हो।"
+
 
 def ollama_generate(prompt, difficulty="मध्यम"):
     """Generate response from Ollama with retry logic"""

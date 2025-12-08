@@ -623,7 +623,33 @@
         <div class="stat-label">अधिकतम</div>
         </div>
     </div>
+    
+    <!-- Advanced Features Navigation -->
+    {% if user.is_authenticated %}
+    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; padding: 0 15px;">
+        <a href="/quiz/api/daily-challenge/" class="quiz-btn" style="background: #7C3AED; font-size: 1.2rem; padding: 10px 20px; text-decoration: none;">
+            <i class="fas fa-calendar-day"></i> दैनिक चुनौती
+        </a>
+        <a href="/quiz/bookmarks/" class="quiz-btn" style="background: #F59E0B; font-size: 1.2rem; padding: 10px 20px; text-decoration: none;">
+            <i class="fas fa-bookmark"></i> बुकमार्क
+        </a>
+        <a href="/quiz/profile/" class="quiz-btn" style="background: #10B981; font-size: 1.2rem; padding: 10px 20px; text-decoration: none;">
+            <i class="fas fa-user"></i> प्रोफाइल
+        </a>
+        <a href="/quiz/export/pdf/" class="quiz-btn" style="background: #EF4444; font-size: 1.2rem; padding: 10px 20px; text-decoration: none;">
+            <i class="fas fa-file-pdf"></i> PDF Export
+        </a>
     </div>
+    {% else %}
+    <div style="text-align: center; margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 15px;">
+        <i class="fas fa-lock" style="font-size: 2rem; color: #F59E0B; margin-bottom: 10px;"></i>
+        <p style="margin: 10px 0; font-size: 1.3rem;">Advanced Features Available!</p>
+        <a href="/user/login/" style="color: #F59E0B; font-weight: bold; font-size: 1.4rem; text-decoration: underline;">लगइन गर्नुहोस्</a> 
+        <span style="font-size: 1.2rem;">to access Daily Challenges, Bookmarks, Profile & More!</span>
+    </div>
+    {% endif %}
+    </div>
+
 
     <div class="quiz-main">
     <div class="question-meta">

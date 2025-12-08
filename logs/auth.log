@@ -582,3 +582,12 @@ INFO 2025-12-07 16:35:39,975 basehttp 14512 22632 "GET /quiz/quiz HTTP/1.1" 200 
 INFO 2025-12-07 16:35:45,680 basehttp 14512 22792 "GET /assistant/improve HTTP/1.1" 200 29140
 INFO 2025-12-07 16:35:57,237 basehttp 14512 22632 "GET /quiz/api/new/ HTTP/1.1" 200 1650
 INFO 2025-12-07 16:36:14,171 basehttp 14512 22792 "POST /assistant/api/improve/ HTTP/1.1" 200 18
+INFO 2025-12-08 19:32:25,827 autoreload 14904 24132 Watching for file changes with StatReloader
+INFO 2025-12-08 19:35:22,959 autoreload 13248 15032 Watching for file changes with StatReloader
+INFO 2025-12-08 19:36:05,047 autoreload 13248 15032 D:\machione\ai\quiz\views.py changed, reloading.
+INFO 2025-12-08 19:36:06,499 autoreload 24448 7264 Watching for file changes with StatReloader
+INFO 2025-12-08 19:36:13,653 basehttp 24448 11760 "GET / HTTP/1.1" 200 22510
+INFO 2025-12-08 19:36:14,005 basehttp 24448 11760 "GET /static/css/main.css HTTP/1.1" 200 7656
+WARNING 2025-12-08 19:36:17,923 basehttp 24448 11760 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-08 19:36:23,844 basehttp 24448 11760 "POST / HTTP/1.1" 302 0
+INFO 2025-12-08 19:36:23,878 basehttp 24448 11760 "GET /quiz/quiz HTTP/1.1" 200 41698
