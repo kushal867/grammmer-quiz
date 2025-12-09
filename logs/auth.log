@@ -603,3 +603,10 @@ INFO 2025-12-09 08:49:27,283 basehttp 24344 24028 "GET /quiz/quiz HTTP/1.1" 200 
 INFO 2025-12-09 08:50:13,916 basehttp 24344 22700 "GET /quiz/quiz HTTP/1.1" 200 41562
 INFO 2025-12-09 08:50:15,402 basehttp 24344 26456 "GET /assistant/improve HTTP/1.1" 200 29140
 INFO 2025-12-09 20:25:37,307 autoreload 8312 22132 Watching for file changes with StatReloader
+INFO 2025-12-09 20:28:27,850 autoreload 1880 2716 Watching for file changes with StatReloader
+INFO 2025-12-09 20:28:36,523 basehttp 1880 2444 "GET / HTTP/1.1" 200 22510
+INFO 2025-12-09 20:28:36,631 basehttp 1880 2444 "GET /static/css/main.css HTTP/1.1" 304 0
+WARNING 2025-12-09 20:28:40,083 basehttp 1880 11016 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-09 20:28:42,883 basehttp 1880 11016 "POST / HTTP/1.1" 302 0
+INFO 2025-12-09 20:28:42,923 basehttp 1880 11016 "GET /quiz/quiz HTTP/1.1" 200 41698
+INFO 2025-12-09 20:28:48,596 basehttp 1880 13408 "GET /assistant/improve HTTP/1.1" 200 29140
