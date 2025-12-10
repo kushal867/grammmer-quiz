@@ -267,6 +267,109 @@
         outline: 2px solid var(--primary);
         outline-offset: 2px;
       }
+
+      /* Enhanced Footer Styles */
+      .footer {
+        background: linear-gradient(180deg, var(--surface) 0%, rgba(13, 10, 30, 0.95) 100%);
+        border-top: 1px solid var(--border);
+        padding: 4rem 1rem 2rem;
+        margin-top: 4rem;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: radial-gradient(circle at center, var(--primary) 0%, transparent 70%);
+        opacity: 0.5;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-logo {
+        font-size: 2rem;
+        font-weight: 900;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-tagline {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        font-weight: 400;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        margin: 1rem 0;
+      }
+
+      .footer-links a {
+        color: var(--text-muted);
+        font-size: 1.5rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border);
+      }
+
+      .footer-links a:hover {
+        color: white;
+        background: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        border-color: var(--primary);
+      }
+
+      .copyright {
+        text-align: center;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 2rem;
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      .copyright p {
+        margin: 0.5rem 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .kushal-brand {
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
+      
+      .love {
+        font-size: 0.85rem !important;
+        opacity: 0.7;
+      }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -340,8 +443,19 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
-        <p>© 2025 <span class="kushal-brand">Kushal Sapkota</span> — Nepal's Pride in Technology</p>
-        <p style="margin-top:0.5rem;color:var(--text-muted);font-size:0.9rem;">Built with ❤️ for Nepal</p>
+        <div class="footer-logo">
+          <i class="fas fa-brain"></i> Kushal Apps
+        </div>
+        <p class="footer-tagline">Empowering your digital journey with AI</p>
+        <div class="footer-links">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="copyright">
+          <p>© 2025 <span class="kushal-brand">Kushal Sapkota</span> — Nepal's Pride in Technology</p>
+          <p class="love">Built with ❤️ for Nepal</p>
+        </div>
       </div>
     </footer>
 
