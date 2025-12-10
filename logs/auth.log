@@ -610,3 +610,11 @@ WARNING 2025-12-09 20:28:40,083 basehttp 1880 11016 "GET /favicon.ico HTTP/1.1" 
 INFO 2025-12-09 20:28:42,883 basehttp 1880 11016 "POST / HTTP/1.1" 302 0
 INFO 2025-12-09 20:28:42,923 basehttp 1880 11016 "GET /quiz/quiz HTTP/1.1" 200 41698
 INFO 2025-12-09 20:28:48,596 basehttp 1880 13408 "GET /assistant/improve HTTP/1.1" 200 29140
+INFO 2025-12-10 19:18:20,937 autoreload 20008 6660 Watching for file changes with StatReloader
+INFO 2025-12-10 19:20:19,428 autoreload 20352 20456 Watching for file changes with StatReloader
+INFO 2025-12-10 19:20:24,174 basehttp 20352 11584 "GET / HTTP/1.1" 200 25460
+INFO 2025-12-10 19:20:24,280 basehttp 20352 11584 "GET /static/css/main.css HTTP/1.1" 304 0
+WARNING 2025-12-10 19:20:27,797 basehttp 20352 11584 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-10 19:20:30,994 basehttp 20352 11584 "POST / HTTP/1.1" 302 0
+INFO 2025-12-10 19:20:31,022 basehttp 20352 11584 "GET /quiz/quiz HTTP/1.1" 200 39295
+INFO 2025-12-10 19:20:57,512 autoreload 6736 20616 Watching for file changes with StatReloader

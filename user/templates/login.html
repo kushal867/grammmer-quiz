@@ -5,25 +5,44 @@
 
 {% block extra_css %}
 <style>
+  /* Add background effect for login page */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.2) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
   .login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - var(--header-height) - 100px);
     padding: 2rem 1rem;
+    position: relative;
+    z-index: 1;
   }
 
   .login-container {
-    background: var(--surface);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
+    background: rgba(26, 15, 46, 0.8); /* Glassy dark background */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 3rem 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     text-align: center;
     box-sizing: border-box;
-    border: 1px solid var(--border);
-    animation: slideIn 0.5s ease-out forwards;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     position: relative;
     overflow: hidden;
   }
@@ -34,78 +53,83 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: var(--gradient-primary);
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
     box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
   }
 
   .login-logo {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .login-logo i {
-    font-size: 3.5rem;
+    font-size: 4rem;
     background: var(--gradient-primary);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
     display: inline-block;
-    filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6));
-    animation: glow 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.4));
+    animation: float 6s ease-in-out infinite;
   }
 
-  @keyframes glow {
-    0%, 100% { filter: drop-shadow(0 0 15px rgba(124, 58, 237, 0.6)); }
-    50% { filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.8)); }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
   .login-logo h2 {
     margin: 0.5rem 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--text);
+    letter-spacing: -0.5px;
   }
 
   .login-logo p {
     color: var(--text-muted);
     margin: 0;
+    font-size: 1.05rem;
   }
 
   .forgot-password {
-    color: var(--primary);
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.3s ease;
-    position: relative;
-    padding-bottom: 2px;
   }
 
-  .forgot-password::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background: var(--primary);
-    transition: width 0.3s ease;
-  }
-
-  .forgot-password:hover::after {
-    width: 100%;
+  .forgot-password:hover {
+    color: var(--primary);
+    text-decoration: underline;
   }
 
   .signup-link {
     color: var(--primary);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
+    position: relative;
   }
 
-  .signup-link:hover {
-    text-decoration: underline;
+  .signup-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+
+  .signup-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   /* Form specific styles */
@@ -116,18 +140,19 @@
 
   .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
     font-weight: 500;
     color: var(--text-muted);
+    font-size: 0.95rem;
   }
 
   .form-control {
     width: 100%;
-    padding: 0.9rem 1.2rem;
-    background: var(--surface-2);
-    border: 2px solid var(--border);
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     color: var(--text);
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s ease;
     font-family: 'Inter', sans-serif;
@@ -135,25 +160,35 @@
 
   .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3), var(--glow-primary);
+    background: rgba(26, 15, 46, 0.9);
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
     outline: none;
+    transform: translateY(-1px);
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
   }
 
   .btn {
     width: 100%;
-    padding: 1rem;
+    padding: 1.1rem;
     background: var(--gradient-primary);
     border: none;
     color: white;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1.1rem;
     cursor: pointer;
     font-weight: 700;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    margin-top: 1rem;
-    box-shadow: var(--glow-primary);
+    margin-top: 1.5rem;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
 
   .btn::before {
@@ -169,7 +204,7 @@
 
   .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(124, 58, 237, 0.5);
+    box-shadow: 0 15px 35px rgba(124, 58, 237, 0.6);
   }
 
   .btn:hover::before {
@@ -178,65 +213,40 @@
 
   .btn:active {
     transform: translateY(1px);
-    box-shadow: 0 5px 10px rgba(167, 139, 250, 0.2);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
   }
 
   .error {
-    color: var(--red);
+    color: #ef4444;
     margin: -0.5rem 0 1rem;
     font-size: 0.9rem;
     text-align: left;
-    padding: 0.5rem 0.75rem;
-    background: rgba(220, 20, 60, 0.1);
-    border-radius: 6px;
-    border-left: 3px solid var(--red);
+    padding: 0.8rem;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: flex-start;
+    gap: 0.8rem;
+    animation: shake 0.5s ease-in-out;
   }
 
-  .error i {
-    font-size: 1.1rem;
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
   }
 
-  .d-flex {
-    display: flex;
-  }
-
-  .justify-content-between {
-    justify-content: space-between;
-  }
-
-  .align-items-center {
-    align-items: center;
-  }
-
-  .mb-2 {
-    margin-bottom: 0.5rem;
-  }
-
-  .mt-4 {
-    margin-top: 1.5rem;
-  }
-
-  .text-muted {
-    color: var(--text-muted);
-  }
-
-  .w-100 {
-    width: 100%;
-  }
-
-  .button-text {
-    transition: opacity 0.3s ease;
-  }
+  .d-flex { display: flex; }
+  .justify-content-between { justify-content: space-between; }
+  .align-items-center { align-items: center; }
+  .mb-2 { margin-bottom: 0.5rem; }
+  .mt-4 { margin-top: 2rem; }
+  .text-muted { color: var(--text-muted); }
+  .w-100 { width: 100%; }
 
   .button-loader {
     display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   .password-toggle {
@@ -251,6 +261,7 @@
     padding: 0.5rem;
     transition: var(--transition);
     font-size: 1.1rem;
+    z-index: 10;
   }
 
   .password-toggle:hover {
@@ -260,10 +271,11 @@
   .remember-me {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
     cursor: pointer;
     font-size: 0.95rem;
     color: var(--text-muted);
+    user-select: none;
   }
 
   .remember-me input[type="checkbox"] {
@@ -271,6 +283,7 @@
     height: 1.2rem;
     cursor: pointer;
     accent-color: var(--primary);
+    border-radius: 4px;
   }
 
   .remember-me:hover {
@@ -280,11 +293,11 @@
   @keyframes slideIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px) scale(0.95);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
   }
 </style>

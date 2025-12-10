@@ -19,14 +19,13 @@
   .writer-container {
     max-width: 1200px;
     margin: 40px auto;
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.02); /* Glassy background */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 32px;
     overflow: hidden;
-    box-shadow: 0 32px 100px rgba(0, 0, 0, 0.8),
-      0 0 80px rgba(139, 92, 246, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   /* Header */
@@ -397,11 +396,6 @@
         >Your transformed text will appear here instantly...</span
       >
     </div>
-  </div>
-
-  <div class="writer-footer">
-    © 2025 <span class="kushal">Kushal Sapkota</span> — 100% Private • Runs
-    Locally • No Internet Needed
   </div>
 </div>
 {% endblock %}
