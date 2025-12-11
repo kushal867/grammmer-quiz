@@ -66,6 +66,12 @@ def api_daily_challenge(request):
 
 
 @login_required
+def daily_challenge_page(request):
+    """Daily challenge page"""
+    return render(request, 'daily_challenge.html')
+
+
+@login_required
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_complete_daily_challenge(request):

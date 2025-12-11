@@ -17,6 +17,7 @@ urlpatterns = [
     
     # Daily Challenge
     path('api/daily-challenge/', views_advanced.api_daily_challenge, name='daily_challenge'),
+    path('daily-challenge/', views_advanced.daily_challenge_page, name='daily_challenge_page'),
     path('api/daily-challenge/complete/', views_advanced.api_complete_daily_challenge, name='complete_daily_challenge'),
     
     # Bookmarks

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookmarks - Loksewa Quiz Master{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #1a0f2e 0%, #3b0764 50%, #4c1d95 100%) !important;
+        font-family: "Mukta", "Hind Siliguri", sans-serif;
+        color: white;
+        background-attachment: fixed;
+    }
+
+    .bookmarks-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, #FBBF24, #F59E0B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .bookmark-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 20px;
+        transition: transform 0.3s;
+        backdrop-filter: blur(10px);
+        position: relative;
+    }
+
+    .bookmark-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .q-domain {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 10px;
+    }
+
+    .q-text {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: white;
+    }
+
+    .notes-section {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-size: 0.95rem;
+        color: #ddd;
+    }
+
+    .delete-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #ef4444;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: transform 0.2s;
+    }
+
+    .delete-btn:hover {
+        transform: scale(1.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bookmarks-container">
+    <div class="page-header">
+        <h1><i class="fas fa-bookmark"></i> My Bookmarked Questions</h1>
+        <p style="color: rgba(255,255,255,0.7);">Review your saved questions and notes</p>
+    </div>
+
+    <div id="bookmarks-list">
+        <!-- Bookmarks loaded via JS -->
+        <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p>Loading bookmarks...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', loadBookmarks);
+
+    function loadBookmarks() {
+        fetch("{% url 'quiz:get_bookmarks' %}")
+            .then(r => r.json())
+            .then(data => {
+                const container = document.getElementById('bookmarks-list');
+                container.innerHTML = '';
+                
+                if (data.bookmarks.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 50px;">
+                            <i class="far fa-bookmark" style="font-size: 4rem; opacity: 0.3; margin-bottom: 20px;"></i>
+                            <h3>No bookmarks yet</h3>
+                            <p>Save questions during the quiz to review them here.</p>
+                            <a href="{% url 'quiz:home' %}" style="display: inline-block; margin-top: 20px; color: #fbbf24; text-decoration: none;">Go to Quiz</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                data.bookmarks.forEach(bm => {
+                    const card = document.createElement('div');
+                    card.className = 'bookmark-card';
+                    card.innerHTML = `
+                        <button class="delete-btn" onclick="removeBookmark(${bm.question_id}, this)" title="Remove Bookmark">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <div class="q-domain">${bm.domain} • ${bm.difficulty}</div>
+                        <div class="q-text">${bm.question}</div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <div style="color: #10b981; font-weight: 600;">
+                                Is Correct: ${bm.correct_answer}) ${bm.options[bm.correct_answer] || ''}
+                            </div>
+                        </div>
+
+                        ${bm.notes ? `
+                        <div class="notes-section">
+                            <i class="fas fa-sticky-note" style="margin-right: 8px; color: #fbbf24;"></i>
+                            ${bm.notes}
+                        </div>` : ''}
+                    `;
+                    container.appendChild(card);
+                });
+            })
+            .catch(e => {
+                document.getElementById('bookmarks-list').innerHTML = '<p style="text-align:center; color:red;">Failed to load bookmarks.</p>';
+            });
+    }
+
+    function removeBookmark(qId, btn) {
+        if(!confirm('Are you sure you want to remove this bookmark?')) return;
+
+        fetch("{% url 'quiz:remove_bookmark' %}", {
+            method: 'POST',
+            body: JSON.stringify({ question_id: qId })
+        })
+        .then(r => r.json())
+        .then(res => {
+            if(res.success) {
+                // Remove card visual
+                const card = btn.closest('.bookmark-card');
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 300);
+            }
+        });
+    }
+</script>
+{% endblock %}
