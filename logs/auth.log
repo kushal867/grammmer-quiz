@@ -618,3 +618,13 @@ WARNING 2025-12-10 19:20:27,797 basehttp 20352 11584 "GET /favicon.ico HTTP/1.1"
 INFO 2025-12-10 19:20:30,994 basehttp 20352 11584 "POST / HTTP/1.1" 302 0
 INFO 2025-12-10 19:20:31,022 basehttp 20352 11584 "GET /quiz/quiz HTTP/1.1" 200 39295
 INFO 2025-12-10 19:20:57,512 autoreload 6736 20616 Watching for file changes with StatReloader
+INFO 2025-12-10 19:26:16,294 autoreload 13436 3332 Watching for file changes with StatReloader
+INFO 2025-12-11 19:20:46,841 autoreload 25376 25072 Watching for file changes with StatReloader
+INFO 2025-12-11 19:21:03,917 basehttp 25376 20568 "GET / HTTP/1.1" 200 26504
+INFO 2025-12-11 19:21:04,043 basehttp 25376 20568 "GET /static/css/main.css HTTP/1.1" 304 0
+WARNING 2025-12-11 19:21:07,860 basehttp 25376 2944 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-11 19:21:10,769 basehttp 25376 2944 "POST / HTTP/1.1" 302 0
+INFO 2025-12-11 19:21:10,808 basehttp 25376 2944 "GET /quiz/quiz HTTP/1.1" 200 39295
+INFO 2025-12-11 19:21:14,072 basehttp 25376 18372 "GET /quiz/bookmarks/ HTTP/1.1" 200 20684
+INFO 2025-12-11 19:21:14,226 basehttp 25376 18372 "GET /quiz/api/bookmarks/ HTTP/1.1" 200 46
+INFO 2025-12-11 19:23:24,908 autoreload 11096 21472 Watching for file changes with StatReloader

@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+
+{% block title %}Daily Challenge - Loksewa Quiz Master{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Styling consistent with home.html */
+    :root {
+        --quiz-red: #EF4444;
+        --quiz-gold: #fbbf24;
+        --quiz-green: #10B981;
+        --quiz-blue: #7C3AED;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a0f2e 0%, #3b0764 50%, #4c1d95 100%) !important;
+        font-family: "Mukta", "Hind Siliguri", sans-serif;
+        color: white;
+        background-attachment: fixed;
+    }
+
+    .challenge-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        text-align: center;
+    }
+
+    .challenge-header {
+        margin-bottom: 30px;
+    }
+
+    .challenge-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #A78BFA, #F472B6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .challenge-date {
+        color: var(--quiz-gold);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    #question-container {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-text {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        text-align: left;
+    }
+
+    .option-btn {
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .option-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+    }
+    
+    .option-btn.selected {
+        background: rgba(124, 58, 237, 0.3);
+        border-color: var(--quiz-blue);
+    }
+
+    .option-btn.correct {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: var(--quiz-green);
+        color: #34d399;
+    }
+
+    .option-btn.wrong {
+        background: rgba(239, 68, 68, 0.2);
+        border-color: var(--quiz-red);
+        color: #f87171;
+    }
+
+    #start-screen {
+        padding: 20px;
+    }
+
+    .start-btn {
+        padding: 15px 40px;
+        background: var(--quiz-blue);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+    }
+
+    .start-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
+    }
+
+    #results-screen {
+        display: none;
+        text-align: center;
+    }
+    
+    .score-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px auto;
+        border: 4px solid var(--quiz-gold);
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--quiz-gold);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="challenge-container">
+    <div class="challenge-header">
+        <h1><i class="fas fa-calendar-alt"></i> Daily Challenge</h1>
+        <div class="challenge-date" id="date-display">Thinking...</div>
+    </div>
+
+    <div id="start-screen">
+        <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
+            Ready to test your knowledge? Today's challenge awaits!
+        </p>
+        <button class="start-btn" onclick="startChallenge()">
+            <i class="fas fa-play"></i> Start Challenge
+        </button>
+    </div>
+
+    <div id="question-container">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: rgba(255,255,255,0.6);">
+            <span id="q-counter">Question 1/10</span>
+            <span id="q-difficulty" style="color: var(--quiz-gold);">Medium</span>
+        </div>
+        <div class="question-text" id="q-text">Loading...</div>
+        <div class="options-grid" id="q-options"></div>
+    </div>
+
+    <div id="results-screen">
+        <h2>Challenge Complete!</h2>
+        <div class="score-circle" id="final-score">0</div>
+        <p>Excellent work! Come back tomorrow for more.</p>
+        <a href="{% url 'quiz:home' %}" class="start-btn" style="text-decoration: none; display: inline-block; margin-top: 20px;">
+            Return Home
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let questions = [];
+    let currentQIndex = 0;
+    let score = 0;
+    const letters = ["क", "ख", "ग", "घ"];
+
+    // Load challenge data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch("{% url 'quiz:daily_challenge' %}")
+            .then(r => r.json())
+            .then(data => {
+                const date = new Date(data.date);
+                document.getElementById('date-display').textContent = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
+                if (data.completed) {
+                    showAlreadyCompleted();
+                } else if (data.questions && data.questions.length > 0) {
+                    questions = data.questions;
+                } else {
+                    document.getElementById('start-screen').innerHTML = "<p>No challenge available today. Please check back later.</p>";
+                }
+            })
+            .catch(err => console.error("Error loading challenge:", err));
+    });
+
+    function showAlreadyCompleted() {
+        document.getElementById('start-screen').innerHTML = `
+            <div style="padding: 20px;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--quiz-green); margin-bottom: 20px;"></i>
+                <h2>Already Completed!</h2>
+                <p>You have already finished today's challenge.</p>
+                <a href="{% url 'quiz:home' %}" class="start-btn" style="text-decoration: none; display: inline-block; margin-top: 20px;">Return Home</a>
+            </div>
+        `;
+    }
+
+    function startChallenge() {
+        if (questions.length === 0) return;
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('question-container').style.display = 'block';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = questions[currentQIndex];
+        document.getElementById('q-text').textContent = q.question;
+        document.getElementById('q-counter').textContent = `Question ${currentQIndex + 1}/${questions.length}`;
+        document.getElementById('q-difficulty').textContent = q.difficulty;
+
+        const optsContainer = document.getElementById('q-options');
+        optsContainer.innerHTML = '';
+
+        letters.forEach(letter => {
+            if (q.options[letter]) {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<strong>${letter})</strong> ${q.options[letter]}`;
+                btn.onclick = () => submitAnswer(letter, btn);
+                optsContainer.appendChild(btn);
+            }
+        });
+    }
+
+    function submitAnswer(selectedLetter, btnElement) {
+        // Disable all buttons
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        const currentQ = questions[currentQIndex];
+        const isCorrect = selectedLetter === currentQ.correct_answer;
+
+        if (isCorrect) {
+            btnElement.classList.add('correct');
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            // Highlight correct answer
+            buttons.forEach(b => {
+                if (b.textContent.includes(currentQ.correct_answer + ')')) {
+                    b.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                showQuestion();
+            } else {
+                finishChallenge();
+            }
+        }, 1500);
+    }
+
+    function finishChallenge() {
+        document.getElementById('question-container').style.display = 'none';
+        document.getElementById('results-screen').style.display = 'block';
+        document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+
+        // Submit results
+        fetch("{% url 'quiz:complete_daily_challenge' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // CSRF handled by cookie or django hook if needed, assuming csrf_exempt or cookie present
+            },
+            body: JSON.stringify({
+                score: score,
+                total: questions.length
+            })
+        }).catch(e => console.error("Error saving score:", e));
+    }
+</script>
+{% endblock %}
