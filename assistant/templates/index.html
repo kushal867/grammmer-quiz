@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Kushal Writer – Your Personal AI{% endblock %}
 
@@ -366,6 +367,9 @@
         <button class="history-btn" id="redoBtn" onclick="redo()" disabled title="Redo (Ctrl+Y)">
           <i class="fas fa-redo"></i>
         </button>
+        <button class="history-btn" onclick="clearHistory()" title="Clear All History" style="color:#ef4444;">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </div>
     </div>
     <textarea
@@ -402,217 +406,7 @@
 
 {% block extra_js %}
 <script>
-  function submitText() {
-    const text = document.getElementById("textInput").value.trim();
-    const task = document.getElementById("taskSelect").value;
-    const output = document.getElementById("output");
-    const btn = document.getElementById("main-btn");
-
-    if (!text) {
-      output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
-      return;
-    }
-
-    output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
-    <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
-  </span>`;
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
-
-    fetch("{% url 'improve_api' %}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify({ text, task }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.result) {
-          output.innerHTML = `
-          <div style="position:relative;">
-            ${data.result.replace(/\n/g, "<br>")}
-            <button class="copy-btn" onclick="copy(this)">
-              <i class="fas fa-copy"></i> Copy
-            </button>
-          </div>`;
-        } else {
-          output.textContent =
-            "Error: " + (data.error || "Please try again");
-        }
-      })
-      .catch(() => (output.textContent = "Network error"))
-      .finally(() => {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
-      });
-  }
-
-  function copy(btn) {
-    const text =
-      btn.parentNode.firstChild.textContent ||
-      btn.parentNode.innerText.replace("Copy", "").trim();
-    navigator.clipboard.writeText(text);
-    const icon = btn.innerHTML;
-    btn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
-    setTimeout(() => (btn.innerHTML = icon), 2000);
-  }
-
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(
-            cookie.substring(name.length + 1)
-          );
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-
-  document.getElementById("textInput").addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submitText();
-  });
-
-  // Text history management
-  let textHistory = [];
-  let historyIndex = -1;
-  let lastTransformedText = '';
-
-  function updateWordCount() {
-    const text = document.getElementById('textInput').value;
-    const charCount = text.length;
-    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-    
-    document.getElementById('charCount').textContent = charCount;
-    document.getElementById('wordCount').textContent = wordCount;
-  }
-
-  function addToHistory(text) {
-    // Remove any history after current index
-    textHistory = textHistory.slice(0, historyIndex + 1);
-    textHistory.push(text);
-    historyIndex = textHistory.length - 1;
-    updateHistoryButtons();
-  }
-
-  function undo() {
-    if (historyIndex > 0) {
-      historyIndex--;
-      document.getElementById('textInput').value = textHistory[historyIndex];
-      updateWordCount();
-      updateHistoryButtons();
-    }
-  }
-
-  function redo() {
-    if (historyIndex < textHistory.length - 1) {
-      historyIndex++;
-      document.getElementById('textInput').value = textHistory[historyIndex];
-      updateWordCount();
-      updateHistoryButtons();
-    }
-  }
-
-  function updateHistoryButtons() {
-    document.getElementById('undoBtn').disabled = historyIndex <= 0;
-    document.getElementById('redoBtn').disabled = historyIndex >= textHistory.length - 1;
-  }
-
-  function exportText() {
-    const text = lastTransformedText || document.getElementById('output').innerText;
-    if (!text || text.includes('Your transformed text will appear here')) {
-      alert('No text to export. Please transform some text first.');
-      return;
-    }
-
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `kushal-writer-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
-  // Track input changes
-  const textInput = document.getElementById('textInput');
-  textInput.addEventListener('input', () => {
-    updateWordCount();
-  });
-
-  // Add initial state to history
-  addToHistory('');
-
-  // Keyboard shortcuts for undo/redo
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-      e.preventDefault();
-      undo();
-    }
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
-      e.preventDefault();
-      redo();
-    }
-  });
-
-  // Update submitText to save transformed text
-  const originalSubmitText = submitText;
-  submitText = function() {
-    const text = document.getElementById("textInput").value.trim();
-    const task = document.getElementById("taskSelect").value;
-    const output = document.getElementById("output");
-    const btn = document.getElementById("main-btn");
-
-    if (!text) {
-      output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
-      return;
-    }
-
-    output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
-    <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
-  </span>`;
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
-
-    fetch("{% url 'improve_api' %}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      body: JSON.stringify({ text, task }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.result) {
-          lastTransformedText = data.result;
-          output.innerHTML = `
-          <div style="position:relative;">
-            ${data.result.replace(/\n/g, "<br>")}
-            <button class="copy-btn" onclick="copy(this)">
-              <i class="fas fa-copy"></i> Copy
-            </button>
-          </div>`;
-          document.getElementById('exportBtn').disabled = false;
-        } else {
-          output.textContent =
-            "Error: " + (data.error || "Please try again");
-        }
-      })
-      .catch(() => (output.textContent = "Network error"))
-      .finally(() => {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
-      });
-  };
+  window.IMPROVE_API_URL = "{% url 'improve_api' %}";
 </script>
+<script src="{% static 'assistant/js/writer.js' %}"></script>
 {% endblock %}
