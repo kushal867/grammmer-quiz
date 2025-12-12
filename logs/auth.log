@@ -628,3 +628,83 @@ INFO 2025-12-11 19:21:10,808 basehttp 25376 2944 "GET /quiz/quiz HTTP/1.1" 200 3
 INFO 2025-12-11 19:21:14,072 basehttp 25376 18372 "GET /quiz/bookmarks/ HTTP/1.1" 200 20684
 INFO 2025-12-11 19:21:14,226 basehttp 25376 18372 "GET /quiz/api/bookmarks/ HTTP/1.1" 200 46
 INFO 2025-12-11 19:23:24,908 autoreload 11096 21472 Watching for file changes with StatReloader
+INFO 2025-12-11 19:24:36,835 autoreload 25376 21436 Watching for file changes with StatReloader
+INFO 2025-12-11 19:24:39,799 basehttp 25376 20428 "GET / HTTP/1.1" 302 0
+ERROR 2025-12-11 19:24:40,382 log 25376 20428 Internal Server Error: /quiz/quiz
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\machione\ai\quiz\views.py", line 93, in home
+    return render(request, 'home.html')
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
+    nodelist = parser.parse()
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\template\base.py", line 577, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 556: 'endblock'. Did you forget to register or load this tag?
+ERROR 2025-12-11 19:24:40,390 basehttp 25376 20428 "GET /quiz/quiz HTTP/1.1" 500 172373
+INFO 2025-12-11 19:25:56,498 autoreload 23840 11832 Watching for file changes with StatReloader
+INFO 2025-12-11 19:25:59,239 basehttp 23840 14940 "GET / HTTP/1.1" 302 0
+INFO 2025-12-11 19:25:59,294 basehttp 23840 14940 "GET /quiz/quiz HTTP/1.1" 200 29686
+INFO 2025-12-11 19:25:59,605 basehttp 23840 14940 "GET /static/quiz/js/quiz.js HTTP/1.1" 200 10032
+WARNING 2025-12-11 19:26:04,130 basehttp 23840 25556 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-11 19:26:04,407 basehttp 23840 25556 "GET /quiz/bookmarks/ HTTP/1.1" 200 20684
+INFO 2025-12-11 19:26:04,872 basehttp 23840 25556 "GET /quiz/api/bookmarks/ HTTP/1.1" 200 46
+ERROR 2025-12-11 19:26:11,819 log 23840 25556 Internal Server Error: /quiz/profile/
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\machione\ai\quiz\views_advanced.py", line 277, in user_profile
+    stats = get_user_statistics(request.user)
+  File "D:\machione\ai\quiz\utils.py", line 168, in get_user_statistics
+    profile = user.profile
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\db\models\fields\related_descriptors.py", line 534, in __get__
+    raise self.RelatedObjectDoesNotExist(
+django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.
+ERROR 2025-12-11 19:26:11,830 basehttp 23840 25556 "GET /quiz/profile/ HTTP/1.1" 500 93980
+INFO 2025-12-11 19:26:58,436 autoreload 16900 23888 Watching for file changes with StatReloader
+INFO 2025-12-11 19:27:04,612 basehttp 16900 12784 "GET / HTTP/1.1" 302 0
+INFO 2025-12-11 19:27:04,663 basehttp 16900 12784 "GET /quiz/quiz HTTP/1.1" 200 29686
+INFO 2025-12-11 19:27:04,843 basehttp 16900 12784 "GET /static/quiz/js/quiz.js HTTP/1.1" 304 0
+WARNING 2025-12-11 19:27:15,057 basehttp 16900 15128 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2025-12-11 19:28:16,967 autoreload 16640 3932 Watching for file changes with StatReloader
