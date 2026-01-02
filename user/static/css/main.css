@@ -1,67 +1,68 @@
 /* Main CSS File for Kushal Apps - Cyber Purple Theme */
 :root {
-  /* Background Colors - Deep Space Theme */
-  --bg: #0F0A1E;
-  --surface: #1A0F2E;
-  --surface-2: #251838;
-  --surface-3: #2D1F47;
+  /* Background Colors - Deep Ocean / Slate AI Theme */
+  --bg: #0B0F1A;
+  --surface: #141B2D;
+  --surface-2: #1E293B;
+  --surface-3: #2D3748;
   
   /* Border & Dividers */
-  --border: #3D2A5C;
-  --border-light: #4A3570;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.15);
   
   /* Text Colors */
-  --text: #F3F4F6;
-  --text-muted: #A5B4FC;
-  --text-dim: #818CF8;
+  --text: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
   
-  /* Primary Colors - Electric Purple */
-  --primary: #7C3AED;
-  --primary-hover: #8B5CF6;
-  --primary-light: #A78BFA;
-  --primary-dark: #6D28D9;
+  /* Primary Colors - Intelligent Indigo */
+  --primary: #6366F1;
+  --primary-hover: #818CF8;
+  --primary-light: #A5B4FC;
+  --primary-dark: #4F46E5;
   
-  /* Secondary Colors - Vibrant Cyan */
+  /* Secondary Colors - Tech Cyan */
   --secondary: #06B6D4;
   --secondary-hover: #22D3EE;
   --secondary-light: #67E8F9;
   
-  /* Accent Colors - Neon Pink */
-  --accent: #EC4899;
-  --accent-hover: #F472B6;
-  --accent-light: #F9A8D4;
+  /* Accent Colors - Fusion Purple */
+  --accent: #A855F7;
+  --accent-hover: #C084FC;
+  --accent-light: #E9D5FF;
   
   /* Status Colors */
-  --red: #EF4444;
-  --darkred: #DC2626;
+  --red: #F43F5E;
+  --darkred: #BE123C;
   --green: #10B981;
   --emerald: #059669;
   --blue: #3B82F6;
-  --cyan: #06B6D4;
+  --cyan: #0891B2;
   --amber: #F59E0B;
-  --purple: #A855F7;
+  --purple: #8B5CF6;
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
-  --gradient-secondary: linear-gradient(135deg, #06B6D4 0%, #7C3AED 100%);
-  --gradient-accent: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%);
-  --gradient-bg: linear-gradient(135deg, #0F0A1E 0%, #1A0F2E 50%, #251838 100%);
+  --gradient-primary: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+  --gradient-secondary: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);
+  --gradient-accent: linear-gradient(135deg, #A855F7 0%, #F43F5E 100%);
+  --gradient-bg: radial-gradient(circle at top left, #141B2D 0%, #0B0F1A 100%);
   
   /* Shadows & Effects */
-  --shadow: 0 20px 60px rgba(124, 58, 237, 0.3);
-  --shadow-lg: 0 25px 80px rgba(124, 58, 237, 0.4);
-  --glow-primary: 0 0 20px rgba(124, 58, 237, 0.5);
-  --glow-secondary: 0 0 20px rgba(6, 182, 212, 0.5);
-  --glow-accent: 0 0 20px rgba(236, 72, 153, 0.5);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 30px 100px rgba(0, 0, 0, 0.7);
+  --glow-primary: 0 0 25px rgba(99, 102, 241, 0.4);
+  --glow-secondary: 0 0 25px rgba(6, 182, 212, 0.4);
+  --glow-accent: 0 0 25px rgba(168, 85, 247, 0.4);
   
   /* Transitions */
-  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-fast: all 0.15s ease;
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s ease;
   
   /* Layout */
-  --header-height: 70px;
-  --border-radius: 12px;
-  --border-radius-lg: 16px;
+  --header-height: 80px;
+  --border-radius: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-xl: 32px;
 }
 
 /* Base Styles */
@@ -73,29 +74,41 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background: var(--gradient-bg);
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  background-attachment: fixed;
   line-height: 1.6;
   position: relative;
   overflow-x: hidden;
+  background-attachment: fixed;
 }
 
-/* Animated background effect */
+/* AI Animated Background */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+    var(--gradient-bg),
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+  z-index: -2;
+}
+
+/* Subtle Grid/Scan-line Effect */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
+  opacity: 0.5;
 }
 
 body > * {

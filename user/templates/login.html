@@ -5,73 +5,53 @@
 
 {% block extra_css %}
 <style>
-  /* Add background effect for login page */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.2) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .login-wrapper {
+  .login-layout {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - var(--header-height) - 100px);
     padding: 2rem 1rem;
-    position: relative;
-    z-index: 1;
   }
 
-  .login-container {
-    background: rgba(26, 15, 46, 0.8); /* Glassy dark background */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 3rem 2.5rem;
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  .login-card {
+    background: rgba(20, 27, 45, 0.4);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    padding: 4rem 3rem;
     width: 100%;
-    max-width: 420px;
-    text-align: center;
-    box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
   }
 
-  .login-container::before {
+  .login-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
-  }
-
-  .login-logo {
-    margin-bottom: 2rem;
-  }
-
-  .login-logo i {
-    font-size: 4rem;
+    width: 100%;
+    height: 6px;
     background: var(--gradient-primary);
-    background-clip: text;
+  }
+
+  .login-brand {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .login-brand i {
+    font-size: 3.5rem;
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     display: inline-block;
-    filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.4));
-    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.3));
+    animation: float 4s ease-in-out infinite;
   }
 
   @keyframes float {
@@ -79,242 +59,100 @@
     50% { transform: translateY(-10px); }
   }
 
-  .login-logo h2 {
-    margin: 0.5rem 0;
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-
-  .login-logo p {
-    color: var(--text-muted);
-    margin: 0;
-    font-size: 1.05rem;
-  }
-
-  .forgot-password {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-
-  .forgot-password:hover {
-    color: var(--primary);
-    text-decoration: underline;
-  }
-
-  .signup-link {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-
-  .signup-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background: var(--primary);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-  }
-
-  .signup-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-
-  /* Form specific styles */
-  .form-group {
-    margin-bottom: 1.5rem;
-    text-align: left;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 0.6rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-  }
-
-  .form-control {
-    width: 100%;
-    padding: 1rem 1.2rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    color: var(--text);
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
-  }
-
-  .form-control:focus {
-    border-color: var(--primary);
-    background: rgba(26, 15, 46, 0.9);
-    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
-    outline: none;
-    transform: translateY(-1px);
-  }
-
-  .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-  }
-
-  .btn {
-    width: 100%;
-    padding: 1.1rem;
-    background: var(--gradient-primary);
-    border: none;
+  .login-brand h2 {
+    font-size: 2.2rem;
+    font-weight: 850;
+    letter-spacing: -1px;
     color: white;
-    border-radius: 12px;
+    margin-bottom: 0.5rem;
+  }
+
+  .login-brand p {
+    color: var(--text-muted);
     font-size: 1.1rem;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.3s ease;
+  }
+
+  .input-wrapper {
     position: relative;
-    overflow: hidden;
-    margin-top: 1.5rem;
-    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    margin-bottom: 2rem;
   }
 
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-  }
-
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(124, 58, 237, 0.6);
-  }
-
-  .btn:hover::before {
-    left: 100%;
-  }
-
-  .btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
-  }
-
-  .error {
-    color: #ef4444;
-    margin: -0.5rem 0 1rem;
+  .input-wrapper label {
+    display: block;
     font-size: 0.9rem;
-    text-align: left;
-    padding: 0.8rem;
-    background: rgba(239, 68, 68, 0.1);
-    border-radius: 10px;
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    display: flex;
-    align-items: flex-start;
-    gap: 0.8rem;
-    animation: shake 0.5s ease-in-out;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
-  }
-
-  .d-flex { display: flex; }
-  .justify-content-between { justify-content: space-between; }
-  .align-items-center { align-items: center; }
-  .mb-2 { margin-bottom: 0.5rem; }
-  .mt-4 { margin-top: 2rem; }
-  .text-muted { color: var(--text-muted); }
-  .w-100 { width: 100%; }
-
-  .button-loader {
-    display: none;
-  }
-
-  .password-toggle {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: var(--transition);
+  .login-input {
+    width: 100%;
+    padding: 1.2rem 1.4rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: white;
     font-size: 1.1rem;
-    z-index: 10;
+    transition: var(--transition);
   }
 
-  .password-toggle:hover {
-    color: var(--primary);
+  .login-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: var(--glow-primary);
   }
 
-  .remember-me {
+  .login-btn {
+    width: 100%;
+    padding: 1.25rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--glow-primary);
+    transition: var(--transition);
+    margin-top: 1rem;
+  }
+
+  .login-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+  }
+
+  .error-box {
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    color: #FB7185;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    cursor: pointer;
+    gap: 0.75rem;
     font-size: 0.95rem;
-    color: var(--text-muted);
-    user-select: none;
-  }
-
-  .remember-me input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
-    cursor: pointer;
-    accent-color: var(--primary);
-    border-radius: 4px;
-  }
-
-  .remember-me:hover {
-    color: var(--text);
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
   }
 </style>
 {% endblock %}
+{% endblock %}
 
 {% block content %}
-<div class="login-wrapper">
-  <div class="login-container">
-    <div class="login-logo">
+<div class="login-layout">
+  <div class="login-card">
+    <div class="login-brand">
       <i class="fas fa-brain"></i>
-      <h2>Welcome Back</h2>
-      <p>Sign in to access your account</p>
+      <h2>Access Hub</h2>
+      <p>Sign in to your AI workstation</p>
     </div>
 
     {% if form.non_field_errors %}
-    <div class="error">
-      <i class="fas fa-exclamation-circle"></i>
+    <div class="error-box">
+      <i class="fas fa-exclamation-triangle"></i>
       <span>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</span>
     </div>
     {% endif %}
@@ -322,80 +160,73 @@
     <form action="{% url 'user:login' %}" method="POST" id="loginForm" novalidate>
       {% csrf_token %}
       
-      <div class="form-group">
-        <label for="username">Username</label>
+      <div class="input-wrapper">
+        <label for="username">Identity</label>
         <input 
           type="text" 
           id="username"
           name="username" 
-          placeholder="Enter your username" 
+          placeholder="Username" 
           required 
           autocomplete="username"
           autofocus
           value="{{ form.username.value|default:'' }}"
-          class="form-control"
+          class="login-input"
         />
         {% if form.username.errors %}
-          <div class="error">
-            <i class="fas fa-exclamation-circle"></i>
-            <span>{{ form.username.errors|join:", " }}</span>
+          <div style="color: var(--red); font-size: 0.85rem; margin-top: 0.5rem;">
+            {{ form.username.errors|join:", " }}
           </div>
         {% endif %}
       </div>
 
-      <div class="form-group">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <label for="password">Password</label>
-          <a href="#" class="forgot-password">Forgot password?</a>
+      <div class="input-wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <label for="password" style="margin-bottom: 0;">Secret Key</label>
+          <a href="#" style="color: var(--primary-light); font-size: 0.85rem; text-decoration: none;">Recovery?</a>
         </div>
         <div style="position: relative;">
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="••••••••"
             required
             autocomplete="current-password"
-            class="form-control"
-            style="padding-right: 3rem;"
+            class="login-input"
+            style="padding-right: 3.5rem;"
           />
           <button
             type="button"
             id="togglePassword"
-            class="password-toggle"
-            aria-label="Toggle password visibility"
+            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-dim); cursor: pointer;"
           >
             <i class="fas fa-eye" id="toggleIcon"></i>
           </button>
         </div>
         {% if form.password.errors %}
-          <div class="error">
-            <i class="fas fa-exclamation-circle"></i>
-            <span>{{ form.password.errors|join:", " }}</span>
+          <div style="color: var(--red); font-size: 0.85rem; margin-top: 0.5rem;">
+            {{ form.password.errors|join:", " }}
           </div>
         {% endif %}
       </div>
 
-      <div class="form-group" style="margin-bottom: 1rem;">
-        <label class="remember-me">
-          <input type="checkbox" name="remember_me" id="rememberMe">
-          <span>Remember me for 30 days</span>
-        </label>
+      <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+        <input type="checkbox" name="remember_me" id="rememberMe" style="width: 18px; height: 18px; accent-color: var(--primary);">
+        <label for="rememberMe" style="color: var(--text-muted); font-size: 0.9rem; cursor: pointer;">Stay persistent for 30 cycles</label>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100" id="loginButton">
-        <span class="button-text">Sign In</span>
-        <span class="button-loader">
+      <button type="submit" class="login-btn" id="loginButton">
+        <span class="button-text">Initialize Session</span>
+        <span class="button-loader" style="display: none;">
           <i class="fas fa-spinner fa-spin"></i>
         </span>
       </button>
     </form>
 
-    <p class="mt-4 text-muted">
-      Don't have an account? 
-      <a href="#" class="signup-link">
-        Contact admin
-      </a>
+    <p style="text-align: center; margin-top: 2.5rem; color: var(--text-dim); font-size: 0.95rem;">
+      Restricted access. Need entry? 
+      <a href="#" style="color: var(--primary-light); font-weight: 600; text-decoration: none;">Contact SysAdmin</a>
     </p>
   </div>
 </div>

@@ -27,348 +27,216 @@
       }
 
       .navbar {
-        background: rgba(26,15,46,0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(11, 15, 26, 0.7);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
         border-bottom: 1px solid var(--border);
-        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
-        padding: 0.5rem 2rem;
+        padding: 0 2rem;
         position: sticky;
         top: 0;
         z-index: 1000;
         height: var(--header-height);
         display: flex;
         align-items: center;
+        transition: var(--transition);
+      }
+
+      .navbar.scrolled {
+        background: rgba(11, 15, 26, 0.9);
+        height: 70px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       }
 
       .nav-container {
         width: 100%;
-        max-width: 1200px;
+        max-width: 1300px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 1rem;
       }
 
       .nav-logo {
-        font-size: 1.8rem;
-        font-weight: 900;
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-decoration: none;
+        font-size: 1.6rem;
+        font-weight: 800;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        transition: var(--transition);
-        filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.5));
+        gap: 0.75rem;
+        color: white;
+        text-decoration: none;
       }
-      
-      .nav-logo:hover {
-        transform: translateY(-2px);
-        filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.7));
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gradient-primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        box-shadow: var(--glow-primary);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-icon::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+        transform: translateX(-100%);
+        animation: logoShimmer 3s infinite;
+      }
+
+      @keyframes logoShimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
       }
 
       .nav-links {
         display: flex;
-        gap: 1.5rem;
+        gap: 1rem;
         align-items: center;
-        transition: transform 0.3s ease-in-out;
       }
 
-      @media (max-width: 768px) {
-        .nav-links {
-          position: fixed;
-          top: var(--header-height);
-          right: -100%;
-          flex-direction: column;
-          background: var(--surface);
-          width: 80%;
-          max-width: 300px;
-          height: calc(100vh - var(--header-height));
-          padding: 2rem 0;
-          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-          z-index: 1000;
-          overflow-y: auto;
-        }
-
-        .nav-links.active {
-          right: 0;
-        }
-
-        .nav-link {
-          width: 100%;
-          text-align: center;
-          padding: 1rem 0;
-        }
-      }
       .nav-link {
         text-decoration: none;
         color: var(--text-muted);
         font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        border-radius: 12px;
         transition: var(--transition);
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        position: relative;
+        gap: 0.6rem;
+        font-size: 0.95rem;
       }
-      
-      .nav-link::before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 2px;
-        background: var(--gradient-primary);
-        transition: width 0.3s ease;
-      }
-      
+
       .nav-link:hover {
-        background: rgba(124, 58, 237, 0.1);
-        color: var(--primary-light);
-        transform: translateY(-2px);
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
       }
-      
-      .nav-link:hover::before {
-        width: 80%;
-      }
-      
+
       .nav-link.active {
-        background: var(--gradient-primary);
         color: white;
-        font-weight: 600;
-        box-shadow: var(--glow-primary);
+        background: rgba(99, 102, 241, 0.15);
+        border: 1px solid rgba(99, 102, 241, 0.3);
       }
 
-      .mobile-menu-btn {
-        display: none;
+      .user-panel {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding-left: 1.5rem;
+        border-left: 1px solid var(--border);
+        margin-left: 1rem;
+      }
+
+      .user-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
         background: var(--surface-2);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
         border: 1px solid var(--border);
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 8px;
-        transition: var(--transition);
-        z-index: 1001;
+        font-size: 0.9rem;
       }
 
-      .mobile-menu-btn:hover {
-        background: var(--primary);
-        color: var(--bg);
-      }
-
-      @media (max-width: 768px) {
-        .mobile-menu-btn {
-          display: block;
-        }
-      }
-
-      .btn-logout {
-        background: linear-gradient(135deg, var(--red), var(--accent));
-        color: white;
-        border: none;
-        padding: 0.6rem 1.4rem;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-      }
-      .btn-logout:hover {
-        background: linear-gradient(135deg, var(--darkred), var(--red));
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5);
-      }
-      .user-info {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-      
-      .messages {
-        margin: 1rem auto;
-        max-width: 1200px;
-        padding: 0 1rem;
-      }
-
-      /* Footer Styles */
-      .footer {
-        background: var(--surface);
-        border-top: 1px solid var(--border);
-        padding: 2rem 1rem;
-        margin-top: 4rem;
-        text-align: center;
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .footer-content p {
-        margin: 0;
-        color: var(--text-muted);
-      }
-
-      .kushal-brand {
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-      }
-
-      /* Session Indicator */
-      .session-indicator {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.4rem 0.8rem;
-        background: rgba(167, 139, 250, 0.1);
-        border-radius: 6px;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        border: 1px solid var(--border);
-      }
-
-      .session-indicator i {
-        color: var(--green);
+      .session-pulse {
+        width: 8px;
+        height: 8px;
+        background: var(--green);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--green);
         animation: pulse 2s infinite;
       }
 
       @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
       }
 
-      /* Mobile menu improvements */
-      @media (max-width: 768px) {
-        .nav-links {
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-links.active {
-          transform: translateX(0);
-        }
-      }
-
-      /* Keyboard focus styles */
-      a:focus-visible, button:focus-visible {
-        outline: 2px solid var(--primary);
-        outline-offset: 2px;
-      }
-
-      /* Enhanced Footer Styles */
+      /* Footer */
       .footer {
-        background: linear-gradient(180deg, var(--surface) 0%, rgba(13, 10, 30, 0.95) 100%);
+        background: var(--surface);
+        padding: 5rem 1rem 2rem;
         border-top: 1px solid var(--border);
-        padding: 4rem 1rem 2rem;
-        margin-top: 4rem;
+        margin-top: 6rem;
         position: relative;
-        overflow: hidden;
-      }
-      
-      .footer::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: radial-gradient(circle at center, var(--primary) 0%, transparent 70%);
-        opacity: 0.5;
       }
 
-      .footer-content {
+      .footer-grid {
         max-width: 1200px;
         margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        position: relative;
-        z-index: 1;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
       }
 
-      .footer-logo {
+      @media (max-width: 768px) {
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+          text-align: center;
+        }
+        .user-panel {
+          display: none;
+        }
+        .navbar {
+          padding: 0 1rem;
+        }
+        .nav-links {
+          display: none; /* Simplify mobile for now, or could add toggle */
+        }
+      }
+
+      .footer-brand h2 {
         font-size: 2rem;
-        font-weight: 900;
+        margin-bottom: 1rem;
         background: var(--gradient-primary);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0.5rem;
       }
 
-      .footer-tagline {
-        color: var(--text-muted);
+      .footer-section h4 {
+        color: white;
+        margin-bottom: 1.5rem;
         font-size: 1.1rem;
-        font-weight: 400;
       }
 
       .footer-links {
-        display: flex;
-        gap: 1.5rem;
-        margin: 1rem 0;
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.75rem;
       }
 
       .footer-links a {
         color: var(--text-muted);
-        font-size: 1.5rem;
         transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid var(--border);
       }
 
       .footer-links a:hover {
-        color: white;
-        background: var(--primary);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
-        border-color: var(--primary);
+        color: var(--primary);
+        padding-left: 5px;
       }
 
-      .copyright {
-        text-align: center;
-        border-top: 1px solid rgba(255,255,255,0.05);
+      .copyright-bar {
+        max-width: 1200px;
+        margin: 0 auto;
         padding-top: 2rem;
-        width: 100%;
-        margin-top: 1rem;
-      }
-
-      .copyright p {
-        margin: 0.5rem 0;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-      }
-
-      .kushal-brand {
-        background: linear-gradient(90deg, var(--primary), var(--accent));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-      }
-      
-      .love {
-        font-size: 0.85rem !important;
-        opacity: 0.7;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--text-dim);
+        font-size: 0.9rem;
       }
     </style>
 
@@ -377,62 +245,54 @@
 
   <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="mainNav">
       <div class="nav-container">
-
-        <!-- ✅ FIXED LOGO LINK -->
         <a href="{% url 'user:login' %}" class="nav-logo">
-          <i class="fas fa-brain"></i> Kushal Apps
+          <div class="logo-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <span>Kushal AI</span>
         </a>
 
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-      <i class="fas fa-bars"></i>
-    </button>
-
-        <div class="nav-links" id="navLinks" role="menu">
-
-          <!-- ✅ FIXED HOME BUTTON -->
+        <div class="nav-links">
           <a href="{% url 'user:login' %}" class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
-            <i class="fas fa-home"></i> Home
+            <i class="fas fa-grid-2"></i> Dashboard
           </a>
-
           <a href="{% url 'kushal_writer' %}" class="nav-link {% if request.resolver_match.url_name == 'kushal_writer' %}active{% endif %}">
-            <i class="fas fa-wand-magic-sparkles"></i> Kushal Writer
+            <i class="fas fa-pen-nib"></i> Writer
           </a>
-
-          <!-- ✅ FIXED QUIZ LINK -->
           <a href="{% url 'quiz:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-            <i class="fas fa-graduation-cap"></i> लोकसेवा क्विज
+            <i class="fas fa-lightbulb"></i> Quiz
           </a>
-
+          
           {% if user.is_authenticated %}
-          <div class="user-info">
-            <div class="session-indicator">
-              <i class="fas fa-circle"></i>
-              <span id="sessionTime">Active</span>
+          <div class="user-panel">
+            <div class="user-badge">
+              <div class="session-pulse"></div>
+              <span>{{ user.username }}</span>
             </div>
-            <span><i class="fas fa-user"></i> {{ user.username }}</span>
-            <form action="{% url 'user:logout' %}" method="POST">
+            <form action="{% url 'user:logout' %}" method="POST" style="margin: 0;">
               {% csrf_token %}
-              <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+              <button type="submit" style="background: none; border: none; color: var(--red); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+                <i class="fas fa-power-off"></i>
+              </button>
             </form>
           </div>
-          {% else %}
-          <a href="{% url 'user:login' %}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
           {% endif %}
-
         </div>
       </div>
     </nav>
 
     <!-- Messages -->
-    <div class="messages" aria-live="polite">
-      {% if messages %} {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'info' %}fa-info-circle{% endif %}"></i>
-        {{ message }}
-      </div>
-      {% endfor %} {% endif %}
+    <div class="container mt-2">
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-info-circle{% endif %}"></i>
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
     </div>
 
     <!-- Main Content -->
@@ -442,58 +302,49 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-logo">
-          <i class="fas fa-brain"></i> Kushal Apps
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h2>Kushal AI</h2>
+          <p>The next generation of intelligent tools for creators and learners. Built with passion and cutting-edge technology.</p>
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <a href="#" class="nav-link" style="padding: 0.5rem;"><i class="fab fa-github fa-lg"></i></a>
+            <a href="#" class="nav-link" style="padding: 0.5rem;"><i class="fab fa-twitter fa-lg"></i></a>
+            <a href="#" class="nav-link" style="padding: 0.5rem;"><i class="fab fa-linkedin fa-lg"></i></a>
+          </div>
         </div>
-        <p class="footer-tagline">Empowering your digital journey with AI</p>
-        <div class="footer-links">
-          <a href="#"><i class="fab fa-github"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
+        <div class="footer-section">
+          <h4>Platform</h4>
+          <ul class="footer-links">
+            <li><a href="{% url 'kushal_writer' %}">AI Writer</a></li>
+            <li><a href="{% url 'quiz:home' %}">Educational Quiz</a></li>
+            <li><a href="#">API Documentation</a></li>
+          </ul>
         </div>
-        <div class="copyright">
-          <p>© 2025 <span class="kushal-brand">Kushal Sapkota</span> — Nepal's Pride in Technology</p>
-          <p class="love">Built with ❤️ for Nepal</p>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
         </div>
+      </div>
+      <div class="copyright-bar">
+        <p>© 2026 Kushal Sapkota. All rights reserved.</p>
+        <p>Made in Nepal 🇳🇵</p>
       </div>
     </footer>
 
     <!-- JavaScript -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        if (mobileMenuBtn && navLinks) {
-          mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenuBtn.setAttribute('aria-expanded', 
-              mobileMenuBtn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
-            );
-            
-            // Animate icon
-            const icon = mobileMenuBtn.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-              icon.classList.remove('fa-bars');
-              icon.classList.add('fa-times');
-            } else {
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
-            }
-          });
-        }
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-          if (window.innerWidth <= 768 && 
-              !e.target.closest('#navLinks') && 
-              !e.target.closest('#mobileMenuBtn')) {
-            navLinks.classList.remove('active');
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            const icon = mobileMenuBtn.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+          const nav = document.getElementById('mainNav');
+          if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+          } else {
+            nav.classList.remove('scrolled');
           }
         });
 

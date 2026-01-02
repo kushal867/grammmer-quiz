@@ -5,400 +5,313 @@
 
 {% block extra_css %}
 <style>
-  /* Custom styles for Kushal Writer */
-  /* Note: Some root variables are already defined in base.html, overriding or adding specific ones here */
   :root {
-    /* Ensure these variables are available if not in base or if we want to override */
-    --glow-primary: 0 0 40px rgba(167, 139, 250, 0.4);
-    --glow-accent: 0 0 30px rgba(250, 220, 182, 0.3);
+    --writer-glow: 0 0 50px rgba(99, 102, 241, 0.15);
   }
 
-  /* We can remove body styles as they are handled by base.html, 
-     but we might need to adjust some specific overrides if necessary.
-     For now, we'll trust base.html's body styles. */
-
-  .writer-container {
-    max-width: 1200px;
+  .writer-layout {
+    max-width: 1400px;
     margin: 40px auto;
-    background: rgba(255, 255, 255, 0.02); /* Glassy background */
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+  }
+
+  @media (max-width: 1100px) {
+    .writer-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .main-editor-card {
+    background: rgba(20, 27, 45, 0.4);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 32px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  /* Header */
-  .writer-header {
-    background: linear-gradient(
-      135deg,
-      #7C3AED 0%,
-      #A78BFA 50%,
-      #EC4899 100%
-    );
-    padding: 90px 40px 70px;
-    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
   }
 
-  .writer-header::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><pattern id=%22grid%22 width=%22100%22 height=%22100%22 patternUnits=%22userSpaceOnUse%22><path d=%22M 100 0 L 0 0 0 100%22 fill=%22none%22 stroke=%22rgba(255,255,255,0.03)%22 stroke-width=%221%22/></pattern></defs><rect width=%22100%22 height=%22100%22 fill=%22url(%23grid)%22/></svg>");
-  }
-
-  .writer-header::after {
-    content: "";
+  .main-editor-card::before {
+    content: '';
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      circle at 20% 80%,
-      rgba(199, 159, 255, 0.3),
-      transparent 50%
-    );
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 70%);
+    pointer-events: none;
   }
 
-  .writer-header h1 {
-    font-size: 5.5rem;
-    font-weight: 900;
-    letter-spacing: -2px;
-    margin-bottom: 16px;
-    background: linear-gradient(90deg, #ffffff, #F9A8D4, #FDE68A);
+  .writer-header-compact {
+    margin-bottom: 2.5rem;
+  }
+
+  .writer-header-compact h1 {
+    font-size: 2.5rem;
+    font-weight: 850;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, #fff, #A5B4FC);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .writer-header-compact p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  /* Editor Area */
+  .editor-wrapper {
     position: relative;
-    line-height: 1.1;
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-  }
-
-  .writer-header p {
-    font-size: 1.6rem;
-    opacity: 0.95;
-    font-weight: 500;
-    margin-bottom: 20px;
-    color: white; /* Ensure text is white on the colorful header */
-  }
-
-  .brand {
-    margin-top: 32px;
-    font-size: 1.9rem;
-    font-weight: 700;
-    color: #e2e8f0;
-    position: relative;
-  }
-
-  .brand span {
-    background: linear-gradient(90deg, #fbbf24, #fde68a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
-  }
-
-  /* Main Content */
-  .writer-main {
-    padding: 70px 80px;
+    margin-bottom: 2rem;
   }
 
   textarea {
     width: 100%;
-    height: 280px;
-    padding: 28px;
-    background: var(--surface-2);
+    height: 400px;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
     border: 1.5px solid var(--border);
-    border-radius: 24px;
-    color: white;
-    font-size: 18px;
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1.7;
     font-family: inherit;
     resize: none;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(12px);
-    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
   textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: var(--glow-primary), inset 0 4px 10px rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: var(--glow-primary), inset 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
-  .controls {
+  /* Sidebar Controls */
+  .ai-controls-panel {
     display: flex;
-    gap: 24px;
-    margin: 48px 0 56px;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  select {
-    padding: 18px 28px;
-    background: var(--surface-2);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    color: white;
-    font-size: 17px;
-    font-weight: 500;
-    min-width: 300px;
-    cursor: pointer;
-    transition: all 0.3s;
+  .control-card {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
     backdrop-filter: blur(10px);
   }
 
-  select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: var(--glow-primary);
+  .control-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  select {
+    width: 100%;
+    padding: 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5rem;
   }
 
   button#main-btn {
-    padding: 18px 56px;
+    width: 100%;
+    padding: 1.25rem;
     background: var(--gradient-primary);
     color: white;
     border: none;
-    border-radius: 18px;
-    font-size: 18px;
+    border-radius: 14px;
+    font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     box-shadow: var(--glow-primary);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: var(--transition);
     display: flex;
     align-items: center;
-    gap: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  button#main-btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transform: translateX(-100%);
-    transition: transform 0.6s;
-  }
-
-  button#main-btn:hover::before {
-    transform: translateX(100%);
+    justify-content: center;
+    gap: 0.75rem;
   }
 
   button#main-btn:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
   }
 
-  button#main-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
+  /* Output Area */
+  .output-container {
+    margin-top: 3rem;
   }
 
-  /* Output */
+  .output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
   .output-box {
-    background: var(--surface-2);
-    border: 1.5px solid var(--border);
-    border-radius: 24px;
-    padding: 40px;
-    min-height: 220px;
-    font-size: 19px;
-    line-height: 1.9;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    min-height: 200px;
+    font-size: 1.15rem;
+    line-height: 1.8;
     position: relative;
-    backdrop-filter: blur(12px);
-    box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s;
+    color: var(--text);
   }
 
   .copy-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(139, 92, 246, 0.25);
-    color: white;
-    border: 1.5px solid var(--primary);
-    padding: 12px 24px;
-    border-radius: 14px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-light);
+    border: 1px solid var(--primary-light);
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 15px;
-    transition: all 0.3s;
-    backdrop-filter: blur(8px);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .copy-btn:hover {
     background: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+    color: white;
   }
 
-  .placeholder {
-    color: var(--text-muted);
-    font-style: italic;
-    opacity: 0.7;
-  }
-
-  .writer-footer {
-    text-align: center;
-    padding: 50px 20px 30px;
-    color: var(--text-muted);
-    font-size: 15px;
-    font-weight: 500;
-  }
-
-  .kushal {
-    background: linear-gradient(90deg, #c084fc, #e9d5ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .writer-header h1 {
-      font-size: 3.8rem;
-    }
-    .writer-main {
-      padding: 50px 30px;
-    }
-    .controls {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    select,
-    button#main-btn {
-      width: 100%;
-    }
-  }
-
-  /* Word counter */
-  .word-counter {
+  .stats-bar {
     display: flex;
     gap: 2rem;
-    margin-top: 0.5rem;
+    padding: 1rem 0;
+    color: var(--text-dim);
     font-size: 0.9rem;
-    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
   }
 
-  .word-counter span {
+  .ai-status-node {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .history-buttons {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .history-btn {
-    padding: 0.5rem 1rem;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-  }
-
-  .history-btn:hover:not(:disabled) {
-    background: var(--primary);
-    border-color: var(--primary);
-  }
-
-  .history-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .export-btn {
-    padding: 0.8rem 1.5rem;
-    background: linear-gradient(90deg, #10b981, #059669);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
+    color: var(--green);
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
-  .export-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="writer-container">
-  <div class="writer-header">
-    <h1>Kushal Writer</h1>
-    <p>Craft perfect words with your personal AI</p>
-    <div class="brand">
-      Created & Powered by <span>Kushal Sapkota</span>
+<div class="writer-layout">
+  <div class="main-editor-card">
+    <div class="writer-header-compact">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <span class="ai-status-node"><div class="pulse-dot"></div> AI Engine Ready</span>
+      </div>
+      <h1>Kushal Writer</h1>
+      <p>Transform your ideas into professional content with our advanced intelligence.</p>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+      <div style="display: flex; gap: 0.5rem;">
+        <button class="copy-btn" id="undoBtn" onclick="undo()" disabled title="Undo">
+          <i class="fas fa-undo"></i>
+        </button>
+        <button class="copy-btn" id="redoBtn" onclick="redo()" disabled title="Redo">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="editor-wrapper">
+      <textarea
+        id="textInput"
+        placeholder="Start typing your thoughts here... Let AI do the heavy lifting."
+      ></textarea>
+    </div>
+
+    <div class="stats-bar">
+      <span><i class="fas fa-font"></i> <strong id="charCount">0</strong> characters</span>
+      <span><i class="fas fa-align-left"></i> <strong id="wordCount">0</strong> words</span>
+      <span style="margin-left: auto;">Model: Llama 3 - 70B</span>
+    </div>
+
+    <div class="output-container">
+      <div class="output-header">
+        <h3 style="font-size: 1.2rem; font-weight: 700;">Transformed Content</h3>
+        <button class="copy-btn" onclick="copyResult()" id="copyBtn">
+          <i class="fas fa-copy"></i> Copy result
+        </button>
+      </div>
+      <div class="output-box" id="output">
+        <span style="color: var(--text-dim); font-style: italic;">
+          Your AI-optimized content will manifest here...
+        </span>
+      </div>
     </div>
   </div>
 
-  <div class="writer-main">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <div class="word-counter">
-        <span><i class="fas fa-font"></i> <strong id="charCount">0</strong> characters</span>
-        <span><i class="fas fa-align-left"></i> <strong id="wordCount">0</strong> words</span>
-      </div>
-      <div class="history-buttons">
-        <button class="history-btn" id="undoBtn" onclick="undo()" disabled title="Undo (Ctrl+Z)">
-          <i class="fas fa-undo"></i>
-        </button>
-        <button class="history-btn" id="redoBtn" onclick="redo()" disabled title="Redo (Ctrl+Y)">
-          <i class="fas fa-redo"></i>
-        </button>
-        <button class="history-btn" onclick="clearHistory()" title="Clear All History" style="color:#ef4444;">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
-    </div>
-    <textarea
-      id="textInput"
-      placeholder="Type or paste anything... I'll transform it instantly"
-    ></textarea>
-
-    <div class="controls">
+  <div class="ai-controls-panel">
+    <div class="control-card">
+      <div class="control-label"><i class="fas fa-sliders"></i> Transformation</div>
       <select id="taskSelect">
-        <option value="grammar">Fix Grammar & Spelling</option>
-        <option value="rewrite">Rewrite Beautifully</option>
-        <option value="formal">Make Professional & Formal</option>
-        <option value="casual">Make Friendly & Casual</option>
-        <option value="summary">Summarize Concisely</option>
+        <option value="grammar">Advanced Proofreading</option>
+        <option value="rewrite">Creative Rephrasing</option>
+        <option value="formal">Executive Tone</option>
+        <option value="casual">Friendly Narrative</option>
+        <option value="summary">Concise Summary</option>
       </select>
+    </div>
+
+    <div class="control-card">
       <button id="main-btn" onclick="submitText()">
-        <i class="fas fa-wand-magic-sparkles"></i>
-        <span>Transform Text</span>
-      </button>
-      <button class="export-btn" onclick="exportText()" id="exportBtn" disabled>
-        <i class="fas fa-download"></i>
-        <span>Export</span>
+        <i class="fas fa-sparkles"></i>
+        <span>Enhance Content</span>
       </button>
     </div>
 
-    <div class="output-box" id="output">
-      <span class="placeholder"
-        >Your transformed text will appear here instantly...</span
-      >
+    <div class="control-card" style="margin-top: auto;">
+      <div class="control-label"><i class="fas fa-file-export"></i> Delivery</div>
+      <button class="copy-btn" style="width: 100%; justify-content: center; margin-bottom: 0.5rem;" onclick="exportText()" id="exportBtn" disabled>
+        <i class="fas fa-download"></i> Download as PDF
+      </button>
+      <button class="copy-btn" style="width: 100%; justify-content: center; border-color: var(--red); color: var(--red);" onclick="clearHistory()">
+        <i class="fas fa-trash-alt"></i> Purge History
+      </button>
     </div>
   </div>
 </div>
@@ -407,6 +320,24 @@
 {% block extra_js %}
 <script>
   window.IMPROVE_API_URL = "{% url 'improve_api' %}";
+  
+  function copyResult() {
+    const output = document.getElementById('output');
+    if (output.innerText.trim() === "" || output.querySelector('span')) return;
+    
+    navigator.clipboard.writeText(output.innerText).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      btn.style.borderColor = 'var(--green)';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }, 2000);
+    });
+  }
 </script>
 <script src="{% static 'assistant/js/writer.js' %}"></script>
 {% endblock %}
