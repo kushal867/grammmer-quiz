@@ -4,189 +4,217 @@
 
 {% block extra_css %}
 <style>
-    /* Styling consistent with home.html */
     :root {
-        --quiz-red: #EF4444;
-        --quiz-gold: #fbbf24;
-        --quiz-green: #10B981;
-        --quiz-blue: #7C3AED;
+        --quiz-indigo: #6366F1;
+        --quiz-cyan: #06B6D4;
+        --quiz-emerald: #10B981;
+        --quiz-rose: #F43F5E;
+        --quiz-amber: #F59E0B;
     }
 
-    body {
-        background: linear-gradient(135deg, #1a0f2e 0%, #3b0764 50%, #4c1d95 100%) !important;
-        font-family: "Mukta", "Hind Siliguri", sans-serif;
-        color: white;
-        background-attachment: fixed;
-    }
-
-    .challenge-container {
-        max-width: 800px;
+    .challenge-wrapper {
+        max-width: 900px;
         margin: 40px auto;
-        background: rgba(255, 255, 255, 0.03);
+        padding: 0 1.5rem;
+    }
+
+    .challenge-card {
+        background: rgba(20, 27, 45, 0.4);
         backdrop-filter: blur(20px);
-        border-radius: 32px;
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius-lg);
+        padding: 3rem;
+        box-shadow: var(--shadow-lg);
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 40px;
-        text-align: center;
+    }
+
+    .challenge-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: var(--gradient-primary);
     }
 
     .challenge-header {
-        margin-bottom: 30px;
+        text-align: center;
+        margin-bottom: 3.5rem;
     }
 
     .challenge-header h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 10px;
-        background: linear-gradient(90deg, #A78BFA, #F472B6);
+        font-size: 2.8rem;
+        font-weight: 850;
+        letter-spacing: -1px;
+        background: var(--gradient-primary);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
     }
 
     .challenge-date {
-        color: var(--quiz-gold);
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 20px;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        display: inline-block;
+        border: 1px solid var(--border);
     }
 
-    #question-container {
-        display: none;
-        animation: fadeIn 0.5s ease;
+    /* Quiz Flow Styling */
+    .question-box {
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     .question-text {
-        font-size: 1.5rem;
-        margin-bottom: 30px;
-        line-height: 1.6;
+        font-size: 1.6rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 3rem;
+        color: white;
+        text-align: center;
     }
 
-    .options-grid {
+    .options-container {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 15px;
-        text-align: left;
+        gap: 1rem;
     }
 
     .option-btn {
-        padding: 15px 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        color: white;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.25rem 2rem;
+        color: var(--text);
         font-size: 1.1rem;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: var(--transition);
+        text-align: left;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 1.25rem;
     }
 
-    .option-btn:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateX(5px);
-    }
-    
-    .option-btn.selected {
-        background: rgba(124, 58, 237, 0.3);
-        border-color: var(--quiz-blue);
+    .option-btn:hover:not(:disabled) {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: var(--primary);
+        transform: translateX(8px);
     }
 
-    .option-btn.correct {
-        background: rgba(16, 185, 129, 0.2);
-        border-color: var(--quiz-green);
-        color: #34d399;
-    }
-
-    .option-btn.wrong {
-        background: rgba(239, 68, 68, 0.2);
-        border-color: var(--quiz-red);
-        color: #f87171;
-    }
-
-    #start-screen {
-        padding: 20px;
-    }
-
-    .start-btn {
-        padding: 15px 40px;
-        background: var(--quiz-blue);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.2rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-    }
-
-    .start-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
-    }
-
-    #results-screen {
-        display: none;
-        text-align: center;
-    }
-    
-    .score-circle {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: rgba(0,0,0,0.2);
+    .option-prefix {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 20px auto;
-        border: 4px solid var(--quiz-gold);
-        font-size: 3rem;
-        font-weight: bold;
-        color: var(--quiz-gold);
+        font-weight: 700;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .option-btn.selected {
+        background: rgba(99, 102, 241, 0.2);
+        border-color: var(--primary);
+    }
+
+    .option-btn.correct {
+        background: rgba(16, 185, 129, 0.15);
+        border-color: var(--green);
+        color: #34D399;
+    }
+
+    .option-btn.wrong {
+        background: rgba(244, 63, 94, 0.15);
+        border-color: var(--red);
+        color: #FB7185;
+    }
+
+    /* Start/Result Screens */
+    .hero-btn {
+        padding: 1.25rem 3rem;
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: var(--glow-primary);
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+    }
+
+    .score-badge {
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: var(--primary-light);
+        margin: 2rem 0;
+        text-shadow: var(--glow-primary);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="challenge-container">
-    <div class="challenge-header">
-        <h1><i class="fas fa-calendar-alt"></i> Daily Challenge</h1>
-        <div class="challenge-date" id="date-display">Thinking...</div>
-    </div>
-
-    <div id="start-screen">
-        <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">
-            Ready to test your knowledge? Today's challenge awaits!
-        </p>
-        <button class="start-btn" onclick="startChallenge()">
-            <i class="fas fa-play"></i> Start Challenge
-        </button>
-    </div>
-
-    <div id="question-container">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: rgba(255,255,255,0.6);">
-            <span id="q-counter">Question 1/10</span>
-            <span id="q-difficulty" style="color: var(--quiz-gold);">Medium</span>
+<div class="challenge-wrapper">
+    <div class="challenge-card">
+        <div class="challenge-header">
+            <h1>Daily Challenge</h1>
+            <div class="challenge-date" id="date-display">
+                <i class="fas fa-spinner fa-spin"></i> Analyzing...
+            </div>
         </div>
-        <div class="question-text" id="q-text">Loading...</div>
-        <div class="options-grid" id="q-options"></div>
-    </div>
 
-    <div id="results-screen">
-        <h2>Challenge Complete!</h2>
-        <div class="score-circle" id="final-score">0</div>
-        <p>Excellent work! Come back tomorrow for more.</p>
-        <a href="{% url 'quiz:home' %}" class="start-btn" style="text-decoration: none; display: inline-block; margin-top: 20px;">
-            Return Home
-        </a>
+        <div id="start-screen" style="text-align: center;">
+            <p style="font-size: 1.2rem; margin-bottom: 3rem; color: var(--text-muted); line-height: 1.8;">
+                Welcome to today's intellectual sprint. <br>
+                Test your knowledge and stay sharp with our daily curated quiz.
+            </p>
+            <button class="hero-btn" onclick="startChallenge()">
+                <i class="fas fa-bolt"></i> Begin Challenge
+            </button>
+        </div>
+
+        <div id="question-container" style="display: none;">
+            <div class="question-box">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;">
+                    <span id="q-counter">Question 1/10</span>
+                    <span id="q-difficulty">Level: Standard</span>
+                </div>
+                <div class="question-text" id="q-text">Loading intelligence...</div>
+                <div class="options-container" id="q-options"></div>
+            </div>
+        </div>
+
+        <div id="results-screen" style="display: none; text-align: center;">
+            <h2 style="font-size: 2rem; color: white;">Analysis Complete</h2>
+            <div class="score-badge" id="final-score">0</div>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.1rem;">
+                Excellent session. Your results have been indexed.
+            </p>
+            <a href="{% url 'quiz:home' %}" class="hero-btn" style="text-decoration: none;">
+                <i class="fas fa-home"></i> Back to Hub
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -239,16 +267,19 @@
         const q = questions[currentQIndex];
         document.getElementById('q-text').textContent = q.question;
         document.getElementById('q-counter').textContent = `Question ${currentQIndex + 1}/${questions.length}`;
-        document.getElementById('q-difficulty').textContent = q.difficulty;
+        document.getElementById('q-difficulty').textContent = `Level: ${q.difficulty}`;
 
         const optsContainer = document.getElementById('q-options');
         optsContainer.innerHTML = '';
 
-        letters.forEach(letter => {
+        letters.forEach((letter, index) => {
             if (q.options[letter]) {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerHTML = `<strong>${letter})</strong> ${q.options[letter]}`;
+                btn.innerHTML = `
+                    <div class="option-prefix">${letter}</div>
+                    <div class="option-content">${q.options[letter]}</div>
+                `;
                 btn.onclick = () => submitAnswer(letter, btn);
                 optsContainer.appendChild(btn);
             }
@@ -270,7 +301,8 @@
             btnElement.classList.add('wrong');
             // Highlight correct answer
             buttons.forEach(b => {
-                if (b.textContent.includes(currentQ.correct_answer + ')')) {
+                const prefix = b.querySelector('.option-prefix').textContent.trim();
+                if (prefix === currentQ.correct_answer) {
                     b.classList.add('correct');
                 }
             });
