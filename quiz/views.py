@@ -223,50 +223,46 @@ def generate_single_question(domain, topic, difficulty, session, attempt):
     
     return parse_question_response(clean_response if clean_response.strip() else raw_response, domain, topic)
 
-def build_enhanced_prompt(domain, topic, question_text, difficulty, session):
-    """Build comprehensive prompt for question generation"""
+def build_enhanced_prompt(domain, topic, instruction, difficulty, session):
+    """Build comprehensive prompt for high-quality question generation"""
     used_questions = session.get('used_questions', [])
-    context = session.get('question_context', {})
     
     # Include context about what to avoid
     avoidance_context = ""
     if used_questions:
-        recent_questions = used_questions[-4:]  # Last 4 questions
-        avoidance_context = "\n\nयी जस्ता प्रश्नहरू नदोहोर्याउनुहोस्:\n" + "\n".join(f"✗ {q}" for q in recent_questions)
+        recent_texts = [q[:100] for q in used_questions[-10:]]
+        avoidance_context = "\nयी प्रश्नहरू वा तिनीहरूका समान विषयहरू नदोहोर्याउनुहोस्:\n- " + "\n- ".join(recent_texts)
     
-    # Include domain-specific guidance
     domain_guidance = get_domain_guidance(domain)
-    
     difficulty_info = DIFFICULTY_LEVELS[difficulty]
     
-    prompt = f"""
-तपाईं नेपाल लोक सेवा आयोग (नायब सुब्बा / शाखा अधिकृत) को तयारीको लागि {difficulty} स्तरको प्रश्न बनाउनुहोस्।
+    prompt = f"""{SYSTEM_PROMPT}
 
 विषय क्षेत्र: {domain}
-विशेष उपविषय: {topic}
-{difficulty_info['hint']}
+उप-विषय: {topic}
+स्तर: {difficulty} ({difficulty_info['description']})
+
+कार्य: {instruction}
+
+निर्देशनहरू:
+१. प्रश्न पूर्ण रूपमा नेपाली सन्दर्भमा र आधिकारिक तथ्यमा आधारित हुनुपर्छ।
+२. चारवटा विकल्पहरू (क, ख, ग, घ) दिनुहोस्। विकल्पहरू एकअर्कासँग मिल्दाजुल्दा र तार्किक हुनुपर्छ ताकि परीक्षार्थी झुक्कियोस्।
+३. केवल एउटा विकल्प मात्र सही हुनुपर्छ।
+४. भाषा शुद्ध, व्याकरणिक रूपमा सही र मानक हुनुपर्छ।
+५. कुनै पनि अतिरिक्त कुरा, व्याख्या वा भूमिका नलेख्नुहोस्। केवल तोकिएको ढाँचामा प्रश्न दिनुहोस्।
 
 {domain_guidance}
-
 {avoidance_context}
 
-आवश्यक निर्देशन:
-- प्रश्न पूर्ण रूपमा नेपाली संदर्भमा हुनुपर्छ
-- विकल्पहरू वास्तविक, तार्किक र स्पष्ट हुनुपर्छ
-- सही उत्तर एउटा मात्र हुनुपर्छ
-- प्रश्न र विकल्पहरू मौलिक र नयाँ हुनुपर्छ
-- विकल्पहरूको लम्बाइ लगभग बराबर हुनुपर्छ
+आउटपुट ढाँचा:
+प्रश्न: [यहाँ प्रश्न लेख्नुहोस्]
+क) [पहिलो विकल्प]
+ख) [दोस्रो विकल्प]
+ग) [तेस्रो विकल्प]
+घ) [चौथो विकल्प]
+सही जवाफ: [क/ख/ग/घ]
 
-ढाँचा (कुनै अतिरिक्त टिप्पणी नदिनुहोस्):
-प्रश्न: {question_text}
-क) पहिलो विकल्प
-ख) दोस्रो विकल्प
-ग) तेस्रो विकल्प
-घ) चौथो विकल्प
-सही जवाफ: ख
-
-अब तपाईंको प्रश्न बनाउनुहोस्:
-"""
+तपाईंको प्रश्न:"""
     return prompt
 
 def get_domain_guidance(domain):
