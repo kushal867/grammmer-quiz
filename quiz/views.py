@@ -66,12 +66,28 @@ QUESTION_PATTERNS = [
     "{topic} को विषयमा कुन उत्तर सही हो?"
 ]
 
-# Difficulty levels with characteristics
+# Difficulty levels with refined characteristics for better AI quality
 DIFFICULTY_LEVELS = {
-    "सजिलो": {"temperature": 0.7, "hint": "सरल प्रश्न बनाउनुहोस्"},
-    "मध्यम": {"temperature": 0.8, "hint": "मध्यम कठिनाइको प्रश्न बनाउनुहोस्"},
-    "कठिन": {"temperature": 0.9, "hint": "कठिन प्रश्न बनाउनुहोस्"}
+    "सजिलो": {
+        "temperature": 0.4, 
+        "hint": "Direct factual question, clear and straightforward",
+        "description": "आधारभूत तह: सिधा र स्पष्ट तथ्यमा आधारित प्रश्न"
+    },
+    "मध्यम": {
+        "temperature": 0.6, 
+        "hint": "Requires some conceptual understanding or logical thinking",
+        "description": "मध्यम तह: केही विश्लेषण र समझ चाहिने प्रश्न"
+    },
+    "कठिन": {
+        "temperature": 0.8, 
+        "hint": "Analytical, multi-statement, or complex comparative question",
+        "description": "उच्च तह: गहिरो विश्लेषण र तुलनात्मक अध्ययन चाहिने प्रश्न"
+    }
 }
+
+SYSTEM_PROMPT = """तपाईं लोक सेवा आयोग (PSC) को लागि प्रश्न निर्माण गर्ने एक वरिष्ठ विज्ञ हुनुहुन्छ। 
+तपाईंको काम नेपालको निजामती सेवा परीक्षा (नासु, शाखा अधिकृत) को पाठ्यक्रममा आधारित रहेर 
+अत्यन्तै सान्दर्भिक, तथ्यगत रूपमा सही, र गुणस्तरीय बहुवैकल्पिक प्रश्नहरू (MCQs) तयार पार्नु हो।"""
 
 def home(request):
     """Initialize session for quiz"""
@@ -188,19 +204,24 @@ def get_adaptive_difficulty(session):
         return random.choices(["मध्यम", "कठिन"], weights=[0.6, 0.4])[0]
 
 def generate_single_question(domain, topic, difficulty, session, attempt):
-    """Generate one question attempt"""
-    # Vary pattern based on attempt
-    pattern_index = (attempt % len(QUESTION_PATTERNS))
-    question_pattern = QUESTION_PATTERNS[pattern_index]
-    question_text = question_pattern.format(topic=topic)
+    """Generate one question attempt with optimized prompt strategy"""
+    # Use topic-based instruction if first attempt, otherwise use patterns
+    if attempt == 0:
+        question_instruction = f"नेपालको {topic} सम्बन्धी एउटा तथ्यगत र आधिकारिक प्रश्न निर्माण गर्नुहोस्।"
+    else:
+        pattern_index = (attempt % len(QUESTION_PATTERNS))
+        question_instruction = QUESTION_PATTERNS[pattern_index].format(topic=topic)
     
-    prompt = build_enhanced_prompt(domain, topic, question_text, difficulty, session)
+    prompt = build_enhanced_prompt(domain, topic, question_instruction, difficulty, session)
     raw_response = ollama_generate(prompt, difficulty)
     
     if not raw_response or "Error" in raw_response:
         return None
     
-    return parse_question_response(raw_response, domain, topic)
+    # Try to clean common preamble/postamble before parsing
+    clean_response = re.sub(r'^(यहाँ|यस्तो छ|तपाईंको प्रश्न|निश्चित रूपमा).*\n', '', raw_response, flags=re.MULTILINE)
+    
+    return parse_question_response(clean_response if clean_response.strip() else raw_response, domain, topic)
 
 def build_enhanced_prompt(domain, topic, question_text, difficulty, session):
     """Build comprehensive prompt for question generation"""
@@ -251,15 +272,15 @@ def build_enhanced_prompt(domain, topic, question_text, difficulty, session):
 def get_domain_guidance(domain):
     """Get domain-specific guidance for better questions"""
     guidance = {
-        "संविधान": "संवैधानिक धारा, मौलिक हक, राज्यसंरचना सम्बन्धी प्रश्न हुनुपर्छ।",
-        "इतिहास": "ऐतिहासिक तथ्य, तिथि, व्यक्तित्व, घटनाक्रममा आधारित प्रश्न हुनुपर्छ।",
-        "भूगोल": "भौगोलिक अवस्थिति, जलवायु, प्राकृतिक सम्पदा, पर्यटन सम्बन्धी प्रश्न हुनुपर्छ।",
-        "अर्थशास्त्र": "आर्थिक नीति, योजना, विकास, व्यापार, रोजगार सम्बन्धी प्रश्न हुनुपर्छ।",
-        "लोकसेवा": "लोकसेवा ऐन, कार्यालय व्यवस्थापन, निजामती नियम सम्बन्धी प्रश्न हुनुपर्छ।",
-        "विज्ञान": "प्रविधि, डिजिटलाइजेसन, विज्ञानका नयाँ आविष्कार सम्बन्धी प्रश्न हुनुपर्छ।",
-        "वर्तमान": "हालैका घटनाक्रम, नीति परिवर्तन, सामाजिक अभियान सम्बन्धी प्रश्न हुनुपर्छ।"
+        "संविधान": "संविधानको धारा, उपधारा, अनुसूची, संवैधानिक अङ्गहरू र अधिकारका क्षेत्रहरूबाट आधिकारिक प्रश्न सोध्नुहोस्।",
+        "इतिहास": "ऐतिहासिक मितिहरू (वि.सं. मा), महत्वपूर्ण सन्धिहरू, वंश र राजाका प्रमुख कामहरूमा आधारित प्रश्न सोध्नुहोस्।",
+        "भूगोल": "नेपालको धरातलीय स्वरूप, नदीनाला, निकुञ्ज, जिल्लाका विशेषता र अवस्थिति बारे सोध्नुहोस्।",
+        "अर्थशास्त्र": "आर्थिक सर्वेक्षण, बजेटका तथ्याङ्क, पञ्चवर्षीय योजना र प्रमुख आर्थिक परिसूचकहरू समावेश गर्नुहोस्।",
+        "लोकसेवा": "निजामती सेवा ऐन, नियमावली, सुशासन, र कार्यालय कार्यविधि सम्बन्धी कानुनी प्रावधानहरू सोध्नुहोस्।",
+        "विज्ञान": "नयाँ प्रविधि, वातावरण परिवर्तन, स्वास्थ्य र दैनिक जीवनमा प्रयोग हुने वैज्ञानिक तथ्यहरू समावेश गर्नुहोस्।",
+        "वर्तमान": "हालैका राष्ट्रिय र अन्तर्राष्ट्रिय घटनाहरू, नियुक्तिहरू, र महत्वपूर्ण पुरस्कारहरू बारे सोध्नुहोस्।"
     }
-    return guidance.get(domain, "सामान्य ज्ञानमा आधारित प्रश्न हुनुपर्छ।")
+    return guidance.get(domain, "सामान्य ज्ञानको आधिकारिक र परीक्षोपयोगी प्रश्न हुनुपर्छ।")
 
 def parse_question_response(raw_text, domain, topic):
     """Robust parsing of question response"""
@@ -314,20 +335,20 @@ def parse_question_response(raw_text, domain, topic):
                         if potential_option and len(potential_option) > 2:
                             options[letter] = potential_option
         
-        # Find correct answer
+        # Find correct answer with more patterns
         correct_letter = None
         answer_patterns = [
-            r"सही जवाफ[:\s]*([कखगघ])",
-            r"सही उत्तर[:\s]*([कखगघ])",
-            r"जवाफ[:\s]*([कखगघ])",
-            r"उत्तर[:\s]*([कखगघ])",
-            r"correct answer[:\s]*([कखगघ])"
+            r"(?:सही|correct)\s*(?:जवाफ|उत्तर|answer)[:\s]*([कखगघ])",
+            r"(?:जवाफ|उत्तर)[:\s]*([कखगघ])",
+            r"^[कखगघ]$",  # Just the letter
+            r"Option\s*([कखगघ])",
+            r"विकल्प\s*([कखगघ])"
         ]
         
         for line in lines:
-            line_lower = line.lower()
+            line_clean = line.replace('*', '').strip()
             for pattern in answer_patterns:
-                match = re.search(pattern, line_lower)
+                match = re.search(pattern, line_clean, re.IGNORECASE)
                 if match:
                     correct_letter = match.group(1)
                     break
@@ -336,8 +357,7 @@ def parse_question_response(raw_text, domain, topic):
         
         # If still no correct answer, choose randomly but logically
         if not correct_letter and len(options) == 4:
-            # Prefer 'ख' or 'ग' as they are often correct in well-designed questions
-            correct_letter = random.choice(["ख", "ग", "क", "घ"])
+            correct_letter = random.choice(["ख", "ग"])  # Statistically safer defaults
         
         if question and len(options) == 4 and correct_letter in options:
             return {

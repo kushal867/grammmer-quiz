@@ -825,3 +825,115 @@ WARNING 2026-01-03 13:03:15,604 basehttp 22120 7956 "GET /favicon.ico HTTP/1.1" 
 INFO 2026-01-03 13:05:01,057 basehttp 22120 7956 "GET / HTTP/1.1" 200 19227
 INFO 2026-01-03 13:05:01,242 basehttp 22120 7956 "GET /static/css/main.css HTTP/1.1" 304 0
 INFO 2026-01-03 13:06:11,032 autoreload 14048 15720 Watching for file changes with StatReloader
+INFO 2026-01-04 09:00:28,279 autoreload 30896 29820 Watching for file changes with StatReloader
+INFO 2026-01-04 09:00:33,091 basehttp 30896 9268 "GET / HTTP/1.1" 200 19227
+INFO 2026-01-04 09:00:33,202 basehttp 30896 9268 "GET /static/css/main.css HTTP/1.1" 304 0
+WARNING 2026-01-04 09:00:37,374 basehttp 30896 16188 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2026-01-04 09:00:38,844 basehttp 30896 16188 "GET /assistant/improve HTTP/1.1" 200 19484
+INFO 2026-01-04 09:01:14,283 autoreload 24004 19876 Watching for file changes with StatReloader
+INFO 2026-01-04 09:01:18,326 basehttp 24004 11360 "GET / HTTP/1.1" 200 19227
+INFO 2026-01-04 09:01:21,409 basehttp 24004 11360 "GET /assistant/improve HTTP/1.1" 200 19484
+WARNING 2026-01-04 09:01:52,833 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:01:54,889 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:01:59,641 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:03,143 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:03,720 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:03,881 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:03,996 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:04,166 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:04,293 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:04,551 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:04,721 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:04,938 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:11,465 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:15,877 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:21,599 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:30,146 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:30,888 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,036 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,162 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,395 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,561 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,692 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:31,831 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,000 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,146 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,315 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,447 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,629 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,774 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:38,889 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:39,065 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:39,223 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:39,341 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:39,466 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+WARNING 2026-01-04 09:02:39,605 basehttp 24004 11360 "POST /assistant/api/improve/ HTTP/1.1" 403 58
+INFO 2026-01-04 09:02:40,598 basehttp 24004 11360 "GET /quiz/quiz HTTP/1.1" 200 24549
+INFO 2026-01-04 09:02:40,822 basehttp 24004 11360 "GET /static/quiz/js/quiz.js HTTP/1.1" 200 10032
+INFO 2026-01-04 09:03:11,922 basehttp 24004 10860 "GET / HTTP/1.1" 200 19227
+INFO 2026-01-04 09:03:16,324 basehttp 24004 10860 "POST / HTTP/1.1" 200 19608
+INFO 2026-01-04 09:03:29,392 basehttp 24004 10860 "POST / HTTP/1.1" 200 19608
+INFO 2026-01-04 09:03:40,495 basehttp 24004 11360 "GET /quiz/api/new/ HTTP/1.1" 200 1354
+INFO 2026-01-04 09:03:45,396 basehttp 24004 11360 "POST / HTTP/1.1" 302 0
+INFO 2026-01-04 09:03:45,453 basehttp 24004 11360 "GET /quiz/quiz HTTP/1.1" 200 25819
+WARNING 2026-01-04 09:03:51,325 basehttp 24004 4236 "GET /quiz/api/new/ HTTP/1.1" 400 116221
+INFO 2026-01-04 09:03:59,764 basehttp 24004 10860 "GET /quiz/daily-challenge/ HTTP/1.1" 200 21888
+ERROR 2026-01-04 09:04:00,083 log 24004 10860 Internal Server Error: /quiz/api/daily-challenge/
+ERROR 2026-01-04 09:04:00,085 basehttp 24004 10860 "GET /quiz/api/daily-challenge/ HTTP/1.1" 500 33
+INFO 2026-01-04 09:04:00,854 basehttp 24004 11360 "GET /quiz/api/new/ HTTP/1.1" 200 815
+INFO 2026-01-04 09:04:04,663 basehttp 24004 11360 "GET /quiz/quiz HTTP/1.1" 200 25659
+INFO 2026-01-04 09:04:12,174 basehttp 24004 10860 "GET / HTTP/1.1" 302 0
+INFO 2026-01-04 09:04:12,237 basehttp 24004 10860 "GET /quiz/quiz HTTP/1.1" 200 25659
+INFO 2026-01-04 09:04:15,360 basehttp 24004 252 "GET /assistant/improve HTTP/1.1" 200 20164
+INFO 2026-01-04 09:04:23,009 basehttp 24004 11360 - Broken pipe from ('127.0.0.1', 51023)
+INFO 2026-01-04 09:04:32,303 basehttp 24004 10860 "GET /quiz/api/new/ HTTP/1.1" 200 1337
+INFO 2026-01-04 09:04:47,292 basehttp 24004 252 "POST /assistant/api/improve/ HTTP/1.1" 200 31
+INFO 2026-01-04 09:04:53,749 basehttp 24004 252 "GET /quiz/quiz HTTP/1.1" 200 25659
+ERROR 2026-01-04 09:05:01,372 log 24004 10860 Internal Server Error: /quiz/profile/
+Traceback (most recent call last):
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\machione\ai\quiz\views_advanced.py", line 277, in user_profile
+    stats = get_user_statistics(request.user)
+  File "D:\machione\ai\quiz\utils.py", line 168, in get_user_statistics
+    profile = user.profile
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\utils\functional.py", line 253, in inner
+    return func(_wrapped, *args)
+  File "C:\Users\kusha\AppData\Local\Programs\Python\Python310\lib\site-packages\django\db\models\fields\related_descriptors.py", line 534, in __get__
+    raise self.RelatedObjectDoesNotExist(
+django.contrib.auth.models.User.profile.RelatedObjectDoesNotExist: User has no profile.
+ERROR 2026-01-04 09:05:01,378 basehttp 24004 10860 "GET /quiz/profile/ HTTP/1.1" 500 94124
+INFO 2026-01-04 09:05:16,455 basehttp 24004 10860 "POST /quiz/api/reset/ HTTP/1.1" 200 55
+WARNING 2026-01-04 09:05:40,132 basehttp 24004 252 "GET /quiz/api/new/ HTTP/1.1" 400 120091
+INFO 2026-01-04 09:05:50,616 basehttp 24004 10860 "GET /quiz/api/new/ HTTP/1.1" 200 1150
+INFO 2026-01-04 09:06:00,607 basehttp 24004 5124 "GET /quiz/api/new/ HTTP/1.1" 200 927
+WARNING 2026-01-04 09:06:19,164 basehttp 24004 5124 "POST /quiz/api/check/ HTTP/1.1" 400 35
+INFO 2026-01-04 09:06:38,189 basehttp 24004 5124 "GET /quiz/api/new/ HTTP/1.1" 200 2044
+INFO 2026-01-04 09:06:47,160 basehttp 24004 5124 "GET /assistant/improve HTTP/1.1" 200 19484
+INFO 2026-01-04 09:07:46,829 autoreload 19864 31760 Watching for file changes with StatReloader
+INFO 2026-01-04 09:07:50,246 basehttp 19864 12560 "GET / HTTP/1.1" 200 19227
+WARNING 2026-01-04 09:07:53,949 basehttp 19864 31324 "GET /favicon.ico HTTP/1.1" 404 3154
+INFO 2026-01-04 09:07:59,367 basehttp 19864 31324 "POST / HTTP/1.1" 302 0
+INFO 2026-01-04 09:07:59,407 basehttp 19864 31324 "GET /quiz/quiz HTTP/1.1" 200 25819
+INFO 2026-01-04 09:08:03,124 basehttp 19864 21700 "GET /assistant/improve HTTP/1.1" 200 20164
+INFO 2026-01-04 09:08:14,430 basehttp 19864 31324 "GET /quiz/api/new/ HTTP/1.1" 200 939
+INFO 2026-01-04 09:08:33,459 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 30
+INFO 2026-01-04 09:09:02,337 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 126
+INFO 2026-01-04 09:09:25,259 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 441
+INFO 2026-01-04 09:09:53,251 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 555
+INFO 2026-01-04 09:10:08,997 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 74
+INFO 2026-01-04 09:10:43,553 basehttp 19864 31324 "POST /assistant/api/improve/ HTTP/1.1" 200 1151
+INFO 2026-01-04 09:11:00,139 basehttp 19864 31324 "GET /quiz/quiz HTTP/1.1" 200 25659
+INFO 2026-01-04 09:11:06,388 basehttp 19864 21700 "POST /quiz/api/reset/ HTTP/1.1" 200 55
+INFO 2026-01-04 09:11:24,829 basehttp 19864 21700 "POST /quiz/api/reset/ HTTP/1.1" 200 55
+INFO 2026-01-04 09:11:27,865 basehttp 19864 27756 "POST /quiz/api/reset/ HTTP/1.1" 200 55
+WARNING 2026-01-04 09:11:40,438 basehttp 19864 31324 "GET /quiz/api/new/ HTTP/1.1" 400 119377
+INFO 2026-01-04 09:12:35,396 autoreload 26316 8508 Watching for file changes with StatReloader
+INFO 2026-01-04 09:12:55,119 basehttp 26316 2008 "GET /quiz/api/new/ HTTP/1.1" 200 1030
+WARNING 2026-01-04 09:13:07,555 basehttp 26316 2008 "POST /quiz/api/check/ HTTP/1.1" 400 35
+INFO 2026-01-04 09:13:31,847 basehttp 26316 2008 "GET /quiz/api/new/ HTTP/1.1" 200 713
+WARNING 2026-01-04 09:13:37,277 basehttp 26316 2008 "POST /quiz/api/check/ HTTP/1.1" 400 35
