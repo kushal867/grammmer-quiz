@@ -4,9 +4,27 @@ let currentStreak = 0;
 let maxStreak = 0;
 let totalQuestions = 0;
 let correctAnswers = 0;
+let currentQuestionId = null;
+let isBookmarked = false;
 let quizStartTime = Date.now();
 const letters = ["क", "ख", "ग", "घ"];
 const letterToNumber = {"क": 1, "ख": 2, "ग": 3, "घ": 4};
+
+// CSRF Helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 // Initialize stats
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,30 +33,38 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Auto-refresh stats every 5 seconds
     setInterval(updateStats, 5000);
+
+    // Bookmark button listener
+    document.getElementById('bookmarkBtn').addEventListener('click', toggleBookmark);
+    document.getElementById('rateBtn').addEventListener('click', rateQuestion);
 });
 
 function newQuestion() {
     const resultEl = document.getElementById("result");
     const explanationEl = document.getElementById("explanation");
-    const questionEl = document.getElementById("question");
+    const questionTextEl = document.getElementById("questionText");
     const optionsEl = document.getElementById("options");
     const domainEl = document.getElementById("domain");
     const difficultyEl = document.getElementById("difficulty");
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
 
     if(resultEl) resultEl.innerHTML = "";
-    if(explanationEl) explanationEl.innerHTML = "";
-    if(questionEl) questionEl.innerHTML = '<div class="loading"></div> प्रश्न तयार हुँदैछ...';
+    if(explanationEl) explanationEl.style.display = "none";
+    if(loadingOverlay) loadingOverlay.style.display = "flex";
     if(optionsEl) optionsEl.innerHTML = "";
     if(domainEl) domainEl.textContent = "विषय: लोड हुँदैछ...";
     if(difficultyEl) {
         difficultyEl.textContent = "सजिलो";
         difficultyEl.className = "difficulty easy";
     }
+    if(bookmarkBtn) bookmarkBtn.classList.remove('active');
 
     fetch("/quiz/api/new/")
         .then((r) => r.json())
         .then((data) => {
             if (data.success) {
+                currentQuestionId = data.question_id;
                 displayQuestion(data);
                 updateStats();
             } else {
@@ -47,11 +73,14 @@ function newQuestion() {
         })
         .catch((err) => {
             showError("सर्भरमा समस्या छ। कृपया पछि प्रयास गर्नुहोस्।");
+        })
+        .finally(() => {
+            if(loadingOverlay) loadingOverlay.style.display = "none";
         });
 }
 
 function displayQuestion(data) {
-    document.getElementById("question").textContent = data.question;
+    document.getElementById("questionText").textContent = data.question;
     document.getElementById("domain").textContent = `विषय: ${data.domain} - ${data.topic}`;
 
     // Set difficulty styling
@@ -83,18 +112,27 @@ function displayQuestion(data) {
 }
 
 function checkAnswer(choice, element) {
+    // Prevent multiple clicks
     document.querySelectorAll(".opt").forEach((el) => {
         el.style.pointerEvents = "none";
     });
 
     fetch("/quiz/api/check/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie('csrftoken')
+        },
         body: JSON.stringify({ choice: choice }),
     })
         .then((r) => r.json())
         .then((res) => {
             totalQuestions++;
+            
+            // Handle bookmark state from server
+            if (res.is_bookmarked) {
+                document.getElementById('bookmarkBtn').classList.add('active');
+            }
 
             if (res.correct) {
                 element.classList.add("correct");
@@ -104,20 +142,15 @@ function checkAnswer(choice, element) {
                 currentStreak++;
                 correctAnswers++;
                 maxStreak = Math.max(maxStreak, currentStreak);
-
-                if (res.explanation) {
-                    document.getElementById("explanation").innerHTML = 
-                        `<div class="explanation"><strong>व्याख्या:</strong> ${res.explanation}</div>`;
-                }
             } else {
                 element.classList.add("wrong");
                 currentStreak = 0;
 
-                const correctAns = res.correct_answer || "ख";
+                const correctAns = res.correct_answer;
                 document.getElementById("result").innerHTML = `
                     <div style="color:#ef4444;"><i class="fas fa-times-circle"></i> गलत!</div>
                     <div style="color:#f59e0b; margin-top:10px; font-size:2rem;">
-                        सही जवाफ: <b>${correctAns}) ${res.correct_text || ""}</b>
+                        सही जवाफ: <b>${correctAns}) ${res.correct_text}</b>
                     </div>
                 `;
 
@@ -129,12 +162,78 @@ function checkAnswer(choice, element) {
                 });
             }
 
+            // Always show explanation
+            if (res.explanation) {
+                const explEl = document.getElementById("explanation");
+                const explTextEl = document.getElementById("explanationText");
+                explTextEl.textContent = res.explanation;
+                explEl.style.display = "block";
+            }
+
             updateStats();
         })
         .catch((err) => {
+            console.error(err);
             document.getElementById("result").innerHTML =
                 '<div style="color:#ef4444;">जवाफ जाँच गर्न असफल</div>';
         });
+}
+
+function toggleBookmark() {
+    if (!currentQuestionId) return;
+    
+    const btn = document.getElementById('bookmarkBtn');
+    const isAdding = !btn.classList.contains('active');
+    const url = isAdding ? "/quiz/api/bookmark/" : "/quiz/api/bookmark/remove/";
+    
+    fetch(url, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie('csrftoken')
+        },
+        body: JSON.stringify({ question_id: currentQuestionId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            btn.classList.toggle('active');
+            // Visual feedback
+            const icon = btn.querySelector('i');
+            icon.classList.add('fa-beat');
+            setTimeout(() => icon.classList.remove('fa-beat'), 500);
+        } else if (data.error && data.error.includes('login')) {
+            alert("कृपया बुकमार्क गर्न लगइन गर्नुहोस्।");
+        }
+    })
+    .catch(err => console.error("Bookmark error:", err));
+}
+
+function rateQuestion() {
+    if (!currentQuestionId) return;
+    
+    const rating = prompt("यस प्रश्नलाई ५ मा कति अंक दिनुहुन्छ? (1-5)", "5");
+    if (!rating || rating < 1 || rating > 5) return;
+    
+    fetch("/quiz/api/rate-question/", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie('csrftoken')
+        },
+        body: JSON.stringify({ 
+            question_id: currentQuestionId,
+            rating: parseInt(rating)
+        }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            alert("प्रतिक्रियाको लागि धन्यवाद!");
+            document.getElementById('rateBtn').classList.add('active');
+        }
+    })
+    .catch(err => console.error("Rating error:", err));
 }
 
 function updateStats() {
@@ -182,7 +281,7 @@ function resetQuiz() {
 }
 
 function showError(message) {
-    document.getElementById("question").innerHTML = 
+    document.getElementById("questionText").innerHTML = 
         `<div style="color:#ef4444; font-size:1.6rem;"><i class="fas fa-exclamation-triangle"></i> ${message}</div>`;
 }
 
@@ -234,6 +333,25 @@ Keep practicing! लोकसेवा जित्ने बाटो यही
     URL.revokeObjectURL(url);
 }
 
+function shareScore() {
+    const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+    const text = `मैले लोकसेवा क्विज मास्टरमा ${totalQuestions} मध्ये ${correctAnswers} प्रश्नको सही जवाफ दिएँ (${accuracy}% सटिकता)! तपाईं पनि आफ्नो लोकसेवा तयारी परीक्षण गर्नुहोस्। #Loksewa #Nepal #Quiz`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'लोकसेवा क्विज मास्टर',
+            text: text,
+            url: window.location.href
+        }).catch(err => console.error("Sharing failed:", err));
+    } else {
+        // Fallback: Copy to clipboard
+        navigator.clipboard.writeText(text + " " + window.location.href)
+            .then(() => alert("स्कोर क्लिपबोर्डमा प्रतिलिपि गरियो!"))
+            .catch(() => alert("साझा गर्न असफल।"));
+    }
+}
+
+
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
@@ -262,5 +380,10 @@ document.addEventListener('keydown', (e) => {
     // E for export
     if (key === 'e') {
         exportStats();
+    }
+
+    // B for bookmark
+    if (key === 'b') {
+        toggleBookmark();
     }
 });

@@ -23,32 +23,36 @@ MODEL = "llama3"
 # Comprehensive question domains with weighted topics
 QUESTION_DOMAINS = {
     "संविधान": {
-        "weight": 0.25,
-        "topics": ["मौलिक हक", "राष्ट्रपति", "संसद", "प्रदेश व्यवस्था", "न्यायपालिका", "मूलभूत हक", "नागरिकता", "राज्यको नीति"]
+        "weight": 0.20,
+        "topics": ["मौलिक हक", "राष्ट्रपति", "संसद", "प्रदेश व्यवस्था", "न्यायपालिका", "नागरिकता", "राज्यको नीति", "संवैधानिक अङ्ग"]
     },
     "इतिहास": {
-        "weight": 0.20,
-        "topics": ["शाह वंश", "राणा शासन", "एकीकरण", "जनआन्दोलन", "प्राचीन नेपाल", "किराँत काल", "लिच्छवि काल", "भक्तपुर"]
+        "weight": 0.15,
+        "topics": ["शाह वंश", "राणा शासन", "एकीकरण", "जनआन्दोलन", "प्राचीन नेपाल", "किराँत काल", "लिच्छवि काल", "मल्ल काल"]
     },
     "भूगोल": {
         "weight": 0.15,
-        "topics": ["हिमाल", "नदी", "जलवायु", "मृदा", "वन", "पर्यटन", "प्राकृतिक सम्पदा", "जैविक विविधता"]
+        "topics": ["हिमाल", "नदी", "जलवायु", "मृदा", "वन", "पर्यटन", "प्राकृतिक सम्पदा", "जैविक विविधता", "सिमाना"]
     },
     "अर्थशास्त्र": {
-        "weight": 0.15,
-        "topics": ["कृषि", "उद्योग", "व्यापार", "रोजगार", "विकास", "बजेट", "गरिबी", "आर्थिक योजना"]
+        "weight": 0.12,
+        "topics": ["कृषि", "उद्योग", "व्यापार", "रोजगार", "विकास", "बजेट", "गरिबी", "आर्थिक योजना", "पर्यटन उद्योग"]
     },
     "लोकसेवा": {
-        "weight": 0.10,
-        "topics": ["लोकसेवा ऐन", "कार्यालय व्यवस्थापन", "निजामती ऐन", "लेखापरीक्षण", "राजस्व", "सार्वजनिक खरीद"]
+        "weight": 0.12,
+        "topics": ["लोकसेवा ऐन", "कार्यालय व्यवस्थापन", "निजामती ऐन", "लेखापरीक्षण", "राजस्व", "सार्वजनिक खरीद", "सुशासन"]
     },
     "विज्ञान": {
-        "weight": 0.08,
-        "topics": ["सूचना प्रविधि", "स्वास्थ्य", "प्रविधि", "अनुसन्धान", "डिजिटल नेपाल", "कम्प्युटर", "इन्टरनेट"]
+        "weight": 0.11,
+        "topics": ["सूचना प्रविधि", "स्वास्थ्य", "प्रविधि", "अनुसन्धान", "डिजिटल नेपाल", "कम्प्युटर", "इन्टरनेट", "वातावरण"]
+    },
+    "अन्तर्राष्ट्रिय": {
+        "weight": 0.10,
+        "topics": ["संयुक्त राष्ट्र संघ", "सार्क", "विमिस्टेक", "छिमेकी देश", "विश्व घटना", "सन्धि सम्झौता"]
     },
     "वर्तमान": {
-        "weight": 0.07,
-        "topics": ["वर्तमान घटना", "राजनीति", "अर्थतन्त्र", "सामाजिक", "अन्तर्राष्ट्रिय", "खेलकुद", "मनोरञ्जन"]
+        "weight": 0.05,
+        "topics": ["वर्तमान घटना", "राजनीति", "अर्थतन्त्र", "सामाजिक", "खेलकुद", "मनोरञ्जन", "पुरस्कार"]
     }
 }
 
@@ -566,7 +570,7 @@ def api_check_answer(request):
     try:
         # Handle both form data and JSON
         if request.content_type == 'application/json':
-            user_data = request.json()
+            user_data = json.loads(request.body)
         else:
             user_data = request.POST
         
@@ -591,10 +595,8 @@ def api_check_answer(request):
     # Basic comparison
     is_correct = user_choice == correct_letter
     
-    # Generate explanation for correct answers
-    explanation = ""
-    if is_correct:
-        explanation = generate_question_explanation(current_data)
+    # Generate explanation for all answers to enhance learning
+    explanation = generate_question_explanation(current_data)
     
     # Update session statistics if needed
     context = request.session.get('question_context', {})
@@ -603,6 +605,16 @@ def api_check_answer(request):
     context['total_answered'] = context.get('total_answered', 0) + 1
     request.session['question_context'] = context
     
+    # Check if this specific question is bookmarked by the user
+    is_bookmarked = False
+    if request.user.is_authenticated:
+        current_question_id = request.session.get('current_question_id')
+        if current_question_id:
+            is_bookmarked = BookmarkedQuestion.objects.filter(
+                user=request.user, 
+                question_id=current_question_id
+            ).exists()
+
     return JsonResponse({
         "correct": is_correct,
         "your_choice": user_choice,
@@ -612,6 +624,7 @@ def api_check_answer(request):
         "question": user_question,
         "domain": current_data.get('domain', ''),
         "topic": current_data.get('topic', ''),
+        "is_bookmarked": is_bookmarked,
         "stats": {
             "correct_answers": context.get('correct_answers', 0),
             "total_answered": context.get('total_answered', 0)
