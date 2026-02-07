@@ -17,11 +17,79 @@ from .models import (
 )
 from .utils import (
     get_or_create_daily_challenge, check_and_update_streak,
-    save_user_answer, search_questions, get_user_statistics,
-    save_question_to_db
+    save_user_answer, search_questions, get_user_statistics
 )
 
 logger = logging.getLogger(__name__)
+
+
+# ... existing code ...
+
+@login_required
+def dashboard_page(request):
+    """User dashboard page"""
+    stats = get_user_statistics(request.user)
+    
+    # Get leaderboard rank (approximate)
+    from django.db.models import Sum
+    leaderboard = UserAnswer.objects.values('user').annotate(
+        total_score=Count('id', filter=Q(is_correct=True))
+    ).order_by('-total_score')
+    
+    rank = 0
+    for i, entry in enumerate(leaderboard):
+        if entry['user'] == request.user.id:
+            rank = i + 1
+            break
+            
+    recent_attempts = QuizAttempt.objects.filter(user=request.user).order_by('-started_at')[:5]
+    
+    return render(request, 'dashboard.html', {
+        **stats,
+        'leaderboard_rank': rank,
+        'recent_attempts': recent_attempts
+    })
+
+
+@login_required
+def leaderboard_page(request):
+    """Leaderboard page"""
+    return render(request, 'leaderboard.html')
+
+
+@require_http_methods(["GET"])
+def api_leaderboard(request, period='weekly'):
+    """API for leaderboard data"""
+    from django.contrib.auth.models import User
+    
+    # Filter by period
+    since = timezone.now()
+    if period == 'weekly':
+        since -= timedelta(days=7)
+    elif period == 'monthly':
+        since -= timedelta(days=30)
+    else:
+        since = datetime(2000, 1, 1) # All time
+        
+    leaderboard_data = UserAnswer.objects.filter(
+        answered_at__gte=since
+    ).values('user__username', 'user__id').annotate(
+        score=Count('id', filter=Q(is_correct=True)),
+        total=Count('id')
+    ).order_by('-score')[:50]
+    
+    results = []
+    for i, entry in enumerate(leaderboard_data):
+        results.append({
+            'rank': i + 1,
+            'username': entry['user__username'],
+            'score': entry['score'],
+            'questions_answered': entry['total'],
+            'accuracy': round((entry['score'] / entry['total'] * 100), 1) if entry['total'] > 0 else 0,
+            'is_current_user': entry['user__id'] == request.user.id if request.user.is_authenticated else False
+        })
+        
+    return JsonResponse({'success': True, 'leaderboard': results})
 
 
 # ==================== DAILY CHALLENGE ====================

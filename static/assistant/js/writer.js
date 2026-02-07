@@ -62,28 +62,32 @@ function submitText() {
     const task = document.getElementById("taskSelect").value;
     const output = document.getElementById("output");
     const btn = document.getElementById("main-btn");
+    const overlay = document.getElementById("loadingOverlay");
+    const loadingBar = document.getElementById("loadingBar");
 
     if (!text) {
         output.innerHTML = `<em style="color:#fb923c; opacity:0.9;">Please enter some text first</em>`;
         return;
     }
 
-    output.innerHTML = `<span style="color:var(--primary); font-weight:600;">
-    <i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...
-  </span>`;
+    // Show overlay
+    if(overlay) {
+        overlay.style.display = 'flex';
+        loadingBar.style.width = '10%';
+        let progress = 10;
+        const interval = setInterval(() => {
+            if(progress < 90) {
+                progress += Math.random() * 5;
+                loadingBar.style.width = progress + '%';
+            }
+        }, 800);
+        window.currentLoadingInterval = interval;
+    }
+
+    output.innerHTML = `<span style="color:var(--primary); font-weight:600;"><i class="fas fa-brain" style="margin-right:8px;"></i>Kushal is thinking deeply...</span>`;
     btn.disabled = true;
     btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Working...</span>`;
 
-    // Note: URL needs to be passed or hardcoded. Since we are in static file, we can't use {% url %}.
-    // We will assume the endpoint is /assistant/improve/ or passed via data attribute.
-    // Ideally we pass it from HTML. For now, we will use the path relative logic or hardcode likely path.
-    // Looking at urls.py (implied), let's guess '/assistant/improve' or use the one relative to current page.
-    // Original used "{% url 'improve_api' %}".
-    // We will define this URL in a global variable in the HTML or use a fixed path.
-    // Let's try '/assistant/api/improve/' if that's where it is?
-    // Wait, viewing assistant/views.py... class ImproveAPIView... urls.py not fully visible but we can infer.
-    // Let's use a variable `API_URL` which we will set in the HTML.
-    
     const apiUrl = window.IMPROVE_API_URL || "/assistant/api/improve/";
 
     fetch(apiUrl, {
@@ -97,24 +101,36 @@ function submitText() {
     .then((r) => r.json())
     .then((data) => {
         if (data.result) {
-            lastTransformedText = data.result;
+            window.lastTransformedText = data.result;
             output.innerHTML = `
             <div style="position:relative;">
             ${data.result.replace(/\n/g, "<br>")}
-            <button class="copy-btn" onclick="copy(this)">
-                <i class="fas fa-copy"></i> Copy
-            </button>
             </div>`;
             const exportBtn = document.getElementById('exportBtn');
             if(exportBtn) exportBtn.disabled = false;
+            
+            // If in comparison mode, update views
+            if(document.getElementById('compareWrapper').style.display === 'grid') {
+                document.getElementById('compareEnhanced').innerText = data.result;
+            }
         } else {
             output.textContent = "Error: " + (data.error || "Please try again");
         }
     })
-    .catch(() => (output.textContent = "Network error"))
+    .catch((err) => {
+        console.error(err);
+        output.textContent = "Network error - check if Ollama is running";
+    })
     .finally(() => {
         btn.disabled = false;
         btn.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i><span>Transform Text</span>`;
+        if(overlay) {
+            loadingBar.style.width = '100%';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                clearInterval(window.currentLoadingInterval);
+            }, 500);
+        }
     });
 }
 
