@@ -59,6 +59,10 @@ function newQuestion() {
         difficultyEl.className = "difficulty easy";
     }
     if(bookmarkBtn) bookmarkBtn.classList.remove('active');
+    
+    // Remove pulse from next button
+    const nextBtn = document.getElementById('nextBtn');
+    if(nextBtn) nextBtn.classList.remove('ready-pulse');
 
     fetch("/quiz/api/new/")
         .then((r) => r.json())
@@ -171,6 +175,10 @@ function checkAnswer(choice, element) {
             }
 
             updateStats();
+            
+            // Add pulse to next button to guide the user
+            const nextBtn = document.getElementById('nextBtn');
+            if(nextBtn) nextBtn.classList.add('ready-pulse');
         })
         .catch((err) => {
             console.error(err);
