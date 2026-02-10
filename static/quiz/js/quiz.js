@@ -103,10 +103,10 @@ function displayQuestion(data) {
 
     letters.forEach((letter) => {
         if (data.options[letter]) {
-            const div = document.createElement("div");
-            div.className = "opt";
+            const div = document.createElement("button");
+            div.className = "option-btn";
             div.innerHTML = `
-                <span class="opt-letter">${letter}</span>
+                <span class="option-key">${letter}</span>
                 <span>${data.options[letter]}</span>
             `;
             div.onclick = () => checkAnswer(letter, div);
@@ -117,7 +117,7 @@ function displayQuestion(data) {
 
 function checkAnswer(choice, element) {
     // Prevent multiple clicks
-    document.querySelectorAll(".opt").forEach((el) => {
+    document.querySelectorAll(".option-btn").forEach((el) => {
         el.style.pointerEvents = "none";
     });
 
@@ -159,8 +159,8 @@ function checkAnswer(choice, element) {
                 `;
 
                 // Highlight correct answer
-                document.querySelectorAll(".opt").forEach((opt) => {
-                    if (opt.querySelector(".opt-letter").textContent === correctAns) {
+                document.querySelectorAll(".option-btn").forEach((opt) => {
+                    if (opt.querySelector(".option-key").textContent === correctAns) {
                         opt.classList.add("correct");
                     }
                 });
@@ -367,7 +367,7 @@ document.addEventListener('keydown', (e) => {
     // Number keys 1-4 for selecting options
     if (['1', '2', '3', '4'].includes(key)) {
         const optionIndex = parseInt(key) - 1;
-        const options = document.querySelectorAll('.opt');
+        const options = document.querySelectorAll('.option-btn');
         if (options[optionIndex] && options[optionIndex].style.pointerEvents !== 'none') {
             options[optionIndex].click();
         }
